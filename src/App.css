@@ -197,6 +197,24 @@ a:focus {
     display: block;
 }
 /* Top Menu */
+
+.categories-dropdown{
+    border-right: 1px solid #888;
+}
+
+.form-control-select{
+    height: 100%;
+    border-top-left-radius:2px;
+    border-bottom-left-radius:2px;
+}
+
+.location-icon{
+    font-size: 25px !important;
+}
+
+.shopping-cart{
+    font-size: 20px;
+}
 .osahan-menu {
     padding: 0;
 }

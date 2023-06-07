@@ -1,4 +1,6 @@
 import React from "react";
+import { MdOutlineShareLocation,MdFindInPage,MdShoppingCart,MdStoreMallDirectory} from "react-icons/md";
+import {FaTag,FaUserCircle} from "react-icons/fa";
 
 const Header = () => {
   return (
@@ -8,7 +10,7 @@ const Header = () => {
             <div className="row">
                <div className="col-lg-12 text-center">
                   <a href="shop.html" className="mb-0 text-white">
-                  20% cashback for new users | Code: <strong><span className="text-light">OGOFERS13 <span className="mdi mdi-tag-faces"></span></span> </strong>  
+                  20% cashback for new users | Code: <strong><span className="text-light">OGOFERS13 <FaTag /></span> </strong>  
                   </a>
                </div>
             </div>
@@ -17,7 +19,7 @@ const Header = () => {
       <nav className="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
          <div className="container-fluid">
             <a className="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo" /> </a>
-			<a className="location-top" href="#"><i className="mdi mdi-map-marker-circle" aria-hidden="true"></i> New York</a>
+			<a className="location-top" href="#"><MdOutlineShareLocation  className="location-icon mb-1"/> New York</a>
             <button className="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>
@@ -36,7 +38,7 @@ const Header = () => {
                         </span>
                         <input className="form-control" placeholder="Search products in Your City" aria-label="Search products in Your City" type="text" />
                         <span className="input-group-btn">
-                        <button className="btn btn-secondary" type="button"><i className="mdi mdi-file-find"></i> Search</button>
+                        <button className="btn btn-secondary" type="button"><MdFindInPage className="mb-1"/> Search</button>
                         </span>
                      </div>
                   </div>
@@ -44,10 +46,10 @@ const Header = () => {
                <div className="my-2 my-lg-0">
                   <ul className="list-inline main-nav-right">
                      <li className="list-inline-item">
-                        <a href="#" data-target="#bd-example-modal" data-toggle="modal" className="btn btn-link"><i className="mdi mdi-account-circle"></i> Login/Sign Up</a>
+                        <a href="#" data-target="#bd-example-modal" data-toggle="modal" className="btn btn-link"><FaUserCircle className="user-icon mb-1"/> Login/Sign Up</a>
                      </li>
                      <li className="list-inline-item cart-btn">
-                        <a href="#" data-toggle="offcanvas" className="btn btn-link border-none"><i className="mdi mdi-cart"></i> My Cart <small className="cart-value">5</small></a>
+                        <a href="#" data-toggle="offcanvas" className="btn btn-link border-none"><MdShoppingCart className="shopping-cart"/> My Cart <small className="cart-value">5</small></a>
                      </li>
                   </ul>
                </div>
@@ -59,7 +61,7 @@ const Header = () => {
             <div className="collapse navbar-collapse" id="navbarText">
                <ul className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
                   <li className="nav-item">
-                     <a className="nav-link shop" href="index.html"><span className="mdi mdi-store"></span> Super Store</a>
+                     <a className="nav-link shop" href="index.html"><MdStoreMallDirectory className="mb-1"/> Super Store</a>
                   </li>
 				  <li className="nav-item">
                      <a href="index.html" className="nav-link">Home</a>
