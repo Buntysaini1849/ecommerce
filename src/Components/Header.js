@@ -2,6 +2,7 @@ import React from "react";
 import { MdOutlineShareLocation,MdFindInPage,MdShoppingCart,MdStoreMallDirectory} from "react-icons/md";
 import {FaTag,FaUserCircle} from "react-icons/fa";
 
+
 const Header = () => {
   return (
     <div>

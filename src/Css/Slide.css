@@ -1,0 +1,106 @@
+.carousel-banner {
+  width: 100%;
+  background-color: #fff;
+  height: 400px;
+  overflow: hidden;
+  box-shadow: 0 2px 2px #eaeaea;
+  position: relative; /* add relative positioning */
+}
+
+.item-carousel{
+  width: 100%;
+  background-color: #fff;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.owl-carousel{
+  height:400px !important;
+  background: #fff !important;
+}
+
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel .owl-nav button.owl-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  z-index: 1; /* make sure the icons are on top */
+}
+
+/* .owl-stage-outer{
+  height: 100% !important;
+} */
+
+.owl-stage{
+  height: 100% !important;
+
+}
+
+.owl-dots{
+  margin-top: -10px !important;
+}
+.owl-item{
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color:#fff !important;
+}
+
+
+.item{
+  width: 80%;
+  margin-top: 20px;
+  height: auto !important;
+
+
+}
+.owl-prev {
+  font-size: 28px !important;
+  position: absolute !important;
+  top: 40% !important;
+  left: 1% !important;
+}
+
+.owl-next {
+  font-size: 28px !important;
+  position: absolute !important;
+  top: 40% !important;
+  right: 1% !important;
+}
+
+
+
+.owl-carousel .owl-nav button.owl-prev:hover,
+.owl-carousel .owl-nav button.owl-next:hover {
+  color: #555;
+}
+
+.prev-icon:before,
+.next-icon:before {
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 24px;
+}
+
+.prev-icon:before {
+  content: "\f053";
+  border-radius: 50% !important;
+}
+
+.next-icon:before {
+  content: "\f054";
+}
+
+
+

@@ -1,0 +1,76 @@
+.itemslide-cont{
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .item-carousel{
+    width: 75%;
+    height: 150px;
+    overflow: hidden;
+    position: relative; 
+  }
+  
+  .itemslide-img{
+      background: #fff none repeat scroll 0 0;
+      border-radius: 50px;
+      box-shadow: 0 0 2px #ccc;
+      height: 80px;
+      margin: 1px 0 8px;
+      object-fit: scale-down;
+      padding: 7px;
+      transform: scale(1);
+      transition-duration: 0.4s;
+      width: 60px;
+  }
+  
+  .category-item:hover img
+  {
+       transform: scale(1.09);
+  }
+  
+  .category-item {
+    padding: 8px;
+    text-align: center;
+  }
+  
+
+  .owl-prev {
+    font-size: 28px !important;
+    position: absolute;
+    top: 10%;
+    left: 0%;
+  }
+
+
+  
+  .owl-carousel .owl-nav button.owl-prev:hover,
+.owl-carousel .owl-nav button.owl-next:hover {
+  color: #555;
+}
+
+.prev-icon-item:before,
+.next-icon-item:before {
+  display: inline-block;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 24px;
+}
+
+
+  .owl-next {
+    font-size: 28px !important;
+    position: absolute;
+    top: 10%;
+    right: 0%;
+  }
+  
+  
+  .prev-icon-item:before {
+    content: "\f053";
+  }
+  
+  .next-icon-item:before {
+    content: "\f054";
+  }
