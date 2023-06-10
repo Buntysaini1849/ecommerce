@@ -29,7 +29,7 @@ const Header = () => {
                   <div className="top-categories-search">
                      <div className="input-group">
                         <span className="input-group-btn categories-dropdown">
-                           <select className="form-control-select">
+                           <select className="form-control-select select-inputgrp">
                               <option selected="selected">Your City</option>
                               <option value="0">New Delhi</option>
                               <option value="2">Bengaluru</option>

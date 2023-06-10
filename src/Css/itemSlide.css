@@ -3,13 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; 
   }
   
   .item-carousel{
     width: 75%;
     height: 150px;
     overflow: hidden;
-    position: relative; 
+    
   }
   
   .itemslide-img{
@@ -36,10 +37,11 @@
   }
   
 
-  .owl-prev {
+  .owl-prevs {
     font-size: 28px !important;
     position: absolute;
-    top: 10%;
+    margin-top: -162px !important;
+    /* top: 10%; */
     left: 0%;
   }
 
@@ -66,11 +68,3 @@
     right: 0%;
   }
   
-  
-  .prev-icon-item:before {
-    content: "\f053";
-  }
-  
-  .next-icon-item:before {
-    content: "\f054";
-  }

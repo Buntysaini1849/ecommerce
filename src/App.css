@@ -248,7 +248,8 @@ a:focus {
 }
 
 .form-control-select {
-    height: 100%;
+    height: 40px !important;
+    margin-top: -1px !important;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
 }
