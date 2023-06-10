@@ -17,9 +17,8 @@ const ItemSlide = () => {
           margin={-25}
           dots={false}
           nav={true}
-          rewindNav={true}
+          rewind={true}
           autoplay={true}
-          autoplayTimeout={1000}
           autoplaySpeed={1000}
           navText={[
             "<i class='fa fa-chevron-left'></i>",
