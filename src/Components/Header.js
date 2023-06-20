@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlineShareLocation,MdFindInPage,MdShoppingCart,MdStoreMallDirectory} from "react-icons/md";
 import {FaTag,FaUserCircle} from "react-icons/fa";
-
+import logo from "../Images/logo.jpg";
 
 const Header = () => {
   return (
@@ -19,8 +19,8 @@ const Header = () => {
       </div>
       <nav className="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
          <div className="container-fluid">
-            <a className="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo" /> </a>
-			<a className="location-top" href="#"><MdOutlineShareLocation  className="location-icon mb-1"/> New York</a>
+            <a className="navbar-brand" href="#"> <img src={logo} alt="logo" className="img-fluid" width={90} /> </a>
+			<a className="location-top" href="#"><MdOutlineShareLocation  className="location-icon mb-1"/>New Delhi</a>
             <button className="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>
@@ -29,7 +29,7 @@ const Header = () => {
                   <div className="top-categories-search">
                      <div className="input-group">
                         <span className="input-group-btn categories-dropdown">
-                           <select className="form-control-select select-inputgrp">
+                           <select className="form-control-select select-inputgrp" style={{display:"none"}}>
                               <option selected="selected">Your City</option>
                               <option value="0">New Delhi</option>
                               <option value="2">Bengaluru</option>

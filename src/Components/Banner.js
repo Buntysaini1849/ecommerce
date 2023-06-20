@@ -1,22 +1,51 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { BANNER_API } from "./apiUrls";
 import OwlCarousel from "react-owl-carousel3";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
 import "../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import sliders1 from "../Images/slider1.jpg";
+
 
 
 const Banner = () => {
+  const [data, setData] = useState([]);
+
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(BANNER_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "view" }),
+      });
+      const responseData = await response.json();
+
+      if (
+        responseData &&
+        responseData.data &&
+        Array.isArray(responseData.data) &&
+        responseData.data.length > 0
+      ) {
+        for (let i = 0; i < responseData.data.length; i++) {
+          setData(responseData.data);
+          console.log(data);
+        }
+      } else {
+        console.error("Error: Invalid data structure");
+      }
+    }
+    fetchData();
+  }, [BANNER_API, setData]);
   return (
     <div className="p-0">
       <div className="carousel-banner p-0" style={{ position: "relative" }}>
+      
         <OwlCarousel
           className="owl-theme p-0"
           items={1}
           loop
           margin={10}
-          dots={false}
+          dots={true}
           nav={true}
           rewindNav={true}
           autoplay={true}
@@ -26,16 +55,15 @@ const Banner = () => {
             "<span class='next-icon'></span>",
           ]}
         >
+          {Array.isArray(data) &&
+            data.map((item) => (
           <div className="item p-0">
-            <img src={sliders1} />
+            <img src={item.img} className="img-fluid banner-img"/>
           </div>
-          <div className="item p-0">
-            <img src={sliders1} />
-          </div>
-          <div className="item p-0">
-            <img src={sliders1} />
-          </div>
+          ))}
+          
         </OwlCarousel>
+      
       </div>
      
     </div>
