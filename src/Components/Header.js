@@ -1,12 +1,15 @@
-import React from "react";
+import React,{useState} from "react";
 import { MdOutlineShareLocation,MdFindInPage,MdShoppingCart,MdStoreMallDirectory} from "react-icons/md";
 import {FaTag,FaUserCircle} from "react-icons/fa";
 import logo from "../Images/logo.jpg";
+import CartSidebar from "./CartSidebar";
 
 const Header = () => {
+
+
   return (
     <div>
-     <div className="navbar-top bg-success pt-2 pb-2">
+     <div className="navbar-top bg-success pt-2 pb-2 d-none">
          <div className="container-fluid">
             <div className="row">
                <div className="col-lg-12 text-center">
@@ -17,7 +20,8 @@ const Header = () => {
             </div>
          </div>
       </div>
-      <nav className="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
+      
+      <nav className="navbar navbar-light  navbar-fixed navbar-expand-lg bg-dark bg-faded osahan-menu">
          <div className="container-fluid">
             <a className="navbar-brand" href="#"> <img src={logo} alt="logo" className="img-fluid" width={90} /> </a>
 			<a className="location-top" href="#"><MdOutlineShareLocation  className="location-icon mb-1"/>New Delhi</a>
@@ -50,13 +54,14 @@ const Header = () => {
                         <a href="#" data-target="#bd-example-modal" data-toggle="modal" className="btn btn-link"><FaUserCircle className="user-icon mb-1"/> Login/Sign Up</a>
                      </li>
                      <li className="list-inline-item cart-btn">
-                        <a href="#" data-toggle="offcanvas" className="btn btn-link border-none"><MdShoppingCart className="shopping-cart"/> My Cart <small className="cart-value">5</small></a>
+                        <a  data-toggle="offcanvas" className="btn btn-link border-none"><MdShoppingCart className="shopping-cart"/> My Cart <small className="cart-value">5</small></a>
                      </li>
                   </ul>
                </div>
             </div>
          </div>
       </nav>
+    
       <nav className="navbar navbar-expand-lg navbar-light osahan-menu-2 pad-none-mobile">
          <div className="container-fluid">
             <div className="collapse navbar-collapse" id="navbarText">
@@ -98,7 +103,7 @@ const Header = () => {
                         <a className="dropdown-item" href="orderlist.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i>  Order List</a> 
                      </div>
                   </li>
-                  <li className="nav-item dropdown">
+                  {/* <li className="nav-item dropdown">
                      <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      Blog Page
                      </a>
@@ -106,8 +111,8 @@ const Header = () => {
                         <a className="dropdown-item" href="blog.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i> Blog</a>
                         <a className="dropdown-item" href="blog-detail.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i> Blog Detail</a>
                      </div>
-                  </li>
-				  <li className="nav-item dropdown">
+                  </li> */}
+				  {/* <li className="nav-item dropdown">
                      <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      More Pages
                      </a>
@@ -117,7 +122,7 @@ const Header = () => {
                         <a className="dropdown-item" href="faq.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i>  FAQ </a>
                         <a className="dropdown-item" href="not-found.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i>  404 Error</a> 
                      </div>
-                  </li>
+                  </li> */}
                   <li className="nav-item">
                      <a className="nav-link" href="contact.html">Contact</a>
                   </li>
@@ -125,6 +130,9 @@ const Header = () => {
             </div>
          </div>
       </nav>
+    
+      
+      
     </div>
   );
 };
