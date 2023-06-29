@@ -55,7 +55,7 @@ const ItemSlide = () => {
 
   return (
     <div className="container-fluid" style={{background:"#fff"}}>
-      <div className="container">
+      <div className="container" style={{width:"80%"}}>
       <Slider {...settings}>
       {Array.isArray(data) &&
             data.map((item) => (

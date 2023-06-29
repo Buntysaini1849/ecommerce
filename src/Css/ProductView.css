@@ -1,0 +1,87 @@
+.slick-slider {
+    width: 100% !important;
+}
+
+.slick-slide {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.slider-item {
+    margin: 0 10px;
+}
+
+.main-slider-top{
+    border-radius: 10px !important;
+    height: auto;
+}
+
+.main-slider-img{
+    padding: 15px 0px 20px 5px !important;
+    height: auto;
+}
+
+.thumbnail-item {
+    margin: 0 5px !important;  
+    border: none !important;
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 22px !important;
+    width: 65%;
+}
+
+.thumbnail-item.active {
+    border: 2px solid black !important;
+  }
+
+
+.thumbslider img {
+    /* width: 67% !important;
+    margin-left: 22px !important; */
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 22px !important;
+    width: 65%;
+}
+
+/* .shop-detail-slider #sync2 img {
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 26px 0 8px;
+    width: 67px;
+} */
+
+.thumbslider img:focus {
+    border: 0px !important;
+}
+
+.slick-prev {
+    z-index: 1000;
+    left: -19px !important;
+}
+
+.slick-next {
+    z-index: 1000;
+    right: -7px !important;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container img {
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+    transform: scale(1.1);
+}
+
+.fa-tag{
+    width: 15px !important;
+    margin-top: -2px !important;
+}

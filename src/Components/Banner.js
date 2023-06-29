@@ -47,7 +47,8 @@ const Banner = () => {
           margin={10}
           dots={true}
           nav={true}
-          rewindNav={true}
+          mouseDrag={true}
+          touchDrag={true}
           autoplay={true}
           autoplaySpeed={1000}
           navText={[

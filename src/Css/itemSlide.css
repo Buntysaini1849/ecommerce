@@ -40,7 +40,7 @@
 
   .slick-prev{
       z-index:1000;
-      left: -18px !important;
+      left: -78px !important;
   }
 
   .slick-prev:before {
@@ -51,7 +51,7 @@
 
   .slick-next{
       z-index:1000;
-      right: 34px !important;
+      right: -13px !important;
   }
 
   .slick-next:before {

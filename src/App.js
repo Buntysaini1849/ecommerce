@@ -1,28 +1,33 @@
-import './App.css';
-import Home from './Components/Home';
-import Header from './Components/Header';
-import Banner from './Components/Banner';
-import ItemSlide from './Components/ItemSlide';
-import TopSavers from './Components/TopSavers';
-import Offer from './Components/Offer';
-import BestOffers from './Components/BestOffers';
-import Footer from './Components/Footer';
-import CartSidebar from './Components/CartSidebar';
+import React from "react";
+import "./App.css";
+import ShopList from "./Components/ShopList";
+import { Provider } from "react-redux";
+import store from "./State/Store";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import TopSection from "./Components/FrontPage/TopSection";
+import ProductView from "./Components/ProductView";
+import Checkout from "./Components/Checkout";
+import Profile from "./Components/Profile";
+
 
 function App() {
   return (
-    <div className='App'>
-      
-      <Header />
-      <Banner />
-      <ItemSlide />
-      <TopSavers />
-      <Offer />
-      <BestOffers />
-      <Footer />
-      <CartSidebar />
-      
-    </div>
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          
+            <Routes>
+            <Route exact path="/" element={<TopSection/>} />
+            <Route exact path="/shoplist" element={<ShopList/>} />
+            <Route exact path="/productview" element={<ProductView />} />
+            <Route exact path="/checkout" element={<Checkout />} />
+            <Route exact path="/profile" element={<Profile />} />
+            </Routes>
+            
+         
+        </div>
+      </Router>
+    </Provider>
   );
 }
 

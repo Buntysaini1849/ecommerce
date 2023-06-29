@@ -1,52 +1,116 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BANNER_API } from "./apiUrls";
+import { BANNER_API, PRODUCTLIST_API } from "./apiUrls";
 import "../Css/topSavers.css";
-import OwlCarousel from "react-owl-carousel3";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { TbTags } from "react-icons/tb";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FcApproval } from "react-icons/fc";
+import { FaChevronLeft,FaChevronRight } from "react-icons/fa";
+
+import { Link, Outlet } from "react-router-dom";
+
+
+
 
 const TopSavers = () => {
+  
   const [data, setData] = useState([]);
+ 
 
-  const carouselRef = useRef(null);
 
-  useEffect(() => {
-    const owlCarousel = carouselRef.current;
-    if (owlCarousel) {
-      setTimeout(function () {
-        owlCarousel.next();
-      }, 2000); // Adjust the duration between slide transitions (in milliseconds)
-    }
-  }, []);
+
+  // const handleAddToCart = (product) => {
+  //   // Add the product to the cart
+  //   const updatedCart = [...cartItems, product];
+  //   // Dispatch an action to update the cart state
+  //   dispatch(updateCart(updatedCart));
+  // };
+
+
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(BANNER_API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "view" }),
-      });
-      const responseData = await response.json();
-
-      if (
-        responseData &&
-        responseData.data &&
-        Array.isArray(responseData.data) &&
-        responseData.data.length > 0
-      ) {
-        for (let i = 0; i < responseData.data.length; i++) {
+      try {
+        const response = await fetch(BANNER_API, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ type:'view' }),
+        });
+        const responseData = await response.json();
+  
+        if (
+          responseData &&
+          responseData.data &&
+          Array.isArray(responseData.data) &&
+          responseData.data.length > 0
+        ) {
           setData(responseData.data);
-          console.log(data);
+          // dispatch(setProducts(responseData.data));
+          console.log(responseData.data);
+        } else {
+          console.error('Error: Invalid data structure');
         }
-      } else {
-        console.error("Error: Invalid data structure");
+      } catch (error) {
+        console.error(error.message);
+        // Display an error message to the user or render a fallback
       }
     }
+  
     fetchData();
-  }, [BANNER_API, setData]);
+  }, [BANNER_API]);
+
+  const CustomPrevArrow = (props) => (
+    <div className="slick-arrow slick-prev" onClick={props.onClick}>
+      Prev
+    </div>
+  );
+
+  const CustomNextArrow = (props) => (
+    <div className="slick-arrow slick-next" onClick={props.onClick}>
+      Next
+    </div>
+  );
+
+  const Settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    arrows: true,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
+  };
+
+  
+
+  // const handleAddClick = (product) => {
+  //   dispatch(saveCartData(product));
+  //   console.log(product);
+  // };
+
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  // }, [dispatch]);
+
 
   return (
     <div className="container">
@@ -56,63 +120,54 @@ const TopSavers = () => {
             <h5 className="heading-design-h5">
               Top Savers Today{" "}
               <span className="badge badge-primary">20% OFF</span>
-              <a className="float-right text-secondary" href="shop.html">
+                <Link to='/shoplist' className="float-right text-secondary">
                 View All
-              </a>
+                </Link>
             </h5>
           </div>
-          <div className="container">
-            <OwlCarousel
-              className="owl-theme p-0"
-              ref={carouselRef}
-              items={5}
-              loop
-              margin={5}
-              dots={false}
-              nav={true}
-              autoplaySpeed={1000}
-              navText={[
-                "<span class='prev-icon'></span>",
-                "<span class='next-icon'></span>",
-              ]}
+          <div className="container" style={{width:"90%"}}>
+            <Slider
+              {...Settings}
             >
               {Array.isArray(data) &&
-                data.map((item) => (
-                  <div class="item">
-                    <div class="product p-0">
+                data.map((product) => (
+                  <div className="item" key={product.id}>
+                    <Link to='/productview'>
+                    <div className="product p-0">
                       <a href="#">
-                        <div class="product-header">
-                          <span class="badge badge-success">50% OFF</span>
-                          <img src={item.img} className="img-fluid" />
-                          <span class="veg text-success mdi mdi-circle"></span>
+                        <div className="product-header">
+                          <span className="badge badge-success">50% OFF</span>
+                          <img src={product.img} className="img-fluid" />
+                          <span className="veg text-success mdi mdi-circle"></span>
                         </div>
-                        <div class="product-body">
-                          <h5>Product Title Here</h5>
+                        <div className="product-body">
+                          <h5>{product.name}</h5>
                           <h6>
                             <strong>
                               <FcApproval /> Available in
                             </strong>{" "}
-                            - 500 gm
+                            - {product.unit}
                           </h6>
                         </div>
-                        <div class="product-footer d-flex">
-                          <p class="offer-price mb-0">
-                            ₹450.99 <TbTags style={{ fontSize: "16px" }} />
+                        <div className="product-footer d-flex">
+                          <p className="offer-price mb-0">
+                            ₹{product.sale_price} <TbTags style={{ fontSize: "16px" }} />
                             <br />
-                            <span class="regular-price">₹599</span>
+                            <span className="regular-price">₹{product.mrp_price}</span>
                           </p>
                           <button
-                            type="button"
-                            class="btn btn-secondary btn-sm float-right"
+                            className="btn btn-secondary btn-sm float-right"
+                           
                           >
                             <MdOutlineShoppingCart /> Add To Cart
                           </button>
                         </div>
                       </a>
                     </div>
+                    </Link>
                   </div>
                 ))}
-            </OwlCarousel>
+            </Slider>
           </div>
         </div>
       </section>

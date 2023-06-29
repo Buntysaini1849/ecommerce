@@ -7,6 +7,35 @@ const Footer = () => {
   return (
     <div className='container-fluid'>
      {/* Footer start */}
+     <div className="container-fluid p-0">
+        <section className="section-padding bg-white border-top">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-4 col-sm-6">
+                <div className="feature-box">
+                  <i className="fas fa-truck-fast mdi"></i>
+                  <h6>Free & Next Day Delivery</h6>
+                  <p>Lorem ipsum dolor sit amet, cons...</p>
+                </div>
+              </div>
+              <div className="col-lg-4 col-sm-6">
+                <div className="feature-box">
+                <i className="fas fa-shopping-basket mdi"></i>
+                  <h6>100% Satisfaction Guarantee</h6>
+                  <p>Rorem Ipsum Dolor sit amet, cons...</p>
+                </div>
+              </div>
+              <div className="col-lg-4 col-sm-6">
+                <div className="feature-box">
+                  <i className="fas fa-tag mdi"></i>
+                  <h6>Great Daily Deals Discount</h6>
+                  <p>Sorem Ipsum Dolor sit amet, Cons...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
       <section class="section-padding footer bg-white border-top">
          <div class="container">
             <div class="row">
@@ -14,7 +43,7 @@ const Footer = () => {
                   <h4 class="mb-5 mt-0"><a class="logo" href="index.html"><img src={logo} alt="Techiecy" width={150} height={62} className='img-fluid' /></a></h4>
                   <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-phone"></i>Mobile</a></p>
                   <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-cellphone-iphone"></i>cellphone</a></p>
-                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i>gamil</a></p>
+                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i>gmail</a></p>
                   <p class="mb-0"><a class="text-primary" href="#"><i class="mdi mdi-web"></i> Website</a></p>
                </div>
                <div class="col-lg-2 col-md-2">
