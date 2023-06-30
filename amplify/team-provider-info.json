@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-moonherbal-dev-150028-authRole",
+      "UnauthRoleArn": "arn:aws:iam::585712924222:role/amplify-moonherbal-dev-150028-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::585712924222:role/amplify-moonherbal-dev-150028-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-moonherbal-dev-150028-deployment",
+      "UnauthRoleName": "amplify-moonherbal-dev-150028-unauthRole",
+      "StackName": "amplify-moonherbal-dev-150028",
+      "StackId": "arn:aws:cloudformation:ap-south-1:585712924222:stack/amplify-moonherbal-dev-150028/8e6d3550-165f-11ee-9a09-025b8a84360c",
+      "AmplifyAppId": "du0y2su2cn61x"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "du0y2su2cn61x",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}

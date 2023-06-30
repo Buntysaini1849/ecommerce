@@ -68,8 +68,8 @@
 
 
 .item .banner-img{
-  width: auto !important;
-  height: 360px !important;
+  width: 80% !important;
+  height: 400px !important;
 }
 
 .owl-prev {

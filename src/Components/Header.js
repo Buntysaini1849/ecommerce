@@ -78,23 +78,23 @@ const Header = () => {
       </div>
 
       <nav
-        className="navbar navbar-light  navbar-fixed navbar-expand-lg bg-dark bg-faded osahan-menu"
-        style={{ position: "relative",height:"67px" }}
+        className="navbar navbar-light  navbar-fixed navbar-expand-lg  bg-faded osahan-menu"
+        style={{ position: "relative", height: "95px", background: "#fff" }}
       >
         <div className="container-fluid">
-            <Link to="/" className="navbar-brand">
+          <Link to="/" className="navbar-brand">
             {" "}
             <img src={logo} alt="logo" className="img-fluid" width={90} />{" "}
-            </Link>
-          <a className="location-top" href="#">
+          </Link>
+          {/* <a className="location-top" href="#">
             <MdOutlineShareLocation className="location-icon mb-1" />
             New Delhi
-          </a>
+          </a> */}
           <button
             className="navbar-toggler navbar-toggler-white"
             type="button"
-            data-toggle="collapse"
-            data-target="#navbarText"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
             aria-controls="navbarText"
             aria-expanded="false"
             aria-label="Toggle navigation"
@@ -104,8 +104,9 @@ const Header = () => {
           <div className="navbar-collapse" id="navbarNavDropdown">
             <div className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto top-categories-search-main">
               <div className="top-categories-search">
-                <div className="input-group">
-                  <span className="input-group-btn categories-dropdown">
+                <div
+                  className="input-group">
+                  {/* <span className="input-group-btn categories-dropdown">
                     <select
                       className="form-control-select select-inputgrp"
                       style={{ display: "none" }}
@@ -116,14 +117,14 @@ const Header = () => {
                       <option value="3">Hyderabad</option>
                       <option value="4">Kolkata</option>
                     </select>
-                  </span>
+                  </span> */}
                   <input
-                    className="form-control"
+                    className="form-control search-bar"
                     placeholder="Search products in Your City"
                     aria-label="Search products in Your City"
                     type="text"
                   />
-                  <span className="input-group-btn">
+                  <span className="input-group-btn"  style={{ position:"absolute",right:"5px", top:"4px" }}>
                     <button className="btn btn-secondary" type="button">
                       <MdFindInPage className="mb-1" /> Search
                     </button>
@@ -132,25 +133,77 @@ const Header = () => {
               </div>
             </div>
             <div className="my-2 my-lg-0">
-              <ul className="list-inline main-nav-right">
-                <li className="list-inline-item">
+              <ul className="list-inline main-nav-right mt-3">
+                {/* <li className="list-inline-item">
                   <a
                     href="#"
-                    data-target="#bd-example-modal"
-                    data-toggle="modal"
+                    data-bs-target="#bd-example-modal"
+                    data-bs-toggle="modal"
                     className="btn btn-link"
                   >
-                    <FaUserCircle className="user-icon mb-1" /> Login/Sign Up
+                    <FaUserCircle className="user-icon mb-1" /> 
                   </a>
+                  
+                </li> */}
+
+                <li className="list-inline-item nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle account-dropdown"
+                    href="#"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style={{fontSize:"15px",fontWeight:"500",padding:"10px"}}
+
+                  >
+                     <FaUserCircle className="user-icon mb-1 mx-2" /> 
+                    My Account
+                  </a>
+                  <div className="dropdown-menu">
+                    <a className="dropdown-item" href="#">
+                      <i
+                        className="mdi mdi-chevron-right"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      My Profile
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      <i
+                        className="mdi mdi-chevron-right"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      My Address
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      <i
+                        className="mdi mdi-chevron-right"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      Wish List{" "}
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      <i
+                        className="mdi mdi-chevron-right"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      Order List
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      <i
+                        className="mdi mdi-chevron-right"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      Login
+                    </a>
+                  </div>
                 </li>
-                <li className="list-inline-item ">
+                <li className="list-inline-item nav-item">
                   <div className="cart-btn" onClick={handleCartClick}>
                     <a
-                      data-toggle="offcanvas"
                       className="btn btn-link border-none"
                     >
                       <MdShoppingCart className="shopping-cart" /> My Cart{" "}
-                      <small className="cart-value">0</small>
+                      <small className="cart-value" style={{color:"#fff"}}>0</small>
                     </a>
                   </div>
                 </li>
@@ -161,16 +214,16 @@ const Header = () => {
       </nav>
 
       <nav className="navbar navbar-expand-lg navbar-light osahan-menu-2 pad-none-mobile">
-        <div className="container-fluid">
-          <div className="collapse navbar-collapse" id="navbarText">
+        <div className="container-fluid p-0">
+          <div className="collapse navbar-collapse" id="navbarText" style={{borderTop:"1px solid #ededed"}}>
             <ul className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to="/" className="nav-link shop">
                   <MdStoreMallDirectory className="mb-1" /> Super Store
                 </Link>
-              </li>
+              </li> */}
               <li className="nav-item">
-              <Link to="/" className="nav-link">
+                <Link to="/" className="nav-link">
                   Home
                 </Link>
               </li>
@@ -218,7 +271,7 @@ const Header = () => {
                   </a>
                 </div>
               </li> */}
-              <li className="nav-item dropdown">
+              {/* <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
                   href="#"
@@ -246,7 +299,7 @@ const Header = () => {
                     Order List
                   </a>
                 </div>
-              </li>
+              </li> */}
               {/* <li className="nav-item dropdown">
                      <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      Blog Page
