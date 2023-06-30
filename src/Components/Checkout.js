@@ -573,7 +573,7 @@ const Checkout = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="heading-part">
+                            {/* <div className="heading-part">
                               <h3 className="sub-heading">Billing Address</h3>
                             </div>
                             <hr />
@@ -1061,7 +1061,7 @@ const Checkout = () => {
                               >
                                 Use my delivery address as my billing address
                               </label>
-                            </div>
+                            </div> */}
                             <button
                               type="button"
                               data-bs-toggle="collapse"
