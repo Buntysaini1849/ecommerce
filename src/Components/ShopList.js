@@ -8,7 +8,7 @@ const ShopList = () => {
    
     <div>
       <Header />
-        <section className="shop-list section-padding">
+        <section className="shop-list section-padding" style={{marginTop:"163px"}}>
          <div className="container">
             <div className="row">
                <div className="col-md-3">

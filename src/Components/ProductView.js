@@ -6,16 +6,17 @@ import Header from "./Header";
 import BestOffers from "./BestOffers";
 import Footer from "./Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BANNER_API } from "./apiUrls";
+import { BANNER_API, PRODUCTLIST_API } from "./apiUrls";
 import {FaTag} from "react-icons/fa";
 import "../Css/ProductView.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const ProductView = () => {
   const [data, setData] = useState([]);
   const [activeThumbnail, setActiveThumbnail] = useState(null);
   const mainSliderRef = useRef(null);
   const thumbnailSliderRef = useRef(null);
+  const {id} = useParams();
  
 
   
@@ -23,7 +24,7 @@ const ProductView = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(BANNER_API, {
+        const response = await fetch(PRODUCTLIST_API, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ type: "view" }),
@@ -49,7 +50,7 @@ const ProductView = () => {
     }
 
     fetchData();
-  }, [BANNER_API]);
+  }, [id]);
 
 
   const CustomPrevArrow = (props) => (
@@ -148,7 +149,7 @@ const ProductView = () => {
   return (
     <div>
       <Header />
-      <section className="pt-3 pb-0 page-info section-padding border-bottom bg-white">
+      <section className="pt-3 pb-0 page-info section-padding border-bottom bg-white" style={{marginTop:"163px"}}>
         <div className="container">
           <div className="row">
             <div className="col-md-12">
@@ -198,7 +199,7 @@ const ProductView = () => {
                   {Array.isArray(data) &&
                   data.map((item) => (
                     <div className="image-container">
-                      <img src={item.img} alt="Product 1"className="img-fluid main-slider-img" />
+                      <img src={item.image} alt="Product 1"className="img-fluid main-slider-img" />
                     </div>
                   ))}
                     

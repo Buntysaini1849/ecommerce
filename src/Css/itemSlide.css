@@ -2,18 +2,18 @@
       width: auto !important;
 }
 
-.category-item img{
+.category-item img {
     background: #fff;
-    border-radius: 50px !important;
+    border-radius: 80px !important;
     box-shadow: 0 0 2px #ccc !important;
-    height: 80px !important;
+    height: 120px !important;
     margin: 1px 0 8px !important;
-    object-fit: scale-down !important;
+    /* object-fit: scale-down !important; */
     padding: 7px !important;
     transform: scale(1) !important;
     transition-duration: 0.4s !important;
-    width: 80px !important;
-  }
+    width: 120px !important;
+}
   
 .category-item:hover img{
       transform: scale(1.09) !important;

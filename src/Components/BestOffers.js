@@ -34,7 +34,7 @@ const BestOffers = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(BANNER_API, {
+        const response = await fetch(PRODUCTLIST_API, {
           method: 'POST',
           headers: { 'Content-Type':'application/json' },
           body: JSON.stringify({ type:'view' }),
@@ -60,7 +60,7 @@ const BestOffers = () => {
     }
   
     fetchData();
-  }, [BANNER_API]);
+  }, []);
 
 
   const CustomPrevArrow = (props) => (
@@ -108,7 +108,7 @@ const BestOffers = () => {
 
   return (
     <div className="container-fluid p-0 m-0">
-      <div className="container">
+      {/* <div className="container">
         <section className="product-items-slider section-padding">
           <div className="container">
             <div className="section-header">
@@ -132,7 +132,7 @@ const BestOffers = () => {
                         <a href="#">
                           <div className="product-header">
                             <span className="badge badge-success">50% OFF</span>
-                            <img src={item.img} className="img-fluid" />
+                            <img src={item.image} className="img-fluid" />
                           </div>
                           <div className="product-body">
                             <h5>{item.name}</h5>
@@ -165,7 +165,7 @@ const BestOffers = () => {
             </div>
           </div>
         </section>
-      </div>
+      </div> */}
 
    
     </div>

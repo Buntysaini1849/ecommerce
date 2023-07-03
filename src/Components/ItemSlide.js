@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { BANNER_API } from "./apiUrls";
+import {CATEGORYLIST_API } from "./apiUrls";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,14 +12,14 @@ const ItemSlide = () => {
 
   const settings = {
     dots: false,
-    arrows: true,
-    infinite: true,
+    arrows: false,
+    infinite: false,
     speed: 500,
-    slidesToShow: 7,
+    slidesToShow: 10,
     slidesToScroll: 1,
-    autoplay:true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay:false,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
     
   };
 
@@ -27,12 +27,13 @@ const ItemSlide = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(BANNER_API, {
+      const response = await fetch(CATEGORYLIST_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "view" }),
       });
       const responseData = await response.json();
+      console.log(responseData);
 
       if (
         responseData &&
@@ -49,20 +50,19 @@ const ItemSlide = () => {
       }
     }
     fetchData();
-  }, [BANNER_API, setData]);
+  }, []);
 
 
 
   return (
     <div className="container-fluid" style={{background:"#fff"}}>
-      <div className="container" style={{width:"80%"}}>
+      <div className="container-fluid">
       <Slider {...settings}>
       {Array.isArray(data) &&
             data.map((item) => (
-          <div  className="category-item text-center">
-            <img src={item.img} alt="Category" />
-            <h6>Fruits & Vegetables</h6>
-            <p>150 Items</p>
+          <div className="category-item text-center mb-4" key={item.id}>
+            <img src={item.image}alt="Category" className="img-fluid" />
+            <h6>{item.name}</h6>
           </div>
         ))}
       </Slider>

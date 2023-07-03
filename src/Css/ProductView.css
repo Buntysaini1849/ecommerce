@@ -31,9 +31,6 @@
     width: 65%;
 }
 
-.thumbnail-item.active {
-    border: 2px solid black !important;
-  }
 
 
 .thumbslider img {

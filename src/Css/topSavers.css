@@ -25,12 +25,14 @@
     z-index: 9;
 }
 
+
+
 .product {
     background: #fff none repeat scroll 0 0;
     border: 1px solid #eeeeee;
     border-radius: 2px;
     margin: 0 -1px 0 0;
-    padding: 20px !important;
+    padding: 9px !important;
     position: relative;
 }
 
@@ -54,17 +56,19 @@
     margin: 0;
 }
 
+
 .product-body h6 {
     color: #9c9c9c;
     font-size: 12px;
-    margin: 5px 0 14px;
+    margin: 6px -6px 14px;
 }
 
 .product-header img {
     height: 200px;
     margin: 0 0 18px;
-    object-fit: scale-down;
+    object-fit: fill;
     transform: scale(1);
+    background-size: auto;
     transition-duration: 0.4s;
 }
 
@@ -114,8 +118,15 @@
     color: rgb(25, 135, 84);
 }
 
+.slick-slide{
+    background-color: #fff;
+}
 
-
+.slick-next:hover {
+    content: '→';
+    color: #000000;
+    font-size: 33px;
+}
 
 .feature-box .mdi {
     border: 1px solid #acacac;

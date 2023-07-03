@@ -19,7 +19,7 @@ function App() {
             <Routes>
             <Route exact path="/" element={<TopSection/>} />
             <Route exact path="/shoplist" element={<ShopList/>} />
-            <Route exact path="/productview" element={<ProductView />} />
+            <Route exact path="/productview/" element={<ProductView />} />
             <Route exact path="/checkout" element={<Checkout />} />
             <Route exact path="/profile" element={<Profile />} />
             </Routes>

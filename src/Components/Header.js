@@ -12,6 +12,7 @@ import CartProducts from "./CartProducts";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCart } from "../State/Actions/CartShowAction";
 import { Link } from "react-router-dom";
+import Login from "./Login";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -77,8 +78,9 @@ const Header = () => {
         </div>
       </div>
 
+  <div className="fixed-top">
       <nav
-        className="navbar navbar-light  navbar-fixed navbar-expand-lg  bg-faded osahan-menu"
+        className="navbar navbar-light navbar-expand-lg  bg-faded osahan-menu fixed-top"
         style={{ position: "relative", height: "95px", background: "#fff" }}
       >
         <div className="container-fluid">
@@ -188,7 +190,7 @@ const Header = () => {
                       ></i>{" "}
                       Order List
                     </a>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{cursor:"pointer"}}>
                       <i
                         className="mdi mdi-chevron-right"
                         aria-hidden="true"
@@ -330,6 +332,9 @@ const Header = () => {
         </div>
       </nav>
 
+      </div>
+
+      <Login />
       {isCartOpen && <CartProducts />}
     </div>
   );

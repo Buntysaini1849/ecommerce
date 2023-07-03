@@ -13,7 +13,7 @@ const Checkout = () => {
         <Header />
         </div>
       <div>
-        <section className="checkout-page section-padding">
+        <section className="checkout-page section-padding" style={{marginTop:"163px"}}>
           <div className="container">
             <div className="row">
               <div className="col-md-8">

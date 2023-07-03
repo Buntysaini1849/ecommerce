@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useLayoutEffect } from "react";
 import { BANNER_API } from "./apiUrls";
 import OwlCarousel from "react-owl-carousel3";
 import "../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import img from "../Images/bannerimg.jpg";
+// import img from "../Images/bannerimg.jpg";
 
 
 
@@ -12,34 +12,34 @@ const Banner = () => {
 
 
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const response = await fetch(BANNER_API, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ type: "view" }),
-  //     });
-  //     const responseData = await response.json();
+  useLayoutEffect(() => {
+    async function fetchData() {
+      const response = await fetch(BANNER_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "view" }),
+      });
+      const responseData = await response.json();
 
-  //     if (
-  //       responseData &&
-  //       responseData.data &&
-  //       Array.isArray(responseData.data) &&
-  //       responseData.data.length > 0
-  //     ) {
-  //       for (let i = 0; i < responseData.data.length; i++) {
-  //         setData(responseData.data);
-  //         console.log(data);
-  //       }
-  //     } else {
-  //       console.error("Error: Invalid data structure");
-  //     }
-  //   }
-  //   fetchData();
-  // }, [BANNER_API]);
+      if (
+        responseData &&
+        responseData.data &&
+        Array.isArray(responseData.data) &&
+        responseData.data.length > 0
+      ) {
+        for (let i = 0; i < responseData.data.length; i++) {
+          setData(responseData.data);
+          console.log(data);
+        }
+      } else {
+        console.error("Error: Invalid data structure");
+      }
+    }
+    fetchData();
+  }, []);
   return (
-    <div className="p-0">
-      <div className="carousel-banner p-0" style={{ position: "relative" }}>
+    <div className="p-0" style={{marginTop:"163px"}}>
+      <div className="carousel-banner p-0 " style={{ position: "relative" }}>
       
         <OwlCarousel
           className="owl-theme p-0"
@@ -48,8 +48,8 @@ const Banner = () => {
           margin={10}
           dots={true}
           nav={true}
-          mouseDrag={true}
-          touchDrag={true}
+          mouseDrag={false}
+          touchDrag={false}
           autoplay={true}
           autoplaySpeed={1000}
           navText={[
@@ -57,18 +57,12 @@ const Banner = () => {
             "<span class='next-icon'></span>",
           ]}
         >
-          {/* {Array.isArray(data) &&
-            data.map((item) => ( */}
+          {Array.isArray(data) &&
+            data.map((item) => ( 
           <div className="item p-0">
-            <img src={img} className="img-fluid banner-img"/>
+            <img src={item.img} className="img-fluid banner-img"/>
           </div>
-          <div className="item p-0">
-            <img src={img} className="img-fluid banner-img"/>
-          </div>
-          <div className="item p-0">
-            <img src={img} className="img-fluid banner-img"/>
-          </div>
-          {/* ))} */}
+           ))}
           
         </OwlCarousel>
       
