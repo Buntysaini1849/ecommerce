@@ -133,7 +133,7 @@ a:focus {
 }
 
 .text-secondary {
-    color: #e96125 !important;
+    color: #3bb77e !important;
 }
 
 .badge {
@@ -431,7 +431,7 @@ a:focus {
 }
 
 .account-dropdown:hover{
-    box-shadow:5px 5px 15px rgba(0,0,0,.05);
+    color: #3bb77e !important;
     transition: all 0.5s ease-in;
 }
 
@@ -578,7 +578,7 @@ a:focus {
 }
 
 .cart-items {
-    position: absolute;
+    position: fixed;
     top: 80px;
     right: 28px;
     background-color: #fff;
@@ -640,8 +640,8 @@ a:focus {
 }
 
 .list-group-item.active {
-    background: #e96125 none repeat scroll 0 0;
-    border-color: #e96125;
+    background: #3bb77e none repeat scroll 0 0;
+    border-color: #3bb77e;
 }
 
 .shop-filters .card {

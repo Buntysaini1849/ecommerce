@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  LOGIN_SUCCESS,
+  loginSuccess,
+  setUser,
+} from "../State/Actions/LoginAction";
 import { FaUserAlt } from "react-icons/fa";
 import { BiKey } from "react-icons/bi";
 import axios from "axios";
+import { Login_API, VERIFYOTP_API } from "./apiUrls";
 
 export default function Login() {
-  const userDetails = {
-    username: "admin",
-    email: "admin",
-    password: "admin",
-  };
-
   const inputRef = useRef();
 
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [messageerror, setMessageError] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [otp, setOTP] = useState("");
+  const [verificationId, setVerificationId] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [showinput, SetShowinput] = useState(false);
   const [buttonText, SetButtonText] = useState("Send Otp");
   const [disabled, setDisabled] = useState(false);
@@ -24,8 +25,10 @@ export default function Login() {
   const [disabledotp, setDisabledotp] = useState(true);
   const [error, setError] = useState("");
 
-  const showhidediv = (e) => {
-    e.preventDefault();
+  const dispatch = useDispatch();
+
+  const showhidediv = () => {
+    // e.preventDefault();
     SetShowinput(true);
     SetButtonText("Resend OTP");
     setDisabled(true);
@@ -52,139 +55,61 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+  const handleGenerateOTP = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(Login_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
 
-    // Input Validation
-    if (!username || !password) {
-      console.log("Please enter both  username and password.");
-      return;
+      const data = await response.json();
+      console.log(data);
+
+      // Assuming the API returns the verificationId
+      setVerificationId(data.verificationId);
+    } catch (error) {
+      console.error("Error generating OTP:", error);
     }
+  };
 
-    // Authentication Check
-    if (
-      username === userDetails.username &&
-      password === userDetails.password
-    ) {
-      console.log("Login successful!");
-      navigate("/dashboard");
-    } else {
-      console.log("Login failed. Please check your credentials and try again.");
-      setError("Login failed. Please try again");
+  const loginData = {
+    username: username,
+    otp: otp,
+  };
+
+  const handleLogin = async () => {
+    try {
+      // Make API call to get the authToken
+      const response = await fetch(VERIFYOTP_API, {
+        method: "POST",
+        body: JSON.stringify(loginData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      console.log(data);
+      const user = data.user;
+      console.log(user);
+      const authToken = data.auth;
+      dispatch(loginSuccess(user,authToken));
+      dispatch(setUser(user, authToken));
+    
+      navigate("/");
+      setUsername("");
+      setOTP("");
+    } catch (error) {
+      console.error("Login error:", error);
     }
-  }
-  // const handleSubmit = async event => {
-  //   event.preventDefault();
-
-  //   try {
-  //     const response = await fetch('http://ecommerce.techiecy.com/auth/login/', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ username, password })
-  //     });
-
-  //     const data = await response.json();
-  //     console.log(data);
-
-  //     if (data.success) {
-  //       navigate("/dashboard");
-  //     } else {
-  //       setError("Invalid login credentials");
-  //     }
-
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //     setError(error.message || 'An error occurred');
-  //   }
-  // };
+  };
 
   return (
     <div className="loginheader">
-      {/* <div
-        className="container-fluid p-4"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        <form
-          className="login-form p-4 mt-2"
-          style={{ width: "30%" }}
-          onSubmit={handleSubmit}
-        >
-          <div className="container">
-            <div
-              class="alert alert-danger alert-dismissible fade show p-0"
-              role="alert"
-              style={{ display: error ? "block" : "none" }}
-            >
-              {error && (
-                <p className="mt-3" style={{ padding: "2px" }}>
-                  {error}
-                </p>
-              )}
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-              ></button>
-            </div>
-          </div>
-
-          <h2 className="logintop-head mb-4">Login To Your Account</h2>
-          <div className="form-group mt-1" style={{ position: "relative" }}>
-            <label className="label">Username</label>
-            <input
-              type="username"
-              className="form-control login-input"
-              id="username"
-              value={username}
-              name="username"
-              ref={inputRef}
-              onChange={(e) => setUsername(e.target.value)}
-              required={true}
-            />
-            <FaUserAlt className="usericon" />
-          </div>
-          <div className="form-group mt-3" style={{ position: "relative" }}>
-            <label className="label">Password</label>
-            <input
-              type="password"
-              className="form-control login-input"
-              id="password"
-              value={password}
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-              required={true}
-            />
-            <BiKey className="keyicon" />
-          </div>
-
-          <div className="row d-flex mt-4">
-            <div className="col-md-6">
-              <button
-                type="submit"
-                style={{ background: "rgb(108,100,251)" }}
-                className="btn login-btn mt-1 shadow-lg"
-              >
-                Login
-              </button>
-            </div>
-
-            <div className="col-md-6 text-center mt-2">
-              <a
-                href=""
-                className="fgt-pswd ml-3"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
-                forgot password?
-              </a>
-            </div>
-          </div>
-        </form>
-      </div> */}
-
       <div
         className="modal fade"
         id="exampleModal"
@@ -199,10 +124,9 @@ export default function Login() {
               <h5 className="modal-title">Login to MoonHerbal</h5>
             </div>
             <div className="modal-body">
-              
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="row d-flex">
-                  <div className="col-md-6 col-sm-6">
+                  <div className="col-md-9 col-sm-9">
                     <div className="form-group mt-2">
                       <label className="label" style={{ fontWeight: "600" }}>
                         Mobile No.
@@ -210,6 +134,8 @@ export default function Login() {
                       <input
                         type="mobile"
                         className="form-control"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         id="mobile"
                         name="mobile"
                         placeholder="Enter mobile number..."
@@ -217,38 +143,38 @@ export default function Login() {
                     </div>
                   </div>
 
-                  <div className="col-md-6 col-sm-6">
+                  <div className="col-md-3 col-sm-3">
                     <div className="otp-div mt-3">
                       <button
                         className="btn btn-sm btn-success mt-4 sendotp-btn"
-                        onClick={showhidediv}
-                        disabled={disabled}
+                        onClick={handleGenerateOTP}
                       >
-                        {buttonText}
+                        Send OTP
                       </button>
                     </div>
                   </div>
                 </div>
-                {showinput ? (
-                  <div className="row d-flex">
-                    <div className="col-md-6">
-                      <div className="form-group mt-2">
-                        <label className="label" style={{ fontWeight: "600" }}>
-                          {" "}
-                          Enter OTP
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="otp"
-                          maxLength={6}
-                          name="number"
-                          onClick={() => setDisabledotp(false)}
-                        />
-                      </div>
-                    </div>
 
-                    <div className="col-md-6 col-sm-6">
+                <div className="row d-flex">
+                  <div className="col-md-9 col-sm-9">
+                    <div className="form-group mt-2">
+                      <label className="label" style={{ fontWeight: "600" }}>
+                        {" "}
+                        Enter OTP
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="otp"
+                        value={otp}
+                        maxLength="4"
+                        name="number"
+                        onChange={(e) => setOTP(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* <div className="col-md-6 col-sm-6">
                       <div className="otp-div mt-3">
                         <button
                           className="btn btn-sm btn-success mt-4"
@@ -258,15 +184,19 @@ export default function Login() {
                           Verify OTP
                         </button>
                       </div>
-                    </div>
-                  </div>
-                ) : null}
-
-               
+                    </div> */}
+                </div>
               </form>
             </div>
-            <div className="modal-footer">
-              <button type="submit" className="btn btn-primary">
+            <div
+              className="modal-footer d-flex"
+              style={{ justifyContent: "center" }}
+            >
+              <button
+                type="submit"
+                className="btn btn-md btn-primary w-100"
+                onClick={handleLogin}
+              >
                 Login
               </button>
             </div>

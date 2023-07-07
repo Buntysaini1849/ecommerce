@@ -10,7 +10,7 @@ import {
  import {AiOutlineHeart,AiOutlineUnorderedList} from "react-icons/ai";
  import {IoMdLock} from "react-icons/io";
 
-const Profile = () => {
+const Address = () => {
   return (
     <div>
       <Header />
@@ -29,24 +29,20 @@ const Profile = () => {
                       <p> +91 1234-5678-90</p>
                     </div>
                     <div className="list-group">
-                      <Link
+                    <Link
                         to="/profile"
-                        className="list-group-item list-group-item-action active"
-                      >
-                        
-                        <FiUser className="mdi mdi-account-outline" style={{marginRight:"3px"}}/>
-                        My Profile
-                      </Link>
-
-                      <Link
-                        to="/address"
                         className="list-group-item list-group-item-action"
                       >
-                    
-                        <MdOutlineShareLocation className="mdi mdi-map-marker-circle" style={{marginRight:"3px"}}/>
+                        <FiUser className="mdi mdi-account-outline" style={{marginRight:"3px"}}/>{" "}
+                        My Profile
+                      </Link>
+                      <Link
+                        to="/address"
+                        className="list-group-item list-group-item-action active"
+                      >
+                         <MdOutlineShareLocation className="mdi mdi-map-marker-circle" style={{marginRight:"3px"}}/>{" "}
                         My Address
                       </Link>
-
                       <a
                         href="#"
                         className="list-group-item list-group-item-action"
@@ -74,69 +70,12 @@ const Profile = () => {
                 <div className="col-md-8">
                   <div className="card card-body account-right">
                     <div className="widget">
-                      <div className="section-header mt-2">
-                        <h5 className="heading-design-h5">My Profile</h5>
+                      <div className="section-header mt-3">
+                        <h5 className="heading-design-h5">Contact Address</h5>
                       </div>
                       <form>
+                 
                         <div className="row mt-4">
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                First Name <span className="required">*</span>
-                              </label>
-                              <input
-                                className="form-control border-form-control"
-                                value=""
-                                placeholder="Name..."
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                Last Name <span className="required">*</span>
-                              </label>
-                              <input
-                                className="form-control border-form-control"
-                                value=""
-                                placeholder="Surname..."
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-2">
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                Phone <span className="required">*</span>
-                              </label>
-                              <input
-                                className="form-control border-form-control"
-                                value=""
-                                placeholder="123 456 7890"
-                                type="number"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                Email Address{" "}
-                                <span className="required">*</span>
-                              </label>
-                              <input
-                                className="form-control border-form-control "
-                                value=""
-                                placeholder="Email..."
-                                disabled=""
-                                type="email"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-2">
                           <div className="col-sm-6">
                             <div className="form-group">
                               <label className="control-label">
@@ -197,18 +136,45 @@ const Profile = () => {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <label className="control-label">
-                                Address <span className="required">*</span>
+                                Address 1 <span className="required">*</span>
+                              </label>
+                              <textarea className="form-control border-form-control"></textarea>
+                            </div>
+                          </div>
+                        </div> 
+                        <div className="row mt-2">
+                          <div className="col-sm-12">
+                            <div className="form-group">
+                              <label className="control-label">
+                                Address 2 <span className="required">*</span>
                               </label>
                               <textarea className="form-control border-form-control"></textarea>
                             </div>
                           </div>
                         </div>
-                        <div className="row mt-3" style={{ textAlign: "end" }}>
+                        <div className="row">
                           <div className="col-sm-12">
+                            <div className="custom-control custom-checkbox mb-3">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck1"
+                              />
+                              <label
+                                className="custom-control-label"
+                                for="customCheck1"
+                              >
+                                Same as Contact Address
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row mt-3" style={{ textAlign: "end" }}>
+                          <div className="col-sm-12 text-right">
                             <button
                               type="button"
                               className="btn btn-danger btn-lg"
-                              style={{ marginRight: "5px" }}
+                              style={{marginRight:"5px"}}
                             >
                               {" "}
                               Cencel{" "}
@@ -218,7 +184,7 @@ const Profile = () => {
                               className="btn btn-success btn-lg"
                             >
                               {" "}
-                              Save Changes{" "}
+                              Update Address{" "}
                             </button>
                           </div>
                         </div>
@@ -237,4 +203,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Address;

@@ -10,12 +10,16 @@ import { TbTags } from "react-icons/tb";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FcApproval } from "react-icons/fc";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCartData, addToCart } from '../State/Actions/CartActions';
 
 import { Link } from "react-router-dom";
 
 const TopSavers = () => {
   const [prohead, setProHead] = useState([]);
   const [data, setData] = useState([]);
+
+  const dispatch = useDispatch();
 
   // const handleAddToCart = (product) => {
   //   // Add the product to the cart
@@ -58,7 +62,7 @@ const TopSavers = () => {
         style={{ ...style, display: 'block' }}
         onClick={onClick}
       >
-        Prev
+        <p></p>
       </div>
     );
   };
@@ -71,7 +75,7 @@ const TopSavers = () => {
         style={{ ...style, display: 'block' }}
         onClick={onClick}
       >
-        Next
+        <p></p>
       </div>
     );
   };;
@@ -119,6 +123,15 @@ const TopSavers = () => {
   //   dispatch(fetchProducts());
   // }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
+
+  const handleAddToCart = (proditem) => {
+    dispatch(addToCart(proditem));
+  };
+
+
   return (
     <div className="container-fluid">
       <div className="container">
@@ -140,62 +153,17 @@ const TopSavers = () => {
                         </Link>
                       </h5>
                     </div>
-                    <div className="container">
-                      {/*                   
-                      <div className="row p-0">
-                      {Array.isArray(product.item) &&
-                        product.item.map((proditem) => (
-                        <div className="col-lg-2 col-md-3 col-sm-4 col-6">
-                          <div className="item">
-                            <div className="product">
-                            <div className="product-header">
-                              <span className="badge badge-success">50% OFF</span>
-                              <img
-                                src={proditem.image}
-                                className="img-fluid"
-                                width="150"
-                                height="150"
-                              />
-                              <span className="veg text-success mdi mdi-circle"></span>
-                            </div>
-                            <div className="product-body">
-                              <h5>{proditem.name}</h5>
-                              <h6>
-                                <strong>
-                                  <FcApproval /> Available in
-                                </strong>{" "}
-                                - {proditem.unit}
-                              </h6>
-                            </div>
-                            <div className="product-footer d-flex">
-                              <p className="offer-price mb-0">
-                                ₹{proditem.sale_price}{" "}
-                                <TbTags style={{ fontSize: "16px" }} />
-                                <br />
-                                <span className="regular-price">
-                                  ₹{proditem.mrp_price}
-                                </span>
-                              </p>
-                              <Link to="/productview">
-                              <button className="btn btn-secondary btn-sm float-right">
-                                <MdOutlineShoppingCart /> Add To Cart
-                              </button>
-                              </Link>
-                            </div>
-                            </div>
-                          </div>
-                        </div>
-                         ))}
-                      </div>                */}
+                    <div className="container prod-container">
+                 
 
                       <Slider {...Settings}>
                       {Array.isArray(product.item) &&
                        product.item.map((proditem) => (
-                        <div className="item" style={{width:"210px",marginRight:"63px !important"}}>
+                        <div className="item" style={{width:"210px"}}>
                    
-                        <div className="product p-0" style={{width:"210px"}}>
+                        <div className="product p-0" style={{width:"210px"}} key={proditem.id}>
                          
-                          <Link to='/productview'>
+                          <Link key={proditem.id} to={`/productview/${proditem.id}`}>
                             <div className="product-header">
                               <span className="badge badge-success">50% OFF</span>
                               <img src={proditem.image} className="img-fluid"/>
@@ -216,14 +184,15 @@ const TopSavers = () => {
                                 <br />
                                 <span className="regular-price">₹{proditem.mrp_price}</span>
                               </p>
-                              <Link to='/productview'>
+                              {/* <Link to='/productview'> */}
                               <button
                                 className="btn btn-secondary btn-sm float-right"
-                               
+                                onClick={() => handleAddToCart(proditem)}
+                                
                               >
                                 <MdOutlineShoppingCart /> Add To Cart
                               </button>
-                              </Link>
+                              {/* </Link> */}
                             </div>
                         
                         </div>
@@ -237,51 +206,7 @@ const TopSavers = () => {
             </div>
           </div>
 
-          {/* <div className="container" style={{width:"90%"}}>
-            <Slider
-              {...Settings}
-            >
-              {Array.isArray(data) &&
-                data.map((product) => (
-                  <div className="item" key={product.id}>
-                   
-                    <div className="product p-0">
-                     
-                      <Link to='/productview'>
-                        <div className="product-header">
-                          <span className="badge badge-success">50% OFF</span>
-                          <img src={product.image} className="img-fluid" width="150" height="150" />
-                          <span className="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div className="product-body">
-                          <h5>{product.name}</h5>
-                          <h6>
-                            <strong>
-                              <FcApproval /> Available in
-                            </strong>{" "}- {product.unit}
-                          </h6>
-                        </div>
-                        </Link>
-                        <div className="product-footer d-flex">
-                          <p className="offer-price mb-0">
-                            ₹{product.sale_price} <TbTags style={{ fontSize: "16px" }} />
-                            <br />
-                            <span className="regular-price">₹{product.mrp_price}</span>
-                          </p>
-                          <button
-                            className="btn btn-secondary btn-sm float-right"
-                           
-                          >
-                            <MdOutlineShoppingCart /> Add To Cart
-                          </button>
-                        </div>
-                    
-                    </div>
-                   
-                  </div>
-                ))}
-            </Slider>
-          </div> */}
+          
         </section>
       </div>
     </div>

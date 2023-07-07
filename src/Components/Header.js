@@ -17,7 +17,9 @@ import Login from "./Login";
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dispatch = useDispatch();
-  const cartitems = useSelector((state) => state.cartItems);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const User = useSelector((state) => state.user.users);
+  const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
 
   const [data, setData] = useState([]);
 
@@ -78,9 +80,9 @@ const Header = () => {
         </div>
       </div>
 
-  <div className="fixed-top">
+  <div>
       <nav
-        className="navbar navbar-light navbar-expand-lg  bg-faded osahan-menu fixed-top"
+        className="navbar navbar-light navbar-expand-lg  bg-faded osahan-menu"
         style={{ position: "relative", height: "95px", background: "#fff" }}
       >
         <div className="container-fluid">
@@ -149,6 +151,21 @@ const Header = () => {
                 </li> */}
 
                 <li className="list-inline-item nav-item dropdown">
+                {isAuthenticated ? (
+                  <a
+                  className="nav-link dropdown-toggle account-dropdown"
+                  href="#"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  style={{fontSize:"15px",fontWeight:"500",padding:"10px"}}
+
+                >
+                   <FaUserCircle className="user-icon mb-1 mx-2" /> 
+                   Welcome,User
+                </a> 
+                
+                      ) : (
                   <a
                     className="nav-link dropdown-toggle account-dropdown"
                     href="#"
@@ -161,21 +178,24 @@ const Header = () => {
                      <FaUserCircle className="user-icon mb-1 mx-2" /> 
                     My Account
                   </a>
+                      )}
                   <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">
+                  
+                      <Link to="/profile" className="dropdown-item">
                       <i
                         className="mdi mdi-chevron-right"
                         aria-hidden="true"
                       ></i>{" "}
                       My Profile
-                    </a>
-                    <a className="dropdown-item" href="#">
+                      </Link>
+                  
+                      <Link to="/address" className="dropdown-item">
                       <i
                         className="mdi mdi-chevron-right"
                         aria-hidden="true"
                       ></i>{" "}
                       My Address
-                    </a>
+                    </Link>
                     <a className="dropdown-item" href="#">
                       <i
                         className="mdi mdi-chevron-right"
@@ -190,6 +210,15 @@ const Header = () => {
                       ></i>{" "}
                       Order List
                     </a>
+                    {isAuthenticated ? (
+                      <a className="dropdown-item"  style={{cursor:"pointer"}}>
+                      <i
+                        className="mdi mdi-chevron-right"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      Logout
+                    </a>
+                      ) : (
                     <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{cursor:"pointer"}}>
                       <i
                         className="mdi mdi-chevron-right"
@@ -197,15 +226,17 @@ const Header = () => {
                       ></i>{" "}
                       Login
                     </a>
+                      )}
                   </div>
                 </li>
                 <li className="list-inline-item nav-item">
                   <div className="cart-btn" onClick={handleCartClick}>
+
                     <a
                       className="btn btn-link border-none"
                     >
                       <MdShoppingCart className="shopping-cart" /> My Cart{" "}
-                      <small className="cart-value" style={{color:"#fff"}}>0</small>
+                      <small className="cart-value" style={{color:"#fff"}}>{cartItems.length}</small>
                     </a>
                   </div>
                 </li>

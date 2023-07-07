@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from './Header' ;
-import BestOffers from './BestOffers'
+
 import Footer from './Footer'
 
 const ShopList = () => {
@@ -8,7 +8,7 @@ const ShopList = () => {
    
     <div>
       <Header />
-        <section className="shop-list section-padding" style={{marginTop:"163px"}}>
+        <section className="shop-list section-padding">
          <div className="container">
             <div className="row">
                <div className="col-md-3">
@@ -373,7 +373,6 @@ const ShopList = () => {
             </div>
          </div>
       </section>
-      <BestOffers />
       <Footer />
     </div>
   )

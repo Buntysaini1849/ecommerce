@@ -3,10 +3,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./Header";
-import BestOffers from "./BestOffers";
 import Footer from "./Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BANNER_API, PRODUCTLIST_API } from "./apiUrls";
+import { BANNER_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
 import {FaTag} from "react-icons/fa";
 import "../Css/ProductView.css";
 import { Link, useParams } from "react-router-dom";
@@ -24,7 +23,7 @@ const ProductView = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(PRODUCTLIST_API, {
+        const response = await fetch(`DASHBOARD/$id`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ type: "view" }),
@@ -50,7 +49,7 @@ const ProductView = () => {
     }
 
     fetchData();
-  }, [id]);
+  }, []);
 
 
   const CustomPrevArrow = (props) => (
@@ -149,7 +148,7 @@ const ProductView = () => {
   return (
     <div>
       <Header />
-      <section className="pt-3 pb-0 page-info section-padding border-bottom bg-white" style={{marginTop:"163px"}}>
+      <section className="pt-3 pb-0 page-info section-padding border-bottom bg-white" >
         <div className="container">
           <div className="row">
             <div className="col-md-12">
@@ -194,17 +193,20 @@ const ProductView = () => {
                       <FaTag className="mdi fa-tag"/>
                     </a>
                   </div>
-                  <div className="container-fluid main-slider-top" style={{background:"#fff"}}>
-                  <Slider ref={mainSliderRef} {...mainSliderSettings}>
                   {Array.isArray(data) &&
-                  data.map((item) => (
+                  data.map((product) => (
+                  <div className="container-fluid main-slider-top" key={product.id} style={{background:"#fff"}}>
+                  <Slider ref={mainSliderRef} {...mainSliderSettings}>
+                  {Array.isArray(product.item) &&
+                  product.item.map((proditem) => (
                     <div className="image-container">
-                      <img src={item.image} alt="Product 1"className="img-fluid main-slider-img" />
+                      <img src={proditem.image}  key={proditem.id}  alt="Product 1"className="img-fluid main-slider-img" />
                     </div>
                   ))}
-                    
+                 
                   </Slider>
                   </div>
+                    ))}
                   <div className="container mt-2" style={{width:"80%"}}>
                   <Slider ref={thumbnailSliderRef} {...thumbnailSliderSettings} className="thumbslider">
                   {Array.isArray(data) &&
@@ -218,6 +220,7 @@ const ProductView = () => {
                         alt="Product 1 Thumbnail"
                         className="img-fluid"
                       />
+                      
                     </div>
                   ))}
                     
@@ -227,10 +230,13 @@ const ProductView = () => {
               </div>
             </div>
             <div className="col-md-6">
+              
               <div className="shop-detail-right">
+              
                 <span className="badge badge-success">50% OFF</span>
                 <h2>SaveMore Corn Flakes (Pouch)</h2>
                 <h6>
+             
                   <strong>
                     <span className="mdi mdi-approval"></span> Available in
                   </strong>{" "}
@@ -295,7 +301,6 @@ const ProductView = () => {
           </div>
         </div>
       </section>
-      <BestOffers />
       <Footer />
     </div>
   );

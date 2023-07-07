@@ -38,7 +38,7 @@ const Banner = () => {
     fetchData();
   }, []);
   return (
-    <div className="p-0" style={{marginTop:"163px"}}>
+    <div className="p-0" >
       <div className="carousel-banner p-0 " style={{ position: "relative" }}>
       
         <OwlCarousel
