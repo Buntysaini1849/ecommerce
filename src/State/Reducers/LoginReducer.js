@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   authToken:null,
+
 };
 
 const LoginReducer = (state = initialState, action) => {
@@ -13,6 +14,7 @@ const LoginReducer = (state = initialState, action) => {
         ...state,
         users: action.payload,
         isAuthenticated: true,
+        isLoggedin:true,
         authToken: action.payload.authToken,
       };
     case LOGOUT:

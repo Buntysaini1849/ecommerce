@@ -142,6 +142,11 @@
     width: 60px !important;
 }
 
+.feature-box .mdi:hover{
+    color: #3bb77e;
+    cursor: pointer;
+}
+
 
 
 

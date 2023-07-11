@@ -9,12 +9,16 @@ import {
  import {FiUser} from "react-icons/fi";
  import {AiOutlineHeart,AiOutlineUnorderedList} from "react-icons/ai";
  import {IoMdLock} from "react-icons/io";
+ import Login from "./Login";
+ import { useSelector } from "react-redux";
 
 const Address = () => {
+  const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   return (
     <div>
       <Header />
-      <section className="account-page section-padding mb-3">
+      {isAuthenticated ? (
+      <section className="account-page section-padding mb-2">
         <div className="container">
           <div className="row mt-2">
             <div className="col-lg-9 mx-auto">
@@ -43,20 +47,20 @@ const Address = () => {
                          <MdOutlineShareLocation className="mdi mdi-map-marker-circle" style={{marginRight:"3px"}}/>{" "}
                         My Address
                       </Link>
-                      <a
-                        href="#"
+                      <Link
+                        to="/wishlist"
                         className="list-group-item list-group-item-action"
                       >
                        <AiOutlineHeart className="mdi mdi-heart-outline" style={{marginRight:"3px"}}/>{" "}
                         Wish List{" "}
-                      </a>
-                      <a
-                        href="#"
+                        </Link>
+                        <Link
+                        to="/orderlist"
                         className="list-group-item list-group-item-action"
                       >
                         <AiOutlineUnorderedList  className="mdi mdi-format-list-bulleted" style={{marginRight:"3px"}}/>{" "}
                         Order List
-                      </a>
+                      </Link>
                       <a
                         href="#"
                         className="list-group-item list-group-item-action"
@@ -197,6 +201,13 @@ const Address = () => {
           </div>
         </div>
       </section>
+       ):(
+        <>
+       <p className="text-center pt-5 pb-5" style={{fontSize:"16px", color:"#000"}}>You are not logged in , please <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{cursor:"pointer",color:"#3bb77e",fontWeight:"600"}}>login</a> to continue.</p>
+      <Login />
+      </>
+     )}
+
 
       <Footer />
     </div>

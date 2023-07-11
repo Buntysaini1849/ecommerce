@@ -24,8 +24,13 @@ export default function Login() {
   const [shownewinput, SetShownewinput] = useState(false);
   const [disabledotp, setDisabledotp] = useState(true);
   const [error, setError] = useState("");
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [showModal, setShowModal] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const dispatch = useDispatch();
+  
 
   const showhidediv = () => {
     // e.preventDefault();
@@ -99,17 +104,58 @@ export default function Login() {
       const authToken = data.auth;
       dispatch(loginSuccess(user,authToken));
       dispatch(setUser(user, authToken));
+          
     
       navigate("/");
       setUsername("");
       setOTP("");
+      setIsLoggedin(true);
+      
+      setShowModal(false);
+      const modalBackdrop = document.querySelector('.modal-backdrop');
+      modalBackdrop.parentNode.removeChild(modalBackdrop);
+      setShowToast(true);
+
+      let progress = 0;
+    const intervalId = setInterval(() => {
+      progress += 20;
+      setProgress(progress);
+    }, 1000);
+
+    // Stop the progress after 5 seconds
+    setTimeout(() => {
+      clearInterval(intervalId);
+      setProgress(100);
+    }, 5000);
     } catch (error) {
       console.error("Login error:", error);
     }
   };
 
+  const handleToastClose = () => {
+    setShowToast(false);
+  };
+
+  useEffect(() => {
+    // Auto-close the toast after 3000 milliseconds (3 seconds)
+    if (showToast) {
+      const timeoutId = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+
+      // Clean up the timeout on component unmount or when the toast is closed manually
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [showToast]);
+
   return (
+
+     
     <div className="loginheader">
+      
+       {showModal && (
       <div
         className="modal fade"
         id="exampleModal"
@@ -118,12 +164,14 @@ export default function Login() {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
+        
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Login to MoonHerbal</h5>
             </div>
             <div className="modal-body">
+              
               <form>
                 <div className="row d-flex">
                   <div className="col-md-9 col-sm-9">
@@ -203,6 +251,47 @@ export default function Login() {
           </div>
         </div>
       </div>
+       )}
+        {showToast && (
+        <div
+          className="position-fixed top-0 end-0 p-3"
+          style={{ zIndex: '9999' }}
+        >
+          <div
+            className="toast show"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="toast-header">
+              <strong className="me-auto">Success</strong>
+              <small class="text-muted">just now</small>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="toast"
+                aria-label="Close"
+                onClick={handleToastClose}
+              ></button>
+            </div>
+            <div className="toast-body">
+              Login successful! Welcome to the MoonHerbal.
+            </div>
+            <div className="progress mt-2">
+                <div
+                  className="progress-bar progress-bar-striped bg-warning progress-bar-animated"
+                  role="progressbar"
+                  style={{ width: `${progress}%`,height:"20px" }}
+                  aria-valuenow={progress}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+          </div>
+        </div>
+      )}
     </div>
+    
+ 
   );
 }

@@ -80,37 +80,41 @@ const Header = () => {
         </div>
       </div>
 
-  <div>
-      <nav
-        className="navbar navbar-light navbar-expand-lg  bg-faded osahan-menu"
-        style={{ position: "relative", height: "95px", background: "#fff" }}
-      >
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            {" "}
-            <img src={logo} alt="logo" className="img-fluid" width={90} />{" "}
-          </Link>
-          {/* <a className="location-top" href="#">
+      <div>
+        <nav
+          className="navbar navbar-light navbar-expand-lg  bg-faded osahan-menu"
+          style={{ position: "relative", height: "95px", background: "#fff" }}
+        >
+          <div className="container-fluid">
+            <Link to="/" className="navbar-brand">
+              {" "}
+              <img
+                src={logo}
+                alt="logo"
+                className="img-fluid"
+                width={90}
+              />{" "}
+            </Link>
+            {/* <a className="location-top" href="#">
             <MdOutlineShareLocation className="location-icon mb-1" />
             New Delhi
           </a> */}
-          <button
-            className="navbar-toggler navbar-toggler-white"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarText"
-            aria-controls="navbarText"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="navbar-collapse" id="navbarNavDropdown">
-            <div className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto top-categories-search-main">
-              <div className="top-categories-search">
-                <div
-                  className="input-group">
-                  {/* <span className="input-group-btn categories-dropdown">
+            <button
+              className="navbar-toggler navbar-toggler-white"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarText"
+              aria-controls="navbarText"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="navbar-collapse" id="navbarNavDropdown">
+              <div className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto top-categories-search-main">
+                <div className="top-categories-search">
+                  <div className="input-group">
+                    {/* <span className="input-group-btn categories-dropdown">
                     <select
                       className="form-control-select select-inputgrp"
                       style={{ display: "none" }}
@@ -122,23 +126,26 @@ const Header = () => {
                       <option value="4">Kolkata</option>
                     </select>
                   </span> */}
-                  <input
-                    className="form-control search-bar"
-                    placeholder="Search products in Your City"
-                    aria-label="Search products in Your City"
-                    type="text"
-                  />
-                  <span className="input-group-btn"  style={{ position:"absolute",right:"5px", top:"4px" }}>
-                    <button className="btn btn-secondary" type="button">
-                      <MdFindInPage className="mb-1" /> Search
-                    </button>
-                  </span>
+                    <input
+                      className="form-control search-bar"
+                      placeholder="Search products in Your City"
+                      aria-label="Search products in Your City"
+                      type="text"
+                    />
+                    <span
+                      className="input-group-btn"
+                      style={{ position: "absolute", right: "5px", top: "4px" }}
+                    >
+                      <button className="btn btn-secondary" type="button">
+                        <MdFindInPage className="mb-1" /> Search
+                      </button>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="my-2 my-lg-0">
-              <ul className="list-inline main-nav-right mt-3">
-                {/* <li className="list-inline-item">
+              <div className="my-2 my-lg-0">
+                <ul className="list-inline main-nav-right mt-3">
+                  {/* <li className="list-inline-item">
                   <a
                     href="#"
                     data-bs-target="#bd-example-modal"
@@ -150,132 +157,147 @@ const Header = () => {
                   
                 </li> */}
 
-                <li className="list-inline-item nav-item dropdown">
-                {isAuthenticated ? (
-                  <a
-                  className="nav-link dropdown-toggle account-dropdown"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  style={{fontSize:"15px",fontWeight:"500",padding:"10px"}}
-
-                >
-                   <FaUserCircle className="user-icon mb-1 mx-2" /> 
-                   Welcome,User
-                </a> 
-                
-                      ) : (
-                  <a
-                    className="nav-link dropdown-toggle account-dropdown"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    style={{fontSize:"15px",fontWeight:"500",padding:"10px"}}
-
-                  >
-                     <FaUserCircle className="user-icon mb-1 mx-2" /> 
-                    My Account
-                  </a>
-                      )}
-                  <div className="dropdown-menu">
-                  
-                      <Link to="/profile" className="dropdown-item">
-                      <i
-                        className="mdi mdi-chevron-right"
-                        aria-hidden="true"
-                      ></i>{" "}
-                      My Profile
-                      </Link>
-                  
-                      <Link to="/address" className="dropdown-item">
-                      <i
-                        className="mdi mdi-chevron-right"
-                        aria-hidden="true"
-                      ></i>{" "}
-                      My Address
-                    </Link>
-                    <a className="dropdown-item" href="#">
-                      <i
-                        className="mdi mdi-chevron-right"
-                        aria-hidden="true"
-                      ></i>{" "}
-                      Wish List{" "}
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      <i
-                        className="mdi mdi-chevron-right"
-                        aria-hidden="true"
-                      ></i>{" "}
-                      Order List
-                    </a>
+                  <li className="list-inline-item nav-item dropdown">
                     {isAuthenticated ? (
-                      <a className="dropdown-item"  style={{cursor:"pointer"}}>
-                      <i
-                        className="mdi mdi-chevron-right"
-                        aria-hidden="true"
-                      ></i>{" "}
-                      Logout
-                    </a>
-                      ) : (
-                    <a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{cursor:"pointer"}}>
-                      <i
-                        className="mdi mdi-chevron-right"
-                        aria-hidden="true"
-                      ></i>{" "}
-                      Login
-                    </a>
-                      )}
-                  </div>
-                </li>
-                <li className="list-inline-item nav-item">
-                  <div className="cart-btn" onClick={handleCartClick}>
+                      <a
+                        className="nav-link dropdown-toggle account-dropdown"
+                        href="#"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          padding: "10px",
+                        }}
+                      >
+                        <FaUserCircle className="user-icon mb-1 mx-2" />
+                        Welcome,User
+                      </a>
+                    ) : (
+                      <a
+                        className="nav-link dropdown-toggle account-dropdown"
+                        href="#"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          padding: "10px",
+                        }}
+                      >
+                        <FaUserCircle className="user-icon mb-1 mx-2" />
+                        My Account
+                      </a>
+                    )}
+                    <div className="dropdown-menu">
+                      <Link to="/profile" className="dropdown-item">
+                        <i
+                          className="mdi mdi-chevron-right"
+                          aria-hidden="true"
+                        ></i>{" "}
+                        My Profile
+                      </Link>
 
-                    <a
-                      className="btn btn-link border-none"
-                    >
-                      <MdShoppingCart className="shopping-cart" /> My Cart{" "}
-                      <small className="cart-value" style={{color:"#fff"}}>{cartItems.length}</small>
-                    </a>
-                  </div>
-                </li>
-              </ul>
+                      <Link to="/address" className="dropdown-item">
+                        <i
+                          className="mdi mdi-chevron-right"
+                          aria-hidden="true"
+                        ></i>{" "}
+                        My Address
+                      </Link>
+                      <Link to="/wishlist" className="dropdown-item">
+                        <i
+                          className="mdi mdi-chevron-right"
+                          aria-hidden="true"
+                        ></i>{" "}
+                        Wish List{" "}
+                      </Link>
+                      <Link to="/orderlist" className="dropdown-item">
+                        <i
+                          className="mdi mdi-chevron-right"
+                          aria-hidden="true"
+                        ></i>{" "}
+                        Order List
+                      </Link>
+                      {isAuthenticated ? (
+                        <a
+                          className="dropdown-item"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <i
+                            className="mdi mdi-chevron-right"
+                            aria-hidden="true"
+                          ></i>{" "}
+                          Logout
+                        </a>
+                      ) : (
+                        <a
+                          className="dropdown-item"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <i
+                            className="mdi mdi-chevron-right"
+                            aria-hidden="true"
+                          ></i>{" "}
+                          Login
+                        </a>
+                      )}
+                    </div>
+                  </li>
+                  <li className="list-inline-item nav-item">
+                    <div className="cart-btn" onClick={handleCartClick}>
+                      <a className="btn btn-link border-none">
+                        <MdShoppingCart className="shopping-cart" /> My Cart{" "}
+                        <small className="cart-value" style={{ color: "#fff" }}>
+                          {cartItems.length}
+                        </small>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <nav className="navbar navbar-expand-lg navbar-light osahan-menu-2 pad-none-mobile">
-        <div className="container-fluid p-0">
-          <div className="collapse navbar-collapse" id="navbarText" style={{borderTop:"1px solid #ededed"}}>
-            <ul className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
-              {/* <li className="nav-item">
+        <nav className="navbar navbar-expand-lg navbar-light osahan-menu-2 pad-none-mobile">
+          <div className="container-fluid p-0">
+            <div
+              className="collapse navbar-collapse"
+              id="navbarText"
+              style={{ borderTop: "1px solid #ededed" }}
+            >
+              <ul className="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
+                {/* <li className="nav-item">
                 <Link to="/" className="nav-link shop">
                   <MdStoreMallDirectory className="mb-1" /> Super Store
                 </Link>
               </li> */}
-              <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="about.html" className="nav-link">
-                  About Us
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="shop.html">
-                  Fruits & Vegetables
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="shop.html">
-                  Grocery & Staples
-                </a>
-              </li>
-              {/* <li className="nav-item dropdown">
+                <li className="nav-item">
+                  <Link to="/" className="nav-link">
+                    Home
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/aboutus" className="nav-link">
+                    About Us
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/shoplist" className="nav-link">
+                    Fruits & Vegetables
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/shoplist" className="nav-link">
+                    Grocery & Staples
+                  </Link>
+                </li>
+                {/* <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
                   href="#"
@@ -304,7 +326,7 @@ const Header = () => {
                   </a>
                 </div>
               </li> */}
-              {/* <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
                   href="#"
@@ -333,7 +355,7 @@ const Header = () => {
                   </a>
                 </div>
               </li> */}
-              {/* <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                      <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      Blog Page
                      </a>
@@ -342,7 +364,7 @@ const Header = () => {
                         <a className="dropdown-item" href="blog-detail.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i> Blog Detail</a>
                      </div>
                   </li> */}
-              {/* <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                      <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      More Pages
                      </a>
@@ -353,16 +375,15 @@ const Header = () => {
                         <a className="dropdown-item" href="not-found.html"><i className="mdi mdi-chevron-right" aria-hidden="true"></i>  404 Error</a> 
                      </div>
                   </li> */}
-              <li className="nav-item">
-                <a className="nav-link" href="contact.html">
-                  Contact
-                </a>
-              </li>
-            </ul>
+                <li className="nav-item">
+                  <Link to="/contactus" className="nav-link">
+                    Contact Us
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
-
+        </nav>
       </div>
 
       <Login />
