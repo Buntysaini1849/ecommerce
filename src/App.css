@@ -423,6 +423,18 @@ a:focus {
     font-family: "Quicksand",sans-serif;
     /* line-height: 70px; */
 }
+.cart-table td {
+    vertical-align: middle !important;
+}
+
+
+.cart-table {
+    border: medium none !important;
+}
+
+.mdi-close-circle-outline{
+    margin-top: -3px !important;
+}
 
 .modal-open{
     overflow: scroll !important;

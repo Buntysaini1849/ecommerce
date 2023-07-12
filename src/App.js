@@ -14,6 +14,7 @@ import OrderList from "./Components/OrderList";
 import { AiOutlineOrderedList } from "react-icons/ai";
 import AboutUs from "./Components/AboutUs";
 import ContactUs from "./Components/ContactUs";
+import ViewCart from "./Components/ViewCart";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route exact path="/" element={<TopSection/>} />
             <Route exact path="/shoplist" element={<ShopList/>} />
             <Route exact path="/productview/:id" element={<ProductView />} />
+            <Route exact path="/viewcart" element={<ViewCart />} />
             <Route exact path="/checkout" element={<Checkout />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/address" element={<Address />} />

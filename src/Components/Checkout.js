@@ -13,7 +13,7 @@ const Checkout = () => {
         <Header />
         </div>
       <div>
-        <section className="checkout-page section-padding" style={{marginTop:"163px"}}>
+        <section className="checkout-page section-padding">
           <div className="container">
             <div className="row">
               <div className="col-md-8">
@@ -52,7 +52,7 @@ const Checkout = () => {
                                 <label className="sr-only">phone number</label>
                                 <div className="input-group mb-2">
                                   <div className="input-group-prepend">
-                                    <div className="input-group-text">
+                                    <div className="input-group-text" style={{height:"35px"}}>
                                       <MdPhoneIphone className="mdi"/>
                                     </div>
                                   </div>

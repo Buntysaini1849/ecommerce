@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import { FaTag, FaUserCircle } from "react-icons/fa";
 import logo from "../Images/logo.jpg";
-import CartProducts from "./CartProducts";
+import CartProducts from "./ViewCart";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCart } from "../State/Actions/CartShowAction";
 import { Link } from "react-router-dom";
@@ -23,17 +23,9 @@ const Header = () => {
 
   const [data, setData] = useState([]);
 
-  const handleCartClick = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
   // const handleCartClick = () => {
-  //    dispatch(showCart());
-  //  };
-
-  //  const handleCartClick = () => {
-  //    dispatch(clearCart());
-  //  };
+  //   setIsCartOpen(!isCartOpen);
+  // };
 
   useEffect(() => {
     async function fetchData() {
@@ -249,13 +241,13 @@ const Header = () => {
                     </div>
                   </li>
                   <li className="list-inline-item nav-item">
-                    <div className="cart-btn" onClick={handleCartClick}>
-                      <a className="btn btn-link border-none">
+                    <div className="cart-btn">
+                      <Link to="/viewcart" className="btn btn-link border-none">
                         <MdShoppingCart className="shopping-cart" /> My Cart{" "}
                         <small className="cart-value" style={{ color: "#fff" }}>
                           {cartItems.length}
                         </small>
-                      </a>
+                      </Link>
                     </div>
                   </li>
                 </ul>
@@ -387,7 +379,7 @@ const Header = () => {
       </div>
 
       <Login />
-      {isCartOpen && <CartProducts />}
+      {/* {isCartOpen && <CartProducts />} */}
     </div>
   );
 };
