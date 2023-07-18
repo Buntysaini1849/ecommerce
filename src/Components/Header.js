@@ -4,6 +4,7 @@ import {
   MdOutlineShareLocation,
   MdFindInPage,
   MdShoppingCart,
+  MdLogin,
   MdStoreMallDirectory,
 } from "react-icons/md";
 import { FaTag, FaUserCircle } from "react-icons/fa";
@@ -17,7 +18,9 @@ import Login from "./Login";
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  // const cartItems = useSelector((state) => state.cart.cartItems);
+  const auth = useSelector((state) => state.cart.auth);
+  const cartItems = useSelector((state) => state.cart.product);
   const User = useSelector((state) => state.user.users);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
 
@@ -26,6 +29,7 @@ const Header = () => {
   // const handleCartClick = () => {
   //   setIsCartOpen(!isCartOpen);
   // };
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -168,19 +172,19 @@ const Header = () => {
                       </a>
                     ) : (
                       <a
-                        className="nav-link dropdown-toggle account-dropdown"
+                        className="nav-link dropdown-item"
                         href="#"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
                         style={{
                           fontSize: "15px",
                           fontWeight: "500",
                           padding: "10px",
+                          cursor:"pointer"
                         }}
                       >
-                        <FaUserCircle className="user-icon mb-1 mx-2" />
-                        My Account
+                        <MdLogin className="user-icon mb-1 mx-2" style={{fontSize:"17px"}}/>
+                        Login
                       </a>
                     )}
                     <div className="dropdown-menu">

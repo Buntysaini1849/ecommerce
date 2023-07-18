@@ -1,9 +1,51 @@
-import React from 'react'
+import React, { useState, useEffect }  from 'react'
 import Header from './Header' ;
+import { useSelector, useDispatch } from 'react-redux';
 
 import Footer from './Footer'
+import { CATEGORYLIST_API, PRODUCTLIST_API } from './apiUrls';
+import { fetchCategories, fetchProducts } from '../State/Actions/CategoryActions';
 
-const ShopList = () => {
+const ShopList = ({ categoryId }) => {
+
+   const dispatch = useDispatch();
+   const categories = useSelector(state => state.catpro.categories);
+   
+
+   useEffect(() => {
+      dispatch(fetchCategories());
+    }, [dispatch]);
+   
+
+
+   // const fetchCategory = async () => {
+   //    try {
+   //      const response = await fetch(CATEGORYLIST_API, {
+   //        method: 'POST',
+   //        headers: {
+   //          'Content-Type': 'application/json',
+   //        },
+   //        body: JSON.stringify({
+   //          type: 'view',
+   //        }),
+   //      });
+  
+   //      if (response.ok) {
+   //        const data = await response.json();
+   //        setCategory(data.data);
+   //        console.log(data.data);
+
+   //      } else {
+   //        console.error('Failed to fetch products');
+   //      }
+   //    } catch (error) {
+   //      console.error('Error:', error);
+   //    }
+   //  };
+
+   //  useEffect(() => {
+   //    fetchCategory();
+   //  }, []);
   return (
    
     <div>
@@ -30,38 +72,14 @@ const ShopList = () => {
 										<button type="submit" className="btn btn-secondary btn-lg">search</button>
 									 </div>
 								  </form>
+                          {Array.isArray(categories) &&
+                            categories.map((cat) => (
 								  <div className="custom-control custom-checkbox d-flex">
 									 <input type="checkbox" className="custom-control-input" id="cb1" />
-									 <label className="custom-control-label" for="cb1">All Fruits </label>
+									 <label className="custom-control-label" for="cb1">{cat.name}</label>
 								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb8" />
-									 <label className="custom-control-label" for="cb8">Fresh & Herbs <span className="badge badge-primary">5% OFF</span></label>
-								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb2" />
-									 <label className="custom-control-label" for="cb2">Seasonal Fruits <span className="badge badge-secondary">NEW</span></label>
-								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb3" />
-									 <label className="custom-control-label" for="cb3">Imported Fruits <span className="badge badge-danger">10% OFF</span></label>
-								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb4" />
-									 <label className="custom-control-label" for="cb4">Citrus <span className="badge badge-info">50% OFF</span></label>
-								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb5" />
-									 <label className="custom-control-label" for="cb5">Cut Fresh & Herbs</label>
-								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb6" />
-									 <label className="custom-control-label" for="cb6">Seasonal Fruits <span className="badge badge-success">25% OFF</span></label>
-								  </div>
-								  <div className="custom-control custom-checkbox d-flex">
-									 <input type="checkbox" className="custom-control-input" id="cb7" />
-									 <label className="custom-control-label" for="cb7">Fresh & Herbs <span className="badge badge-primary">5% OFF</span></label>
-								  </div>
+                          ))}
+							
 							   </div>
 							</div>
 						 </div>
@@ -174,6 +192,7 @@ const ShopList = () => {
                      <h5 className="mb-3">Fruits</h5>
                   </div>
                   <div className="row no-gutters">
+                 
                      <div className="col-md-4">
                         <div className="product">
                            <a href="single.html">
@@ -183,7 +202,7 @@ const ShopList = () => {
                                  <span className="veg text-success mdi mdi-circle"></span>
                               </div>
                               <div className="product-body">
-                                 <h5>Product Title Here</h5>
+                                 <h5>producttitle</h5>
                                  <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
                               </div>
                               <div className="product-footer d-flex">
@@ -193,164 +212,10 @@ const ShopList = () => {
                            </a>
                         </div>
                      </div>
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/2.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/3.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
+               
+                    
                   </div>
-                  <div className="row no-gutters">
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/4.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                                 
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/5.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/6.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                  </div>
-                  <div className="row no-gutters">
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/7.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/8.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                     <div className="col-md-4">
-                        <div className="product">
-                           <a href="single.html">
-                              <div className="product-header">
-                                 <span className="badge badge-success">50% OFF</span>
-                                 <img className="img-fluid" src="img/item/9.jpg" alt="" />
-                                 <span className="veg text-success mdi mdi-circle"></span>
-                              </div>
-                              <div className="product-body">
-                                 <h5>Product Title Here</h5>
-                                 <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                              </div>
-                              <div className="product-footer d-flex">
-                                 <p className="offer-price mb-0">₹450.99 <i className="mdi mdi-tag-outline"></i><br /><span className="regular-price">₹800.99</span></p>
-                                 <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline"></i> Add To Cart</button>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                  </div>
+                 
                   <nav>
                      <ul className="pagination justify-content-center mt-4">
                         <li className="page-item disabled">

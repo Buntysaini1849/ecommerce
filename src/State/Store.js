@@ -5,6 +5,7 @@ import CartfetchReducer from './Reducers/CartfetchReducer';
 import LoginReducer from './Reducers/LoginReducer';
 import { useReducer } from 'react';
 import userReducer from './Reducers/UserReducer';
+import CategoryReducer from './Reducers/CategoryReducer';
 
 
 const rootReducer = combineReducers(
@@ -12,6 +13,7 @@ const rootReducer = combineReducers(
     CartfetchReducer,
     LoginReducer,
     userReducer,
+    CategoryReducer,
 
   );
 
@@ -21,6 +23,7 @@ const rootReducer = combineReducers(
       cart:CartfetchReducer,
       user: userReducer,
       login: LoginReducer,
+      catpro:CategoryReducer,
 
     }
 

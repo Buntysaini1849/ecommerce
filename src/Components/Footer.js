@@ -39,12 +39,12 @@ const Footer = () => {
       <section className="section-padding footer bg-white border-top">
          <div className="container">
             <div className="row ml-3">
-               <div className="col-lg-4 col-md-4">
-                  <h4 className="mb-5 mt-0"><a className="logo" href="index.html"><img src={logo} alt="Techiecy" width={150} height={62} className='img-fluid' /></a></h4>
-                  <p className="mb-0"><a className="text-dark" href="#"><i className="mdi mdi-phone"></i>Mobile</a></p>
+               <div className="col-lg-6 col-md-6 text-center" style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                  <h4 className="mb-5 mt-0"><a className="logo" href="index.html"><img src={logo} alt="Techiecy" width={200} height={62} className='img-fluid' /></a></h4>
+                  {/* <p className="mb-0"><a className="text-dark" href="#"><i className="mdi mdi-phone"></i>Mobile</a></p>
                   <p className="mb-0"><a className="text-dark" href="#"><i className="mdi mdi-cellphone-iphone"></i>cellphone</a></p>
                   <p className="mb-0"><a className="text-success" href="#"><i className="mdi mdi-email"></i>gmail</a></p>
-                  <p className="mb-0"><a className="text-primary" href="#"><i className="mdi mdi-web"></i> Website</a></p>
+                  <p className="mb-0"><a className="text-primary" href="#"><i className="mdi mdi-web"></i> Website</a></p> */}
                </div>
                {/* <div className="col-lg-2 col-md-2">
                   <h6 className="mb-4">TOP CITIES </h6>
@@ -66,7 +66,7 @@ const Footer = () => {
                   <li><a href="#">Biscuits & Cookies</a></li>
                   </ul>
                </div> */}
-               <div className="col-lg-4 col-md-4">
+               {/* <div className="col-lg-4 col-md-4">
                   <h6 className="mb-4">ABOUT US</h6>
                   <ul>
                   <li><a href="#">Company Information</a></li>
@@ -75,8 +75,8 @@ const Footer = () => {
                   <li><a href="#">Affillate Program</a></li>
                   <li><a href="#">Copyright</a></li>
                   </ul>
-               </div>
-               <div className="col-lg-4 col-md-4">
+               </div> */}
+               <div className="col-lg-6 col-md-6  text-center">
                   <h6 className="mb-4">Download App</h6>
                   <div className="app">
                      <a href="#"><img src="img/google.png" alt="" /></a>
@@ -84,12 +84,12 @@ const Footer = () => {
                   </div>
                   <h6 className="mb-3 mt-4">GET IN TOUCH</h6>
                   <div className="footer-social">
-                     <a className="btn-facebook" href="#"><FaFacebookF className='mdi'/></a>
-                     <a className="btn-twitter" href="#"><FaTwitter className='mdi'/></a>
-                     <a className="btn-instagram" href="#"><FaInstagram className='mdi'/></a>
-                     <a className="btn-whatsapp" href="#"><FaWhatsapp className='mdi'/></a>
-                     <a className="btn-messenger" href="#"><FaFacebookMessenger className='mdi'/></a>
-                     <a className="btn-google" href="#"><FaGoogle className='mdi'/></a>
+                     <a className="btn-facebook" href="https://www.facebook.com/"><FaFacebookF className='mdi'/></a>
+                     <a className="btn-twitter" href="https://twitter.com/i/flow/login?redirect_after_login=%2Flogin%3Flang%3Den"><FaTwitter className='mdi'/></a>
+                     <a className="btn-instagram" href="https://www.instagram.com/"><FaInstagram className='mdi'/></a>
+                     <a className="btn-whatsapp" href="https://web.whatsapp.com/"><FaWhatsapp className='mdi'/></a>
+                     <a className="btn-messenger" href="https://www.messenger.com/"><FaFacebookMessenger className='mdi'/></a>
+         
                   </div>
                </div>
             </div>

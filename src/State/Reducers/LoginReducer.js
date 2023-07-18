@@ -1,9 +1,9 @@
-import { LOGIN_SUCCESS, LOGOUT } from "../Actions/LoginAction";
+import { LOGIN_SUCCESS, LOGOUT, SET_AUTH } from "../Actions/LoginAction";
 
 const initialState = {
   user: null,
   isAuthenticated: false,
-  authToken:null,
+  auth:'',
 
 };
 
@@ -15,14 +15,20 @@ const LoginReducer = (state = initialState, action) => {
         users: action.payload,
         isAuthenticated: true,
         isLoggedin:true,
-        authToken: action.payload.authToken,
+        auth: action.payload,
+      };
+      case SET_AUTH:
+      return {
+        ...state,
+        
+        auth: action.payload,
       };
     case LOGOUT:
       return {
         ...state,
         users: null,
         isAuthenticated: false,
-        authToken:null,
+        auth:null,
       };
     default:
       return state;

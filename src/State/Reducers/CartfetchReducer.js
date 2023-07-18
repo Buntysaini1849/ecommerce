@@ -1,9 +1,9 @@
 import { FETCH_CART_SUCCESS,FETCH_CART_ERROR,ADD_TO_CART_ERROR, ADD_TO_CART_SUCCESS } from '../Actions/CartActions';
 
 const initialState = {
-  cartItems: [],
+  product: [],
   error:null,
-  authToken:null,
+  auth:'',
 };
 
 const CartfetchReducer = (state = initialState, action) => {
@@ -11,8 +11,9 @@ const CartfetchReducer = (state = initialState, action) => {
     case FETCH_CART_SUCCESS:
       return {
         ...state,
-        cartItems: action.payload,
-        error: null
+        products: action.payload,
+        error: null,
+        auth: action.payload,
       };
     case FETCH_CART_ERROR:
     case ADD_TO_CART_ERROR:
@@ -23,9 +24,9 @@ const CartfetchReducer = (state = initialState, action) => {
     case ADD_TO_CART_SUCCESS:
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        product: [...state.product, action.payload],
         error: null,
-        authToken: action.payload.authToken,
+        auth: action.payload,
       };
     default:
       return state;

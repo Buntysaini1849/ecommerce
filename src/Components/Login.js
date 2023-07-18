@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   LOGIN_SUCCESS,
+  SET_AUTH,
   loginSuccess,
+  setAuth,
   setUser,
 } from "../State/Actions/LoginAction";
 import { FaUserAlt } from "react-icons/fa";
@@ -101,9 +103,10 @@ export default function Login() {
       console.log(data);
       const user = data.user;
       console.log(user);
-      const authToken = data.auth;
-      dispatch(loginSuccess(user,authToken));
-      dispatch(setUser(user, authToken));
+      const auth = data.auth;
+      dispatch(loginSuccess(user,auth));
+      dispatch(setUser(user, auth));
+      dispatch({ type: SET_AUTH, payload: auth });
           
     
       navigate("/");

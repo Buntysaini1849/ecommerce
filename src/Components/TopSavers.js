@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BANNER_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
+import { BANNER_API, CART_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
 import "../Css/topSavers.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -11,7 +11,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { FcApproval } from "react-icons/fc";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCartData, addToCart } from '../State/Actions/CartActions';
+import { fetchCartData, addToCart, addToCartFailure, ADD_TO_CART_SUCCESS } from '../State/Actions/CartActions';
 
 import { Link } from "react-router-dom";
 
@@ -20,6 +20,9 @@ const TopSavers = () => {
   const [data, setData] = useState([]);
 
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.login.auth);
+  
+  
 
   // const handleAddToCart = (product) => {
   //   // Add the product to the cart
@@ -123,15 +126,80 @@ const TopSavers = () => {
   //   dispatch(fetchProducts());
   // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchCartData());
-  }, [dispatch]);
 
-  const handleAddToCart = (proditem) => {
-    dispatch(addToCart(proditem));
+
+  // const handleAddToCart = (proditem) => {
+  //   dispatch(addToCart(proditem));
+  // };
+
+
+
+  // const handleAddToCart = () => {
+  //   // Create the payload with the necessary data
+  //   const payload = {
+  //     product,
+  //     type: 'add',
+  //     auth,
+      
+  //   };
+  
+  //   fetch(CART_API, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${auth}`, 
+  //     },
+  //     body: JSON.stringify(payload),
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error('Add to cart failed');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       // Handle success response here
+  //       console.log('Added to cart successfully:', data);
+  //     })
+  //     .catch((error) => {
+  //       // Handle error here
+  //       console.error('Error while adding to cart:', error);
+  //     });
+  // };
+
+  const handleAddToCart = (auth) => {
+    if (auth) {
+
+
+      const payload = {
+        type: 'view',
+      };
+
+      fetch(CART_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth}`, 
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle response from the API
+          console.log('addtocart data = ',auth);
+          dispatch({type:ADD_TO_CART_SUCCESS, payload:auth})
+        })
+        .catch((error) => {
+          // Handle error
+          console.error('Error:', error);
+        });
+    } else {
+      // Handle unauthorized access
+      console.log('User is not authenticated.');
+    }
   };
-
-
+  
+   
   return (
     <div className="container-fluid">
       <div className="container">
