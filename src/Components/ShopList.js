@@ -7,45 +7,48 @@ import { CATEGORYLIST_API, PRODUCTLIST_API } from './apiUrls';
 import { fetchCategories, fetchProducts } from '../State/Actions/CategoryActions';
 
 const ShopList = ({ categoryId }) => {
+   const [category, setCategory] = useState([]);
 
    const dispatch = useDispatch();
-   const categories = useSelector(state => state.catpro.categories);
+   const productitem = useSelector(state => state.cartpro.productitems);
+  
+   
+
+
    
 
    useEffect(() => {
-      dispatch(fetchCategories());
-    }, [dispatch]);
-   
+      dispatch(fetchProducts(categoryId));
+    }, [dispatch, categoryId]);
 
-
-   // const fetchCategory = async () => {
-   //    try {
-   //      const response = await fetch(CATEGORYLIST_API, {
-   //        method: 'POST',
-   //        headers: {
-   //          'Content-Type': 'application/json',
-   //        },
-   //        body: JSON.stringify({
-   //          type: 'view',
-   //        }),
-   //      });
+   const fetchCategory = async () => {
+      try {
+        const response = await fetch(CATEGORYLIST_API, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'view',
+          }),
+        });
   
-   //      if (response.ok) {
-   //        const data = await response.json();
-   //        setCategory(data.data);
-   //        console.log(data.data);
+        if (response.ok) {
+          const data = await response.json();
+          setCategory(data.data);
+          console.log(data.data);
 
-   //      } else {
-   //        console.error('Failed to fetch products');
-   //      }
-   //    } catch (error) {
-   //      console.error('Error:', error);
-   //    }
-   //  };
+        } else {
+          console.error('Failed to fetch products');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
 
-   //  useEffect(() => {
-   //    fetchCategory();
-   //  }, []);
+    useEffect(() => {
+      fetchCategory();
+    }, []);
   return (
    
     <div>
@@ -72,8 +75,8 @@ const ShopList = ({ categoryId }) => {
 										<button type="submit" className="btn btn-secondary btn-lg">search</button>
 									 </div>
 								  </form>
-                          {Array.isArray(categories) &&
-                            categories.map((cat) => (
+                          {Array.isArray(category) &&
+                            category.map((cat) => (
 								  <div className="custom-control custom-checkbox d-flex">
 									 <input type="checkbox" className="custom-control-input" id="cb1" />
 									 <label className="custom-control-label" for="cb1">{cat.name}</label>
@@ -192,8 +195,9 @@ const ShopList = ({ categoryId }) => {
                      <h5 className="mb-3">Fruits</h5>
                   </div>
                   <div className="row no-gutters">
-                 
-                     <div className="col-md-4">
+                  {Array.isArray(productitem) &&
+                            productitem.map((product) => (
+                     <div className="col-md-4" key={product.id}>
                         <div className="product">
                            <a href="single.html">
                               <div className="product-header">
@@ -202,7 +206,7 @@ const ShopList = ({ categoryId }) => {
                                  <span className="veg text-success mdi mdi-circle"></span>
                               </div>
                               <div className="product-body">
-                                 <h5>producttitle</h5>
+                                 <h5>{product.name}</h5>
                                  <h6><strong><span className="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
                               </div>
                               <div className="product-footer d-flex">
@@ -212,7 +216,7 @@ const ShopList = ({ categoryId }) => {
                            </a>
                         </div>
                      </div>
-               
+                  ))}
                     
                   </div>
                  

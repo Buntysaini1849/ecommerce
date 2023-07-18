@@ -124,8 +124,8 @@ const Header = () => {
                   </span> */}
                     <input
                       className="form-control search-bar"
-                      placeholder="Search products in Your City"
-                      aria-label="Search products in Your City"
+                      placeholder="Search products"
+                      aria-label="Search products"
                       type="text"
                     />
                     <span
@@ -285,12 +285,12 @@ const Header = () => {
                 </li>
                 <li className="nav-item">
                   <Link to="/shoplist" className="nav-link">
-                    Fruits & Vegetables
+                    Ingredient
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/shoplist" className="nav-link">
-                    Grocery & Staples
+                    Remedies
                   </Link>
                 </li>
                 {/* <li className="nav-item dropdown">

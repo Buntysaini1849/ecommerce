@@ -233,7 +233,7 @@ const TopSavers = () => {
                          
                           <Link key={proditem.id} to={`/productview/${proditem.id}`}>
                             <div className="product-header">
-                              <span className="badge badge-success">50% OFF</span>
+                              {/* <span className="badge badge-success">50% OFF</span> */}
                               <img src={proditem.image} className="img-fluid"/>
                               <span className="veg text-success mdi mdi-circle"></span>
                             </div>

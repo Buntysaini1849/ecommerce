@@ -7,3 +7,4 @@ export const DASHBOARD = BASE_URL + 'product/dashboard/';
 export const CART_API = BASE_URL + 'order/cart/';
 export const Login_API = BASE_URL + 'auth/login/';
 export const VERIFYOTP_API = BASE_URL + 'auth/verify_otp/';
+export const ABOUT_CONTACT_API = BASE_URL + 'auth/about_us/';
