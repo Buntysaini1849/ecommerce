@@ -8,3 +8,4 @@ export const CART_API = BASE_URL + 'order/cart/';
 export const Login_API = BASE_URL + 'auth/login/';
 export const VERIFYOTP_API = BASE_URL + 'auth/verify_otp/';
 export const ABOUT_CONTACT_API = BASE_URL + 'auth/about_us/';
+export const PROFILE_API = BASE_URL + 'customer/profile/';

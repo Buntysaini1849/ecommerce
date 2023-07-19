@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState, useEffect }  from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import { Link } from "react-router-dom";
@@ -11,22 +11,112 @@ import {
  import {IoMdLock} from "react-icons/io";
  import { useSelector } from "react-redux";
 import Login from "./Login";
+import { PROFILE_API } from "./apiUrls";
+import avatar from '../Images/avatar.svg';
 
 const Profile = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
+  const auth = useSelector((state) => state.login.auth);
+  const [data, setData] = useState([]);
+
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    mobile: '',
+    email: '',
+    profile: '',
+    gender: '',
+    dob: '',
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(PROFILE_API, {
+          method: "GET",
+          headers: { "Content-Type": "application/json", Authorization: auth },
+        });
+        const responseData = await response.json();
+        console.log(responseData.data);
+        const dataArray = Array.isArray(responseData)
+          ? responseData
+          : [responseData.data];
+        console.log(auth);
+
+        setData(dataArray);
+        console.log(dataArray);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+ 
+
+  
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+
+
+
+  const handleUpdateProfile = async () => {
+    // Replace 'YOUR_API_ENDPOINT' with the actual endpoint URL
+    const apiUrl = PROFILE_API;
+    
+    // Replace 'YOUR_BEARER_TOKEN' with the actual authorization token
+
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': auth,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          type: 'update',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      // Handle the successful response from the server
+      console.log('Profile updated successfully:', data);
+      setFormData('');
+     
+    } catch (error) {
+      // Handle any errors that occurred during the fetch request
+      console.error('Error updating profile:', error);
+    }
+  };
   return (
     <div>
       <Header />
       {isAuthenticated ? (
       <section className="account-page section-padding mb-3">
+         {data && data.length > 0 ? (
+                data.map((user) => (
         <div className="container">
           <div className="row mt-2">
             <div className="col-lg-9 mx-auto">
               <div className="row no-gutters">
                 <div className="col-md-4">
                   <div className="card account-left">
+
                     <div className="user-profile-header">
-                      <img alt="logo" src="img/user.jpg" />
+                      {user.profile_pic ? (
+                      <img alt="logo" src={user.profile_pic} />
+                      ):(
+                        <img alt="logo" src={avatar} />
+                      )}
                       <h5 className="mb-1 text-secondary">
                         <strong>Hi </strong> USER
                       </h5>
@@ -89,9 +179,11 @@ const Profile = () => {
                                 First Name <span className="required">*</span>
                               </label>
                               <input
-                                className="form-control border-form-control"
-                                value=""
+                                className="form-control"
+                                value={user.first_name || ''}
                                 placeholder="Name..."
+                                onChange = {handleChange}
+                                name="first_name"
                                 type="text"
                               />
                             </div>
@@ -103,9 +195,11 @@ const Profile = () => {
                               </label>
                               <input
                                 className="form-control border-form-control"
-                                value=""
+                                value={user.last_name || ''}
                                 placeholder="Surname..."
+                                name="last_name"
                                 type="text"
+                                onChange = {handleChange}
                               />
                             </div>
                           </div>
@@ -118,9 +212,11 @@ const Profile = () => {
                               </label>
                               <input
                                 className="form-control border-form-control"
-                                value=""
+                                value={user.mobile || ''}
                                 placeholder="123 456 7890"
                                 type="number"
+                                name="phone"
+                                onChange = {handleChange}
                               />
                             </div>
                           </div>
@@ -132,15 +228,15 @@ const Profile = () => {
                               </label>
                               <input
                                 className="form-control border-form-control "
-                                value=""
+                                value={user.email || ''}
                                 placeholder="Email..."
-                                disabled=""
                                 type="email"
+                                onChange = {handleChange}
                               />
                             </div>
                           </div>
                         </div>
-                        <div className="row mt-2">
+                        {/* <div className="row mt-2">
                           <div className="col-sm-6">
                             <div className="form-group">
                               <label className="control-label">
@@ -206,6 +302,36 @@ const Profile = () => {
                               <textarea className="form-control border-form-control"></textarea>
                             </div>
                           </div>
+                        </div> */}
+                        <div className="row mt-2">
+                          <div className="col-sm-6">
+                            <div className="form-group">
+                              <label className="control-label">
+                                Gender <span className="required">*</span>
+                              </label>
+                              <select className="select2 form-control border-form-control" name="gender"  onChange = {handleChange}>
+                                <option value={user.gender}>{user.gender}</option>
+
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-sm-6">
+                            <div className="form-group">
+                              <label className="control-label">
+                                DOB <span className="required">*</span>
+                              </label>
+                              <input
+                                className="form-control border-form-control "
+                                value={user.dob || ''}
+                                placeholder="dateofbirth..."
+                                type="text"
+                                onChange = {handleChange}
+                              />
+                             
+                            </div>
+                          </div>
                         </div>
                         <div className="row mt-3" style={{ textAlign: "end" }}>
                           <div className="col-sm-12">
@@ -234,6 +360,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
+              
+              ))
+              ) : (
+                <div>No data available</div>
+              )}
+
       </section>
       
       ):(

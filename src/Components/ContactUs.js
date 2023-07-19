@@ -1,42 +1,41 @@
-import React, { useState,useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import { ABOUT_CONTACT_API } from "./apiUrls";
+import { FaFacebookF,FaTwitter,FaInstagram,FaWhatsapp,FaFacebookMessenger,FaGoogle } from "react-icons/fa";
 
 const ContactUs = () => {
-    const [contactdata, setContactData] = useState([]);
+  const [data, setData] = useState([]);
 
 
-      const fetchProducts = async () => {
-        try {
-          const response = await fetch(ABOUT_CONTACT_API, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              type: 'contact',
-            }),
-          });
-    
-          if (response.ok) {
-            const data = await response.json();
-            setContactData(data.data);
-            console.log(contactdata);
-          } else {
-            console.error('Failed to fetch products');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      };
 
-      useEffect(() => {
-        fetchProducts();
-      }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(ABOUT_CONTACT_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ "type": "contact" }),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+  
+        // Check if the response data is an array, if not, convert it into an array
+        const dataArray = Array.isArray(responseData.data) ? responseData : [responseData.data];
+  
+        setData(dataArray);
+        console.log('for checking data',dataArray); // changed to dataArray
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+  
+    fetchData();
+  }, []);
+  
 
-      
+
 
   return (
     <div>
@@ -58,34 +57,45 @@ const ContactUs = () => {
           </div>
         </div>
       </section>
+
       <div className="container-fluid">
         <section className="section-padding container">
           <div className="container">
             <div className="row">
-            {Array.isArray(contactdata) &&
-            contactdata.map((datas) => (
-              <div className="col-lg-4 col-md-4">
-                <h3 className="mt-1 mb-5">Get In Touch</h3>
-                <h6 className="text-dark">
-                  <i className="mdi mdi-home-map-marker"></i> Address :
-                </h6>
-                <p>
-                 {datas.instagran}
-                </p>
-                <h6 className="text-dark">
-                  <i className="mdi mdi-deskphone"></i> Mobile :
-                </h6>
-                <p>+91 9991515888</p>
-                <h6 className="text-dark">
-                  <i className="mdi mdi-email"></i> Email :
-                </h6>
-                <p>info@gmail.com</p>
-                <h6 className="text-dark">
-                  <i className="mdi mdi-link"></i> Website :
-                </h6>
-                <p>www.moonherbal.com</p>
-              </div>
-            ))}
+              {data && data.length > 0 ? (
+                data.map((item) => (
+                  <div className="col-lg-4 col-md-4">
+                    <h3 className="mt-1 mb-5">Get In Touch</h3>
+                    <h6 className="text-dark">
+                      <i className="mdi mdi-home-map-marker"></i> Address:
+                    </h6>
+                    <p>{item.address}</p>
+                    <h6 className="text-dark">
+                      <i className="mdi mdi-deskphone"></i> Mobile:
+                    </h6>
+                    <p>{item.telephone}</p>
+                    <h6 className="text-dark">
+                      <i className="mdi mdi-email"></i> Email:
+                    </h6>
+                    <p>{item.mail}</p>
+                    <h6 className="text-dark">
+                      <i className="mdi mdi-link"></i> Website:
+                    </h6>
+                    <p>{item.website}</p>
+
+                    <div className="footer-social">
+                     <a className="btn-facebook" href={item.facebook}><FaFacebookF className='mdi'/></a>
+                     <a className="btn-twitter" href={item.twitter}><FaTwitter className='mdi'/></a>
+                     <a className="btn-instagram" href={item.instagram}><FaInstagram className='mdi'/></a>
+         
+                  </div>
+                  </div>
+                  
+                ))
+              ) : (
+                <div>No data available</div>
+              )}
+
               <div className="col-lg-8 col-md-8">
                 <div className="card">
                   <div className="card-body">
@@ -167,6 +177,7 @@ const ContactUs = () => {
                     cols="100"
                     placeholder="Message"
                     className="form-control"
+                    maxlength="1000"
                     id="message"
                   ></textarea>
                 </div>
