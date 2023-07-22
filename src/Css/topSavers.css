@@ -51,7 +51,7 @@
 }
 
 .product-body h5 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     margin: 0;
 }
@@ -90,7 +90,7 @@
 
 .offer-price {
     color: #000;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 16px;
 }
@@ -118,9 +118,6 @@
     color: rgb(25, 135, 84);
 }
 
-.slick-slide{
-    background-color: #fff;
-}
 
 .slick-next:hover {
     content: '→';

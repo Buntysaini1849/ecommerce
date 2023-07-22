@@ -6,26 +6,30 @@ import Header from "./Header";
 import Footer from "./Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { BANNER_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
-import {FaTag} from "react-icons/fa";
+import { FaTag } from "react-icons/fa";
 import "../Css/ProductView.css";
 import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-const ProductView = () => {
+const ProductView = ({ match }) => {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [activeThumbnail, setActiveThumbnail] = useState(null);
   const mainSliderRef = useRef(null);
   const thumbnailSliderRef = useRef(null);
-  const {id} = useParams();
- 
+  const { id } = useParams();
+  const auth = useSelector((state) => state.login.auth);
 
   
-
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`DASHBOARD/$id`, {
+        const response = await fetch(`${DASHBOARD}/${id}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+          'Authorization': auth,
+        },
+
           body: JSON.stringify({ type: "view" }),
         });
         const responseData = await response.json();
@@ -38,7 +42,7 @@ const ProductView = () => {
         ) {
           setData(responseData.data);
           // dispatch(setProducts(responseData.data));
-          console.log(responseData.data);
+          console.log("productview data", responseData.data);
         } else {
           console.error("Error: Invalid data structure");
         }
@@ -49,8 +53,7 @@ const ProductView = () => {
     }
 
     fetchData();
-  }, []);
-
+  }, [id]);
 
   const CustomPrevArrow = (props) => (
     <div className="slick-arrow slick-prev" onClick={props.onClick}>
@@ -131,24 +134,21 @@ const ProductView = () => {
     },
   };
 
-
   const handleThumbnailClick = (index) => {
     setActiveThumbnail(index);
     mainSliderRef.current.slickGoTo(index);
   };
 
   const getThumbnailItemClassName = (index) => {
-    return index === activeThumbnail ? 'thumbnail-item active' : 'thumbnail-item';
+    return index === activeThumbnail
+      ? "thumbnail-item active"
+      : "thumbnail-item";
   };
-
- 
-
-
 
   return (
     <div>
       <Header />
-      <section className="pt-3 pb-0 page-info section-padding border-bottom bg-white" >
+      <section className="pt-3 pb-0 page-info section-padding border-bottom bg-white">
         <div className="container">
           <div className="row">
             <div className="col-md-12">
@@ -185,58 +185,65 @@ const ProductView = () => {
                   <div className="favourite-icon">
                     <a
                       className="fav-btn"
-                      data-bs-toggle="tooltip" 
-                      data-bs-placement="bottom" 
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
                       title="59% OFF"
                       href="#"
                     >
-                      <FaTag className="mdi fa-tag"/>
+                      <FaTag className="mdi fa-tag" />
                     </a>
                   </div>
                   {Array.isArray(data) &&
-                  data.map((product) => (
-                  <div className="container-fluid main-slider-top" key={product.id} style={{background:"#fff"}}>
-                  <Slider ref={mainSliderRef} {...mainSliderSettings}>
-                  {Array.isArray(product.item) &&
-                  product.item.map((proditem) => (
-                    <div className="image-container">
-                      <img src={proditem.image}  key={proditem.id}  alt="Product 1"className="img-fluid main-slider-img" />
-                    </div>
-                  ))}
-                 
-                  </Slider>
-                  </div>
+                    data.map((product) => (
+                      <div
+                        className="container-fluid main-slider-top"
+                        key={product.id}
+                        style={{ background: "#fff" }}
+                      >
+                        <Slider ref={mainSliderRef} {...mainSliderSettings}>
+                          {Array.isArray(product.item) &&
+                            product.item.map((proditem) => (
+                              <div className="image-container">
+                                <img
+                                  src={proditem.image}
+                                  key={proditem.id}
+                                  alt="Product 1"
+                                  className="img-fluid main-slider-img"
+                                />
+                              </div>
+                            ))}
+                        </Slider>
+                      </div>
                     ))}
-                  <div className="container mt-2" style={{width:"80%"}}>
-                  <Slider ref={thumbnailSliderRef} {...thumbnailSliderSettings} className="thumbslider">
-                  {Array.isArray(data) &&
-                  data.map((item) => (
-                    <div
-                    className={getThumbnailItemClassName(item.id)}
-                    onClick={() => handleThumbnailClick(item.id)}
+                  <div className="container mt-2" style={{ width: "80%" }}>
+                    <Slider
+                      ref={thumbnailSliderRef}
+                      {...thumbnailSliderSettings}
+                      className="thumbslider"
                     >
-                      <img
-                        src={item.img}
-                        alt="Product 1 Thumbnail"
-                        className="img-fluid"
-                      />
-                      
-                    </div>
-                  ))}
-                    
-                  </Slider>
+                      {Array.isArray(data) &&
+                        data.map((item) => (
+                          <div
+                            className={getThumbnailItemClassName(item.id)}
+                            onClick={() => handleThumbnailClick(item.id)}
+                          >
+                            <img
+                              src={item.img}
+                              alt="Product 1 Thumbnail"
+                              className="img-fluid"
+                            />
+                          </div>
+                        ))}
+                    </Slider>
                   </div>
                 </div>
               </div>
             </div>
             <div className="col-md-6">
-              
               <div className="shop-detail-right">
-              
                 <span className="badge badge-success">50% OFF</span>
                 <h2>SaveMore Corn Flakes (Pouch)</h2>
                 <h6>
-             
                   <strong>
                     <span className="mdi mdi-approval"></span> Available in
                   </strong>{" "}
@@ -253,7 +260,7 @@ const ProductView = () => {
                   <button type="button" className="btn btn-secondary btn-lg">
                     <i className="mdi mdi-cart-outline"></i> Add To Cart
                   </button>{" "}
-                  </Link>
+                </Link>
                 <div className="short-description">
                   <h5>
                     Quick Overview

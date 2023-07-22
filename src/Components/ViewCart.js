@@ -160,7 +160,7 @@ const CartProducts = () => {
                                   </span>
                                 </td>
                                 <td className="price">
-                                  <span>₹49.88</span>
+                                  <span>₹{cartData.sale_price}</span>
                                 </td>
                                 <td className="qty">
                                   <div className="input-group">
@@ -192,7 +192,7 @@ const CartProducts = () => {
                                   </div>
                                 </td>
                                 <td className="price">
-                                  <span>₹49.88</span>
+                                  <span>₹{cartData.sale_price}</span>
                                 </td>
                                 <td className="action">
                                   <a
@@ -307,7 +307,7 @@ const CartProducts = () => {
                                 </button>
                               </form>
                             </td>
-                            <td colspan="2">Discount : ₹2.88 </td>
+                            <td colspan="2">Discount : ₹0.00 </td>
                           </tr>
                           <tr>
                             <td colspan="2"></td>

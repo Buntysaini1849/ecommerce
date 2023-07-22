@@ -8,18 +8,21 @@ import "../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { TbTags } from "react-icons/tb";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import {AiOutlineHeart} from "react-icons/ai";
 import { FcApproval } from "react-icons/fc";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartData, addToCart, addToCartFailure, ADD_TO_CART_SUCCESS } from '../State/Actions/CartActions';
 
 import { Link } from "react-router-dom";
+import Login from "./Login";
 
 const TopSavers = () => {
   const [prohead, setProHead] = useState([]);
   const [data, setData] = useState([]);
 
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
   
   
@@ -88,8 +91,8 @@ const TopSavers = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 3,
-    margin:0,
+    slidesToScroll: 4,
+    margin:5,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     responsive: [
@@ -179,7 +182,7 @@ const TopSavers = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth}`, 
+          'Authorization':   auth, 
         },
         body: JSON.stringify(payload),
       })
@@ -227,15 +230,24 @@ const TopSavers = () => {
                       <Slider {...Settings}>
                       {Array.isArray(product.item) &&
                        product.item.map((proditem) => (
-                        <div className="item" style={{width:"210px"}}>
+                        <div className="item" style={{width:"230px"}}>
                    
-                        <div className="product p-0" style={{width:"210px"}} key={proditem.id}>
+                        <div className="product p-0 shadow-sm" style={{width:"230px"}} key={proditem.id}>
+                          {isAuthenticated ? ( 
                          
-                          <Link key={proditem.id} to={`/productview/${proditem.id}`}>
+                            <Link key={proditem.id} to={`/productview/${proditem.id}`}>
+                         
+                              
+                         
                             <div className="product-header">
                               {/* <span className="badge badge-success">50% OFF</span> */}
                               <img src={proditem.image} className="img-fluid"/>
-                              <span className="veg text-success mdi mdi-circle"></span>
+                              {isAuthenticated ? (
+                              <span className="veg text-success mdi mdi-circle">
+                                <AiOutlineHeart style={{fontSize:"20px"}}/>
+                                </span>
+                              ) : ( "" )}
+                       
                             </div>
                             <div className="product-body">
                               <h5>{proditem.name}</h5>
@@ -246,6 +258,30 @@ const TopSavers = () => {
                               </h6>
                             </div>
                             </Link>
+                            ) : (
+                              <a href="#"  data-bs-toggle="modal"
+                              data-bs-target="#exampleModal">
+                          
+                              <div className="product-header">
+                                {/* <span className="badge badge-success">50% OFF</span> */}
+                                <img src={proditem.image} className="img-fluid"/>
+                                {isAuthenticated ? (
+                                <span className="veg text-success mdi mdi-circle">
+                                  <AiOutlineHeart style={{fontSize:"20px"}}/>
+                                  </span>
+                                ) : ( "" )}
+                         
+                              </div>
+                              <div className="product-body">
+                                <h5>{proditem.name}</h5>
+                                <h6>
+                                  <strong>
+                                    <FcApproval /> Available in
+                                  </strong>{" "}- {product.unit}
+                                </h6>
+                              </div>
+                              </a>
+                            )}
                             <div className="product-footer d-flex">
                               <p className="offer-price mb-0">
                                 ₹{proditem.sale_price} <TbTags style={{ fontSize: "16px" }} />
@@ -277,6 +313,7 @@ const TopSavers = () => {
           
         </section>
       </div>
+      <Login />
     </div>
   );
 };
