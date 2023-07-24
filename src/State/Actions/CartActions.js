@@ -4,6 +4,7 @@ import { CART_API } from '../../Components/apiUrls';
 export const FETCH_CART_SUCCESS = 'FETCH_CART_SUCCESS';
 export const FETCH_CART_ERROR = 'FETCH_CART_ERROR';
 export const ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
+export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
 export const ADD_TO_CART_ERROR = 'ADD_TO_CART_ERROR';
 
 
@@ -22,6 +23,11 @@ export const addToCart = (auth) => ({
   payload: auth,
 });
 
+export const removecartITem = (id,auth) => ({
+ type: REMOVE_CART_ITEM,
+  payload:{id,auth},
+});
+
 export const addToCartFailure = (error) => ({
   type: ADD_TO_CART_ERROR,
   payload: error,
@@ -29,52 +35,6 @@ export const addToCartFailure = (error) => ({
 
 
 
-// export const fetchCartData = (auth) => {
-//   return (dispatch) => {
-//     // Make API call to fetch cart items
-//     fetch(CART_API,{
-//       method: 'GET',
-//       body: JSON.stringify({type:"view"}),
-//       headers: { 
-//         'Content-Type': 'application/json',
-//         Authorization: auth,
-//       }
-//     })
-//       .then(response => response.json())
-//       .then(data => {
-//         dispatch(fetchCartSuccess(data));
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         dispatch(fetchCartFailure(error.message));
-//       });
-//   };
-// };
 
-
-
-
-
-// export const addToCart = (product,auth) => {
-//   return (dispatch) => {
-//     // Make API call to post product details
-//     fetch(CART_API, {
-//       method: 'POST',
-//       body: JSON.stringify({type:"add"},product),
-//       headers: { 
-//         'Content-Type': 'application/json',
-//         Authorization: `Token ${auth}`,
-//       },
-    
-//     })
-//       .then(response => response.json())
-//       .then(data => {
-//         dispatch(addToCartSuccess(data,auth));
-//       })
-//       .catch(error => {
-//         dispatch(addToCartFailure(error.message));
-//       });
-//   };
-// };
 
 

@@ -1,4 +1,4 @@
-import { FETCH_CART_SUCCESS,FETCH_CART_ERROR,ADD_TO_CART_ERROR, ADD_TO_CART_SUCCESS } from '../Actions/CartActions';
+import { FETCH_CART_SUCCESS,FETCH_CART_ERROR,ADD_TO_CART_ERROR, ADD_TO_CART_SUCCESS,REMOVE_CART_ITEM } from '../Actions/CartActions';
 
 const initialState = {
   product: [],
@@ -21,6 +21,7 @@ const CartfetchReducer = (state = initialState, action) => {
         ...state,
         error: action.payload
       };
+ 
     case ADD_TO_CART_SUCCESS:
       return {
         ...state,
@@ -28,6 +29,13 @@ const CartfetchReducer = (state = initialState, action) => {
         error: null,
         auth: action.payload,
       };
+      case REMOVE_CART_ITEM:
+        return { 
+          ...state,
+          product: state.product.filter(item => item.id !== action.payload),
+          error:null,
+          auth: action.payload,
+        };
     default:
       return state;
   }

@@ -108,9 +108,9 @@ const Profile = () => {
                               <img alt="logo" src={avatar} />
                             )}
                             <h5 className="mb-1 text-secondary">
-                              <strong>Hi </strong> USER
+                              <strong>Hi </strong> {user.first_name}<span>{user.last_name}</span>
                             </h5>
-                            <p> +91 1234-5678-90</p>
+                            <p>{user.mobile}</p>
                           </div>
                           <div className="list-group">
                             <Link

@@ -1,0 +1,32 @@
+.dot-icon-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  
+  
+  .dropdowns {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    z-index: 1;
+  }
+  
+  .edit-option,
+  .delete-option {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-option:hover,
+  .delete-option:hover {
+    color: #3bb77e;
+  }
+  

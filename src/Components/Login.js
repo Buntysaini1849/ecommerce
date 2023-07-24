@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 import {
   LOGIN_SUCCESS,
   SET_AUTH,
@@ -30,9 +31,27 @@ export default function Login() {
   const [showModal, setShowModal] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [timer, setTimer] = useState(30);
+  const [disableSendOTP, setDisableSendOTP] = useState(false);
+  const [showOtpField, setShowOtpField] = useState(false);
 
   const dispatch = useDispatch();
-  
+
+  const startTimer = () => {
+    setDisableSendOTP(true);
+    let timeLeft = 30;
+    setTimer(timeLeft);
+
+    const interval = setInterval(() => {
+      timeLeft--;
+      setTimer(timeLeft);
+
+      if (timeLeft === 0) {
+        clearInterval(interval);
+        setDisableSendOTP(false);
+      }
+    }, 1000);
+  };
 
   const showhidediv = () => {
     // e.preventDefault();
@@ -74,14 +93,23 @@ export default function Login() {
       });
 
       const data = await response.json();
-      console.log(data);
-
+      console.log("login auth data", data);
+      setOTP(data.otp);
+      setShowOtpField(true);
+      startTimer();
       // Assuming the API returns the verificationId
       setVerificationId(data.verificationId);
     } catch (error) {
       console.error("Error generating OTP:", error);
     }
   };
+
+  useEffect(() => {
+    // Clear the OTP field when the timer completes
+    if (timer === 0) {
+      setOTP("");
+    }
+  }, [timer]);
 
   const loginData = {
     username: username,
@@ -100,36 +128,37 @@ export default function Login() {
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log("this is data", data);
       const user = data.user;
-      console.log(user);
+      console.log("this is user", user);
       const auth = data.auth;
-      dispatch(loginSuccess(user,auth));
+      Cookies.set('auth', auth, { expires: 7});
+      setIsLoggedin(true);
+      dispatch(loginSuccess(user, auth));
       dispatch(setUser(user, auth));
       dispatch({ type: SET_AUTH, payload: auth });
-          
-    
+
       navigate("/");
       setUsername("");
       setOTP("");
       setIsLoggedin(true);
-      
+
       setShowModal(false);
-      const modalBackdrop = document.querySelector('.modal-backdrop');
+      const modalBackdrop = document.querySelector(".modal-backdrop");
       modalBackdrop.parentNode.removeChild(modalBackdrop);
       setShowToast(true);
 
       let progress = 0;
-    const intervalId = setInterval(() => {
-      progress += 20;
-      setProgress(progress);
-    }, 1000);
+      const intervalId = setInterval(() => {
+        progress += 20;
+        setProgress(progress);
+      }, 1000);
 
-    // Stop the progress after 5 seconds
-    setTimeout(() => {
-      clearInterval(intervalId);
-      setProgress(100);
-    }, 5000);
+      // Stop the progress after 5 seconds
+      setTimeout(() => {
+        clearInterval(intervalId);
+        setProgress(100);
+      }, 5000);
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -154,78 +183,98 @@ export default function Login() {
   }, [showToast]);
 
   return (
-
-     
     <div className="loginheader">
-      
-       {showModal && (
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Login to MoonHerbal</h5>
-            </div>
-            <div className="modal-body">
-              
-              <form>
-                <div className="row d-flex">
-                  <div className="col-md-9 col-sm-9">
-                    <div className="form-group mt-2">
-                      <label className="label" style={{ fontWeight: "600" }}>
-                        Mobile No.
-                      </label>
-                      <input
-                        type="mobile"
-                        className="form-control"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        id="mobile"
-                        name="mobile"
-                        placeholder="Enter mobile number..."
-                      />
+      {showModal && (
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Login to MoonHerbal</h5>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="row d-flex">
+                    <div className="col-md-9 col-sm-9">
+                      <div className="form-group">
+                        <label className="label" style={{ fontWeight: "600" }}>
+                          Mobile No.
+                        </label>
+                        <input
+                          type="mobile"
+                          className="form-control"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          disabled={showOtpField}
+                          id="mobile"
+                          name="mobile"
+                          placeholder="Enter mobile number..."
+                        />
+                      </div>
                     </div>
+                  
+                      <div className="col-md-3 col-sm-3">
+                        <div className="otp-div mt-2">
+                        
+                        {showOtpField && timer === 0 && (
+                            <button
+                              className="btn btn-sm btn-success mt-4 sendotp-btn"
+                              onClick={handleGenerateOTP}
+                            >
+                              Resend OTP
+                            </button>
+                        )}
+                           {!showOtpField && (
+                            <button
+                              className="btn btn-sm btn-success mt-4 sendotp-btn"
+                              onClick={handleGenerateOTP}
+                            >
+                              Send OTP
+                              
+                            </button>
+                             )}
+                        </div>
+                      </div>
+                   
                   </div>
+                  {otp ? (
+                    <div className="row d-flex">
+                      {showOtpField && (
+                        <div className="col-md-9 col-sm-9">
+                          <div className="form-group mt-2">
+                            <label
+                              className="label"
+                              style={{ fontWeight: "600" }}
+                            >
+                              {" "}
+                              Enter OTP
+                            </label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              id="otp"
+                              value={otp}
+                              maxLength="4"
+                              name="number"
+                              onChange={(e) => setOTP(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      )}
 
-                  <div className="col-md-3 col-sm-3">
-                    <div className="otp-div mt-3">
-                      <button
-                        className="btn btn-sm btn-success mt-4 sendotp-btn"
-                        onClick={handleGenerateOTP}
-                      >
-                        Send OTP
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                      <div className="col-md-3 col-sm-3 mt-4">
+                        {showOtpField && timer > 0 && (
+                          <p className="mt-2 text-danger" style={{fontSize:"12px",fontWeight:"500"}}>Resend OTP in {timer} seconds</p>
+                        )}
+                      </div>
 
-                <div className="row d-flex">
-                  <div className="col-md-9 col-sm-9">
-                    <div className="form-group mt-2">
-                      <label className="label" style={{ fontWeight: "600" }}>
-                        {" "}
-                        Enter OTP
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="otp"
-                        value={otp}
-                        maxLength="4"
-                        name="number"
-                        onChange={(e) => setOTP(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  {/* <div className="col-md-6 col-sm-6">
+                      {/* <div className="col-md-6 col-sm-6">
                       <div className="otp-div mt-3">
                         <button
                           className="btn btn-sm btn-success mt-4"
@@ -236,29 +285,35 @@ export default function Login() {
                         </button>
                       </div>
                     </div> */}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </form>
+              </div>
+              {showOtpField && (
+                <div
+                  className="modal-footer d-flex"
+                  style={{ justifyContent: "center" }}
+                >
+                  <button
+                    type="submit"
+                    className="btn btn-md btn-primary w-100"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </button>
                 </div>
-              </form>
-            </div>
-            <div
-              className="modal-footer d-flex"
-              style={{ justifyContent: "center" }}
-            >
-              <button
-                type="submit"
-                className="btn btn-md btn-primary w-100"
-                onClick={handleLogin}
-              >
-                Login
-              </button>
+             
+              )}
             </div>
           </div>
         </div>
-      </div>
-       )}
-        {showToast && (
+      )}
+      {showToast && (
         <div
           className="position-fixed top-0 end-0 p-3"
-          style={{ zIndex: '9999' }}
+          style={{ zIndex: "9999" }}
         >
           <div
             className="toast show"
@@ -281,20 +336,18 @@ export default function Login() {
               Login successful! Welcome to the MoonHerbal.
             </div>
             <div className="progress mt-2">
-                <div
-                  className="progress-bar progress-bar-striped bg-warning progress-bar-animated"
-                  role="progressbar"
-                  style={{ width: `${progress}%`,height:"20px" }}
-                  aria-valuenow={progress}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                ></div>
-              </div>
+              <div
+                className="progress-bar progress-bar-striped bg-warning progress-bar-animated"
+                role="progressbar"
+                style={{ width: `${progress}%`, height: "20px" }}
+                aria-valuenow={progress}
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
+            </div>
           </div>
         </div>
       )}
     </div>
-    
- 
   );
 }

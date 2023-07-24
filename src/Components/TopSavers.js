@@ -257,6 +257,22 @@ const TopSavers = () => {
                                 </strong>{" "}- {product.unit}
                               </h6>
                             </div>
+                            <div className="product-footer d-flex">
+                              <p className="offer-price mb-0">
+                                ₹{proditem.sale_price} <TbTags style={{ fontSize: "16px" }} />
+                                <br />
+                                <span className="regular-price">₹{proditem.mrp_price}</span>
+                              </p>
+                              {/* <Link to='/productview'> */}
+                              <button
+                                className="btn btn-secondary btn-sm float-right"
+                                onClick={() => handleAddToCart(proditem)}
+                                
+                              >
+                                <MdOutlineShoppingCart /> Add To Cart
+                              </button>
+                              {/* </Link> */}
+                            </div>
                             </Link>
                             ) : (
                               <a href="#"  data-bs-toggle="modal"
@@ -280,9 +296,7 @@ const TopSavers = () => {
                                   </strong>{" "}- {product.unit}
                                 </h6>
                               </div>
-                              </a>
-                            )}
-                            <div className="product-footer d-flex">
+                              <div className="product-footer d-flex">
                               <p className="offer-price mb-0">
                                 ₹{proditem.sale_price} <TbTags style={{ fontSize: "16px" }} />
                                 <br />
@@ -291,7 +305,7 @@ const TopSavers = () => {
                               {/* <Link to='/productview'> */}
                               <button
                                 className="btn btn-secondary btn-sm float-right"
-                                onClick={() => handleAddToCart(proditem)}
+                               
                                 
                               >
                                 <MdOutlineShoppingCart /> Add To Cart
@@ -299,6 +313,9 @@ const TopSavers = () => {
                               {/* </Link> */}
                             </div>
                         
+                              </a>
+                            )}
+                            
                         </div>
                        
                       </div>

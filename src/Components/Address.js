@@ -4,18 +4,27 @@ import Header from "./Header";
 import { Link } from "react-router-dom";
 import { MdOutlineShareLocation } from "react-icons/md";
 
+
 import { FiUser } from "react-icons/fi";
-import { AiOutlineHeart, AiOutlineUnorderedList } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlineUnorderedList,
+  AiOutlinePlus,
+} from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Login from "./Login";
 import { useSelector } from "react-redux";
-import { CUSTOMER_ADDRESS_API } from "./apiUrls";
+import { CUSTOMER_ADDRESS_API, PROFILE_API } from "./apiUrls";
+
+import "../Css/AllProfiles.css";
 
 const Address = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
 
   const [data, setData] = useState([]);
+  const [profileData,setProfileData] = useState([]);
   // const [newAddress, setNewAddress] = useState({
   //   type: "add",
   //   address_one: "",
@@ -28,6 +37,9 @@ const Address = () => {
   // });
   const [editingAddress, setEditingAddress] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showDropdowns, setShowDropdowns] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState(null);
   const [formData, setFormData] = useState({
     type: "update",
     address_one: "",
@@ -71,19 +83,46 @@ const Address = () => {
   //   setData("");
   // };
 
+
+  useEffect(() => {
+    async function fetchProfle() {
+      try {
+        const response = await fetch(PROFILE_API, {
+          method: "GET",
+          headers: { "Content-Type": "application/json", Authorization: auth },
+        });
+        const responseData = await response.json();
+        console.log(responseData.data);
+        const dataArray = Array.isArray(responseData)
+          ? responseData
+          : [responseData.data];
+        console.log(auth);
+
+        setProfileData(dataArray);
+        console.log(dataArray);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchProfle();
+  }, []);
+
   const handleEditClick = (data) => {
+    setShowEditForm(true);
     setShowAddForm(false);
     setEditingAddress(data);
     setFormData(data);
-    
   };
 
   const handleAddClick = () => {
+    setShowEditForm(true);
     setEditingAddress(null);
     setShowAddForm(true);
   };
 
   const handleCancelAdd = () => {
+    setShowEditForm(false);
     setShowAddForm(false);
     setAddFormData({
       address_one: "",
@@ -93,6 +132,11 @@ const Address = () => {
       state: "",
       pincode: "",
     });
+  };
+
+  const handleDotClick = (id) => {
+    setSelectedCardId(id);
+    setShowDropdowns(true);
   };
 
   // const handleSubmit = async (data) => {
@@ -189,6 +233,7 @@ const Address = () => {
   };
 
   const handleCancelEdit = () => {
+    setShowEditForm(false);
     setEditingAddress(null);
     setFormData({
       address_one: "",
@@ -209,15 +254,22 @@ const Address = () => {
             <div className="row mt-2">
               <div className="col-lg-9 mx-auto">
                 <div className="row no-gutters">
+                  
                   <div className="col-md-4">
                     <div className="card account-left">
+                    {profileData && profileData.length > 0 ? (
+                            profileData.map((customer) => (
                       <div className="user-profile-header">
                         <img alt="logo" src="img/user.jpg" />
                         <h5 className="mb-1 text-secondary">
-                          <strong>Hi </strong> Bunty <span>Saini</span>
+                          <strong>Hi </strong> {customer.first_name} <span>{customer.last_name}</span>
                         </h5>
-                        <p>00000000</p>
+                        <p>{customer.mobile}</p>
                       </div>
+                       ))
+                       ) : (
+                         <div>No data available</div>
+                       )}
                       <div className="list-group">
                         <Link
                           to="/profile"
@@ -275,72 +327,143 @@ const Address = () => {
 
                   <div className="col-md-8">
                     <div className="card card-body account-right">
+                      <h5 className="heading-design-h5 mt-2">
+                        Manage Addresses
+                      </h5>
                       <div className="widget">
                         <div
-                          className="container-fluid d-flex"
-                          style={{ justifyContent: "space-between" }}
+                          class="card mt-1 mb-4"
+                          style={{
+                            border: "1px solid lightgrey",
+                            cursor: "pointer",
+                          }}
                         >
-                          <h5 className="heading-design-h5">Contact Address</h5>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-warning text-white"
+                          <div
+                            class="card-body d-flex p-1 mt-1"
                             onClick={handleAddClick}
                           >
-                            Add Address
-                          </button>
+                            <AiOutlinePlus
+                              style={{
+                                fontSize: "17px",
+                                margin: "12px 12px 0px 12px",
+                                fontWeight: "500",
+                                color: "#3dbe83",
+                              }}
+                            />
+                            <p
+                              style={{
+                                fontSize: "15px",
+                                marginTop: "10px",
+                                color: "#3dbe83",
+                                fontWeight: "500",
+                                
+                              }}
+                          
+                            >
+                              ADD NEW ADDRESS
+                            </p>
+                          </div>
                         </div>
 
-                        <div className="container-fluid  mt-3">
+                        <div>
                           {data && data.length > 0 ? (
-                            data.map((address) => (
-                              <div
-                                className="card mb-3"
-                                key={address.id}
-                                style={{ overflowX: "auto" }}
-                              >
-                                <div
-                                  className="card-body p-0 table-container"
-                                  style={{ overflowX: "auto" }}
-                                >
-                                  <table className="table table-striped">
-                                    <thead>
-                                      <tr>
-                                        <th>Id</th>
-                                        <th>Address One</th>
-                                        <th>Address Two</th>
-                                        <th>Country</th>
-                                        <th>City</th>
-                                        <th>State</th>
-                                        <th>Pincode</th>
-                                        <th>Edit</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>{address.id}</td>
-                                        <td>{address.address_one}</td>
-                                        <td>{address.address_two}</td>
-                                        <td>{address.country}</td>
-                                        <td>{address.city}</td>
-                                        <td>{address.state}</td>
-                                        <td>{address.pincode}</td>
-                                        <td>
-                                          <button
-                                            className="btn btn-sm btn-primary"
-                                            onClick={() =>
-                                              handleEditClick(address)
-                                            }
+                            data.map((user) => (
+                              <div>
+                                {!showEditForm && (
+                                  <div
+                                    class="card p-2"
+                                    style={{
+                                      border: "1px solid lightgrey",
+                                      color: "black",
+                                      marginTop:"-1px",
+                                    }}
+                                    onMouseLeave={() => setShowDropdowns(false)}
+                                    key={user.id}
+                                  >
+                                    <div class="card-body p-0">
+                                      <div className="container">
+                                        <div
+                                          className="container p-0 mt-2"
+                                          style={{ fontWeight: "500" }}
+                                        >
+                                          <div
+                                            className="container-fluid d-flex"
+                                            style={{
+                                              justifyContent: "space-between",
+                                            }}
                                           >
-                                            Edit
-                                          </button>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
+                                            <div>
+                                              <p
+                                                style={{
+                                                  color: "#000",
+                                                  fontWeight: "600",
+                                                  marginLeft: "-12px",
+                                                }}
+                                              >
+                                                {user.first_name}{" "}
+                                                <span>{user.last_name}</span>
+                                              </p>
+                                            </div>
+                                            <div
+                                              className="dot-icon-container"
+                                              key={user.id}
+                                              
+                                            >
+                                              <BsThreeDotsVertical
+                                                style={{ fontSize: "18px" }}
+                                                className="dot-icon"
+                                                key={user.id}
+                                                id={user.id}
+                                                onClick={() => handleDotClick(user.id)}
+                                                
+                                              />
+                                              {showDropdowns && user.id === selectedCardId &&  (
+                                                <div className="dropdowns" onMouseLeave={() => setShowDropdowns(false)}>
+                                                  <div
+                                                    className="edit-option"
+                                                    onClick={() =>
+                                                      handleEditClick(user)
+                                                    }
+                                                  >
+                                                    Edit
+                                                  </div>
+                                                  <div className="delete-option">
+                                                    Delete
+                                                  </div>
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+
+                                          <div className="mt-1">
+                                            <p>
+                                              {user.address_one}
+                                              <span
+                                                style={{ marginLeft: "5px" }}
+                                              >
+                                                {user.address_two},
+                                              </span>
+                                              <span
+                                                style={{ marginLeft: "5px" }}
+                                              >
+                                                {user.city},
+                                              </span>
+                                              <span
+                                                style={{ marginLeft: "5px" }}
+                                              >
+                                                {user.state}-
+                                              </span>
+                                              <span style={{fontWeight:"500",color:"#000"}}>{user.pincode}</span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                                 {editingAddress &&
-                                  editingAddress.id === address.id && (
-                                    <div className="card-footer">
+                                  editingAddress.id === user.id && (
+                                    <div className="card-footer mt-4" style={{border:"1px solid lightgrey"}}>
                                       <h5 className="section-header mt-2 pl-2 pb-2">
                                         Edit Address
                                       </h5>
@@ -520,171 +643,9 @@ const Address = () => {
                             <div>No data available</div>
                           )}
                         </div>
-                        {/* <div className="section-header mt-3">
-                                <h5 className="heading-design-h5">
-                                  Contact Address
-                                </h5>
-                              </div>
-                              <div className="section-header mt-3">
-                                <input
-                                  type="button"
-                                  className="btn btn-md btn-success"
-                                  value="Add Address"
-                                />
-                              </div>
-                            </div>
 
-                            <form>
-                              <div className="row mt-4">
-                                <div className="col-sm-6">
-                                  <div className="form-group">
-                                    <label className="control-label">
-                                      Country{" "}
-                                      <span className="required">*</span>
-                                    </label>
-                                    <select
-                                      className="select2 form-control border-form-control"
-                                      name="country"
-                                      onChange={handleInputChange}
-                                    >
-                                      <option value={user.country}>
-                                        {user.country}
-                                      </option>
-
-                                      <option value="USA">USA</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div className="col-sm-6">
-                                  <div className="form-group">
-                                    <label className="control-label">
-                                      City <span className="required">*</span>
-                                    </label>
-                                    <select
-                                      className="select2 form-control border-form-control"
-                                      name="city"
-                                      onChange={(e) => handleChange(e, id)}
-                                    >
-                                      <option value={user.city}>
-                                        {user.city}
-                                      </option>
-                                      <option value="Gurugram">Gurugram</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row mt-2">
-                                <div className="col-sm-6">
-                                  <div className="form-group">
-                                    <label className="control-label">
-                                      Pin Code{" "}
-                                      <span className="required">*</span>
-                                    </label>
-                                    <input
-                                      className="form-control border-form-control"
-                                      value={user.pincode}
-                                      placeholder="123456"
-                                      type="number"
-                                      name="pincode"
-                                      onChange={(e) => handleChange(e, id)}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-sm-6">
-                                  <div className="form-group">
-                                    <label className="control-label">
-                                      State <span className="required">*</span>
-                                    </label>
-                                    <select
-                                      className="select2 form-control border-form-control"
-                                      name="state"
-                                      onChange={(e) => handleChange(e, id)}
-                                    >
-                                      <option value={user.state}>
-                                        {user.state}
-                                      </option>
-                                      <option value="UP">UP</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row mt-2">
-                                <div className="col-sm-12">
-                                  <div className="form-group">
-                                    <label className="control-label">
-                                      Address 1{" "}
-                                      <span className="required">*</span>
-                                    </label>
-                                    <textarea
-                                      className="form-control border-form-control"
-                                      name="address_one"
-                                      onChange={(e) => handleChange(e, id)}
-                                      value={user.address_one}
-                                    ></textarea>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row mt-2">
-                                <div className="col-sm-12">
-                                  <div className="form-group">
-                                    <label className="control-label">
-                                      Address 2{" "}
-                                      <span className="required">*</span>
-                                    </label>
-                                    <textarea
-                                      className="form-control border-form-control"
-                                      name="address_two"
-                                      onChange={(e) => handleChange(e, id)}
-                                      value={user.address_two}
-                                    ></textarea>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-12">
-                                  <div className="custom-control custom-checkbox mb-3">
-                                    <input
-                                      type="checkbox"
-                                      className="custom-control-input"
-                                      id="customCheck1"
-                                    />
-                                    <label
-                                      className="custom-control-label"
-                                      for="customCheck1"
-                                    >
-                                      Same as Contact Address
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                className="row mt-3"
-                                style={{ textAlign: "end" }}
-                              >
-                                <div className="col-sm-12 text-right">
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger btn-lg"
-                                    style={{ marginRight: "5px" }}
-                                  >
-                                    {" "}
-                                    Cencel{" "}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-success btn-lg"
-                                    onClick={handleSubmit}
-                                  >
-                                    {" "}
-                                    Update Address{" "}
-                                  </button>
-                                </div>
-                              </div>
-                            </form> */}
-
-                        {/* This is add form        */}
                         {showAddForm && (
-                          <div className="container-fluid bg-light">
+                          <div className="container-fluid bg-light mt-4" style={{border:"1px solid lightgrey"}}>
                             <h5 className="section-header mt-2 p-3">
                               Add Address
                             </h5>
@@ -815,7 +776,7 @@ const Address = () => {
                                 className="row mt-3"
                                 style={{ textAlign: "end" }}
                               >
-                                <div className="col-sm-12 text-right">
+                                <div className="col-sm-12 text-right mb-2">
                                   <button
                                     type="button"
                                     className="btn btn-danger btn-lg"

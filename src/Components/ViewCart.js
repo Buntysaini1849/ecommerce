@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, fetchCartData, fetchCartSuccess } from "../State/Actions/CartActions";
+import { REMOVE_CART_ITEM, addToCart, fetchCartData, fetchCartSuccess, removecartITem } from "../State/Actions/CartActions";
 import Header from "./Header";
 import Footer from "./Footer";
 import { SlClose } from "react-icons/sl";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { CART_API } from "./apiUrls";
+import { CART_API, DASHBOARD } from "./apiUrls";
+import axios from "axios";
 
 const CartProducts = () => {
   // const [cartItem, setCartItem] = useState([]);
@@ -15,6 +16,29 @@ const CartProducts = () => {
    const cartItem = useSelector((state) => state.cart.product);
  
 
+   const handleRemoveFromCart = (id) => {
+     // Dispatch the removeFromCart action to update the cart in the Redux store
+     dispatch(removecartITem(id, auth));
+   
+     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+   
+     // Remove item from the cart API using the authToken
+     axios
+       .post(`${proxyUrl}${CART_API}${id}`, null, {
+         headers: {
+           Authorization: auth,
+         },
+       })
+       .then((response) => {
+         console.log('Item removed successfully:', response.data);
+       })
+       .catch((error) => {
+         console.error('Error removing item:', error);
+       });
+   };
+   
+
+      
 
   // useEffect(() => {
   //   dispatch(fetchCartData(auth));
@@ -202,8 +226,9 @@ const CartProducts = () => {
                                     title=""
                                     data-bs-placement="top"
                                     data-bs-toggle="tooltip"
+                                    onClick={() => handleRemoveFromCart(cartData.id)}
                                   >
-                                    <SlClose className="mdi mdi-close-circle-outline" />
+                                    <SlClose className="mdi mdi-close-circle-outline"  />
                                   </a>
                                 </td>
                               </tr>
