@@ -13,6 +13,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { BiKey } from "react-icons/bi";
 import axios from "axios";
 import { Login_API, VERIFYOTP_API } from "./apiUrls";
+import logo from "../Images/logo.jpg";
 
 export default function Login() {
   const inputRef = useRef();
@@ -34,6 +35,7 @@ export default function Login() {
   const [timer, setTimer] = useState(30);
   const [disableSendOTP, setDisableSendOTP] = useState(false);
   const [showOtpField, setShowOtpField] = useState(false);
+  const [otpButtonDisabled, setOtpButtonDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -64,6 +66,22 @@ export default function Login() {
       console.log("This will run after 1 second!");
     }, 10000);
   };
+
+  const handleNumberChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const checkMobileNumberValidity = () => {
+    if (/^\d{10}$/.test(username)) {
+      setOtpButtonDisabled(false);
+    } else {
+      setOtpButtonDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    checkMobileNumberValidity();
+  }, [username]);
 
   // useEffect(() => {
   //   inputRef.current.focus();
@@ -132,7 +150,7 @@ export default function Login() {
       const user = data.user;
       console.log("this is user", user);
       const auth = data.auth;
-      Cookies.set('auth', auth, { expires: 7});
+      Cookies.set("auth", auth, { expires: 7 });
       setIsLoggedin(true);
       dispatch(loginSuccess(user, auth));
       dispatch(setUser(user, auth));
@@ -193,61 +211,121 @@ export default function Login() {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog" role="document">
+          <div
+            className="modal-dialog modal-lg modal-dialog-centered"
+            role="document"
+            style={{ width: "100%" }}
+          >
             <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Login to MoonHerbal</h5>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="row d-flex">
-                    <div className="col-md-9 col-sm-9">
-                      <div className="form-group">
-                        <label className="label" style={{ fontWeight: "600" }}>
-                          Mobile No.
-                        </label>
-                        <input
-                          type="mobile"
-                          className="form-control"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          disabled={showOtpField}
-                          id="mobile"
-                          name="mobile"
-                          placeholder="Enter mobile number..."
-                        />
-                      </div>
-                    </div>
-                  
-                      <div className="col-md-3 col-sm-3">
-                        <div className="otp-div mt-2">
-                        
-                        {showOtpField && timer === 0 && (
-                            <button
-                              className="btn btn-sm btn-success mt-4 sendotp-btn"
-                              onClick={handleGenerateOTP}
+              <div className="modal-body container-fluid">
+                <div className="row d-flex">
+                  <div
+                    className="col-md-5 col-sm-5"
+                    style={{
+                      padding: "40px",
+                      display: "grid",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={logo}
+                      className="img-fluid"
+                      width={300}
+                      height={300}
+                    />
+                  </div>
+                  <div className="col-md-7 col-sm-7 pt-4">
+                    <h5 className="modal-title">Login to MoonHerbal</h5>
+                    <form className="mt-4">
+                      <div className="row d-flex">
+                        <div className="col-md-8 col-sm-8">
+                          <div className="form-group">
+                            <label
+                              className="label"
+                              style={{ fontWeight: "600" }}
                             >
-                              Resend OTP
-                            </button>
-                        )}
-                           {!showOtpField && (
-                            <button
-                              className="btn btn-sm btn-success mt-4 sendotp-btn"
-                              onClick={handleGenerateOTP}
+                              Mobile No.
+                            </label>
+                            <input
+                              type="mobile"
+                              className="form-control"
+                              value={username}
+                              onChange={handleNumberChange}
+                              disabled={showOtpField}
+                              id="mobile"
+                              name="mobile"
+                              placeholder="Enter mobile number..."
+                              required={true}
+                            />
+                          </div>
+                          <div>
+                          {showOtpField && timer > 0 && (
+                            <p
+                              className="mt-2 text-danger"
+                              style={{ fontSize: "12px", fontWeight: "500" }}
                             >
-                              Send OTP
-                              
-                            </button>
-                             )}
+                              Resend OTP in {timer} seconds
+                            </p>
+                          )}
+                          </div>
+                          <div>
+                          {showOtpField && timer === 0 && (
+                            <p
+                              className="mt-2 text-danger"
+                              style={{ fontSize: "12px", fontWeight: "500" }}
+                            >
+                            Resend
+                            </p>
+                          )}
+                          </div>
+                        </div>
+
+                        <div className="col-md-4 col-sm-4">
+                          <div className="otp-div mt-2">
+                            {!showOtpField && (
+                              <button
+                                className="btn btn-sm btn-success mt-4 sendotp-btn"
+                                onClick={handleGenerateOTP}
+                                disabled={otpButtonDisabled}
+                              >
+                                Send OTP
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
-                   
-                  </div>
-                  {otp ? (
-                    <div className="row d-flex">
-                      {showOtpField && (
-                        <div className="col-md-9 col-sm-9">
-                          <div className="form-group mt-2">
+                      {otp ? (
+                        <div>
+                          <div className="box mt-1">
+                      
+                            <div className="form-group">
+                              <label
+                                className="label"
+                                style={{ fontWeight: "600" }}
+                              >
+                                {" "}
+                                Enter OTP
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control"
+                                id="otp"
+                                value={otp}
+                                maxLength="4"
+                                name="number"
+                                onChange={(e) => setOTP(e.target.value)}
+                                style={{ width: "65%" }}
+                              />
+                            </div>
+                        
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                        <div className="box">
+                        {showOtpField && timer === 0 && (
+                          <div className="form-group">
                             <label
                               className="label"
                               style={{ fontWeight: "600" }}
@@ -263,33 +341,35 @@ export default function Login() {
                               maxLength="4"
                               name="number"
                               onChange={(e) => setOTP(e.target.value)}
+                              style={{ width: "65%" }}
                             />
                           </div>
+                        )}
                         </div>
+                      </div>
                       )}
 
-                      <div className="col-md-3 col-sm-3 mt-4">
-                        {showOtpField && timer > 0 && (
-                          <p className="mt-2 text-danger" style={{fontSize:"12px",fontWeight:"500"}}>Resend OTP in {timer} seconds</p>
-                        )}
+                      <div className="container d-flex p-0">
+                        <div className="col-md-5 col-sm-5">
+                          
+                          <div className="mt-2">
+                          {showOtpField && timer === 0 && (
+                            <a
+                              className="text-danger"
+                              style={{fontWeight:"500",cursor:"pointer"}}
+                              onClick={handleGenerateOTP}
+                            >
+                              Resend OTP
+                            </a>
+                          )}
+                        </div>
+                         
+                        </div>
+                       
                       </div>
-
-                      {/* <div className="col-md-6 col-sm-6">
-                      <div className="otp-div mt-3">
-                        <button
-                          className="btn btn-sm btn-success mt-4"
-                          onClick={showhidenewdiv}
-                          disabled={disabledotp}
-                        >
-                          Verify OTP
-                        </button>
-                      </div>
-                    </div> */}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </form>
+                    </form>
+                  </div>
+                </div>
               </div>
               {showOtpField && (
                 <div
@@ -300,11 +380,11 @@ export default function Login() {
                     type="submit"
                     className="btn btn-md btn-primary w-100"
                     onClick={handleLogin}
+                    style={{ fontSize: "15px", fontWeight: "500" }}
                   >
                     Login
                   </button>
                 </div>
-             
               )}
             </div>
           </div>

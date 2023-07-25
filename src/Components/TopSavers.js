@@ -47,7 +47,7 @@ const TopSavers = () => {
         if (data.length > 0) {
           setProHead(data);
           // dispatch(setProducts(data));
-          console.log(data);
+          // console.log(data);
         } else {
           console.error("Error: Invalid data structure");
         }
@@ -84,7 +84,7 @@ const TopSavers = () => {
         <p></p>
       </div>
     );
-  };;
+  };
 
   const Settings = {
     dots: false,
@@ -189,7 +189,7 @@ const TopSavers = () => {
         .then((response) => response.json())
         .then((data) => {
           // Handle response from the API
-          console.log('addtocart data = ',auth);
+          // console.log('addtocart data = ',auth);
           dispatch({type:ADD_TO_CART_SUCCESS, payload:auth})
         })
         .catch((error) => {
@@ -211,7 +211,7 @@ const TopSavers = () => {
             <div className="container">
               {Array.isArray(prohead) &&
                 prohead.map((product) => (
-                  <div className="container mt-5">
+                  <div className="container mt-5" key={product.id}>
                     <div className="section-header">
                       <h5 className="heading-design-h5">
                         {product.name}
@@ -230,7 +230,7 @@ const TopSavers = () => {
                       <Slider {...Settings}>
                       {Array.isArray(product.item) &&
                        product.item.map((proditem) => (
-                        <div className="item" style={{width:"230px"}}>
+                        <div className="item" style={{width:"230px"}} key={proditem.id}>
                    
                         <div className="product p-0 shadow-sm" style={{width:"230px"}} key={proditem.id}>
                           {isAuthenticated ? ( 

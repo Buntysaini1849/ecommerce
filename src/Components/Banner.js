@@ -29,7 +29,7 @@ const Banner = () => {
       ) {
         for (let i = 0; i < responseData.data.length; i++) {
           setData(responseData.data);
-          console.log(data);
+          // console.log(data);
         }
       } else {
         console.error("Error: Invalid data structure");
@@ -59,8 +59,8 @@ const Banner = () => {
         >
           {Array.isArray(data) &&
             data.map((item) => ( 
-          <div className="item p-0">
-            <img src={item.img} className="img-fluid banner-img"/>
+          <div className="item p-0" key={item.id}>
+            <img src={item.img} className="img-fluid banner-img active"/>
           </div>
            ))}
           

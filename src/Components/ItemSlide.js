@@ -30,7 +30,6 @@ const ItemSlide = () => {
   };
 
 
- 
 
   const handleCategoryClick = categoryId => {
     dispatch(setSelectedCategory(categoryId));
@@ -38,35 +37,8 @@ const ItemSlide = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, []);
  
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const response = await fetch(CATEGORYLIST_API, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ type: "view" }),
-  //     });
-  //     const responseData = await response.json();
-  //     console.log(responseData);
-
-  //     if (
-  //       responseData &&
-  //       responseData.data &&
-  //       Array.isArray(responseData.data) &&
-  //       responseData.data.length > 0
-  //     ) {
-  //       for (let i = 0; i < responseData.data.length; i++) {
-  //         setData(responseData.data);
-  //         console.log(data);
-  //       }
-  //     } else {
-  //       console.error("Error: Invalid data structure");
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
 
 

@@ -269,7 +269,7 @@ a:focus {
 }
 
 .shopping-cart {
-    font-size: 20px;
+    font-size: 23px;
 }
 
 .osahan-menu {
@@ -280,9 +280,9 @@ a:focus {
     padding: 15px 18px;
 }
 
-.osahan-menu .navbar-brand:hover {
+/* .osahan-menu .navbar-brand:hover {
     background: #384042 none repeat scroll 0 0;
-}
+} */
 
 .main-nav-right .btn {
     border-radius: 0 !important;
@@ -434,12 +434,12 @@ a:focus {
 }
 
 .osahan-menu-2 .nav-link {
-    color: #253d4e !important;
-    font-size: 14px;
-    font-weight: 600;
+    color: #677279 !important;
+    font-size: 1.0rem;
+    font-weight: 500;
     padding: 13px 16px !important;
-    font-family: "Quicksand",sans-serif;
-    /* line-height: 70px; */
+    /* font-family: "Quicksand",sans-serif; */
+    line-height: 30px;
 }
 .cart-table td {
     vertical-align: middle !important;

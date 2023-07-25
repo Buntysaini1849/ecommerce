@@ -3,11 +3,12 @@ import { BANNER_API, PRODUCTLIST_API } from "./apiUrls";
 import {
   MdOutlineShareLocation,
   MdFindInPage,
-  MdShoppingCart,
+  MdOutlineShoppingCart,
   MdLogin,
   MdStoreMallDirectory,
 } from "react-icons/md";
 import { FaTag, FaUserCircle } from "react-icons/fa";
+import {BiUserCircle} from "react-icons/bi";
 import logo from "../Images/logo.jpg";
 import CartProducts from "./ViewCart";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,14 +49,14 @@ const Header = () => {
       ) {
         for (let i = 0; i < responseData.data.length; i++) {
           setData(responseData.data);
-          console.log(data);
+          // console.log(data);
         }
       } else {
         console.error("Error: Invalid data structure");
       }
     }
     fetchData();
-  }, [BANNER_API, setData]);
+  }, []);
 
   return (
     <div>
@@ -88,7 +89,7 @@ const Header = () => {
                 src={logo}
                 alt="logo"
                 className="img-fluid"
-                width={90}
+                style={{width:"100%",maxWidth:"167px"}}
               />{" "}
             </Link>
             {/* <a className="location-top" href="#">
@@ -167,7 +168,7 @@ const Header = () => {
                           padding: "10px",
                         }}
                       >
-                        <FaUserCircle className="user-icon mb-1 mx-2" />
+                        <BiUserCircle className="user-icon mb-1 mx-1" style={{fontSize:"20px"}} />
                         Welcome,User
                       </a>
                     ) : (
@@ -183,7 +184,7 @@ const Header = () => {
                           cursor:"pointer"
                         }}
                       >
-                        <MdLogin className="user-icon mb-1 mx-2" style={{fontSize:"17px"}}/>
+                        <MdLogin className="user-icon mb-1 mx-2" style={{fontSize:"21px"}}/>
                         Login
                       </a>
                     )}
@@ -247,7 +248,7 @@ const Header = () => {
                   <li className="list-inline-item nav-item">
                     <div className="cart-btn">
                       <Link to="/viewcart" className="btn btn-link border-none">
-                        <MdShoppingCart className="shopping-cart" /> My Cart{" "}
+                        <MdOutlineShoppingCart className="shopping-cart" /> My Cart{" "}
                         <small className="cart-value" style={{ color: "#fff" }}>
                           {cartItems.length}
                         </small>

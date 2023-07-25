@@ -8,6 +8,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { CART_API, DASHBOARD } from "./apiUrls";
 import axios from "axios";
+import { FaCartArrowDown } from "react-icons/fa";
 
 const CartProducts = () => {
   // const [cartItem, setCartItem] = useState([]);
@@ -135,7 +136,10 @@ const CartProducts = () => {
         </div>
       </section>
       {cartItem.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="text-center p-5 mt-5 mb-5">
+          <FaCartArrowDown style={{fontSize:"40px",color:"#3bb77e"}}/>
+        <p className="mt-2" style={{fontSize:"20px",color:"#000",fontWeight:"500"}}>Your cart is empty.</p>
+        </div>
       ) : (
       <div className="container-fluid">
         <div className="container" style={{ width: "75%" }}>

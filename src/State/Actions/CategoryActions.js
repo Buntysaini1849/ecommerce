@@ -16,7 +16,7 @@ export const fetchCategories = () => {
         body: JSON.stringify({ type: "view" }),
       });
       const responseData = await response.json();
-      console.log(responseData);
+    
       if (
         responseData &&
         responseData.data &&
@@ -28,7 +28,7 @@ export const fetchCategories = () => {
             type: FETCH_CATEGORIES_SUCCESS,
             payload: responseData.data,
           });
-          console.log(responseData.data);
+          
         }
       } else {
         console.error("Error: Invalid data structure");
@@ -56,7 +56,7 @@ export const fetchProducts = async (categoryId) => {
       });
 
       const responseDatas = await response.json();
-      console.log(responseDatas);
+     
       if (
         responseDatas &&
         responseDatas.data &&
@@ -64,7 +64,7 @@ export const fetchProducts = async (categoryId) => {
         responseDatas.data.length > 0
       ) {
         dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: responseDatas.data });
-        console.log(responseDatas.data);
+       
       } else {
         console.error("Error: Invalid data structure");
       }

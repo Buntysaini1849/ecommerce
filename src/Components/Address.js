@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { CUSTOMER_ADDRESS_API, PROFILE_API } from "./apiUrls";
 
 import "../Css/AllProfiles.css";
+import axios from "axios";
 
 const Address = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
@@ -52,14 +53,14 @@ const Address = () => {
   });
 
   const [addformData, setAddFormData] = useState({
-    type: "add",
-    address_one: "",
-    address_two: "",
-    city: "",
-    state: "",
-    country: "",
-    pincode: "",
-    add_type: "Delivery",
+    "type": "add",
+    "address_one": "",
+    "address_two": "",
+    "city": "",
+    "state": "",
+    "country": "",
+    "pincode": "",
+    "add_type": "Delivery",
   });
 
   async function fetchData() {
@@ -92,14 +93,14 @@ const Address = () => {
           headers: { "Content-Type": "application/json", Authorization: auth },
         });
         const responseData = await response.json();
-        console.log(responseData.data);
+        // console.log(responseData.data);
         const dataArray = Array.isArray(responseData)
           ? responseData
           : [responseData.data];
-        console.log(auth);
+        // console.log(auth);
 
         setProfileData(dataArray);
-        console.log(dataArray);
+        // console.log(dataArray);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -183,25 +184,51 @@ const Address = () => {
     setAddFormData({ ...addformData, [e.target.name]: e.target.value });
   };
 
+  // const handleUpdate = async () => {
+  //   try {
+  //     const response = await fetch(`${CUSTOMER_ADDRESS_API}${editingAddress.id}`, {
+  //       method: "POST",
+  //       mode:"cors",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: auth,
+          
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //     if (response.ok) {
+  //       fetchData();
+  //       setEditingAddress(null);
+  //       console.log("edit data", response.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating address:", error);
+  //   }
+  // };
+
   const handleUpdate = async () => {
     try {
-      const response = await fetch(CUSTOMER_ADDRESS_API + editingAddress.id, {
-        method: "POST",
+      const response = await axios.post(`${CUSTOMER_ADDRESS_API}${editingAddress.id}`,
+       formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: auth,
         },
-        body: JSON.stringify(formData),
       });
-      if (response.ok) {
+  
+      if (response.status === 200 || response.status === 201) {
         fetchData();
         setEditingAddress(null);
-        console.log("edit data", response.message);
+        console.log("edit data", response.data.message); // Assuming the response contains a "message" property
+      } else {
+        throw new Error(`Error updating address: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error updating address:", error);
+      console.error(error);
+      // Handle the error at a higher level if needed
     }
   };
+  
 
   const handleAdd = async () => {
     try {
@@ -262,7 +289,7 @@ const Address = () => {
                       <div className="user-profile-header">
                         <img alt="logo" src="img/user.jpg" />
                         <h5 className="mb-1 text-secondary">
-                          <strong>Hi </strong> {customer.first_name} <span>{customer.last_name}</span>
+                          <strong>Hi </strong>{customer.first_name}
                         </h5>
                         <p>{customer.mobile}</p>
                       </div>
