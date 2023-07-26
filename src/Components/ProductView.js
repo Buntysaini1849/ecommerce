@@ -11,17 +11,19 @@ import "../Css/ProductView.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_TO_CART_SUCCESS } from "../State/Actions/CartActions";
+import QuantityInput from "./QuantityInput";
 
 const ProductView = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [showAddToCart, setShowAddToCart] = useState(true);
   const [activeThumbnail, setActiveThumbnail] = useState(null);
   const mainSliderRef = useRef(null);
   const thumbnailSliderRef = useRef(null);
   const { id } = useParams();
   const auth = useSelector((state) => state.login.auth);
   const proditem = useSelector((state) => state.proditem.selectedProduct);
-  
+
   // useEffect(() => {
   //   async function fetchData() {
   //     try {
@@ -56,20 +58,17 @@ const ProductView = () => {
   //   fetchData();
   // }, [id]);
 
- 
   const handleAddToCart = (auth) => {
     if (auth) {
-
-
       const payload = {
-        type: 'view',
+        type: "view",
       };
 
       fetch(CART_API, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization':   auth, 
+          "Content-Type": "application/json",
+          Authorization: auth,
         },
         body: JSON.stringify(payload),
       })
@@ -77,28 +76,25 @@ const ProductView = () => {
         .then((data) => {
           // Handle response from the API
           // console.log('addtocart data = ',auth);
-          dispatch({type:ADD_TO_CART_SUCCESS, payload:auth})
+          dispatch({ type: ADD_TO_CART_SUCCESS, payload: auth });
+          setShowAddToCart(false);
         })
         .catch((error) => {
           // Handle error
-          console.error('Error:', error);
+          console.error("Error:", error);
         });
     } else {
       // Handle unauthorized access
-      console.log('User is not authenticated.');
+      console.log("User is not authenticated.");
     }
   };
- 
+
   const CustomPrevArrow = (props) => (
-    <div className="slick-arrow slick-prev" onClick={props.onClick}>
-      Prev
-    </div>
+    <div className="slick-arrow slick-prev" onClick={props.onClick}></div>
   );
 
   const CustomNextArrow = (props) => (
-    <div className="slick-arrow slick-next" onClick={props.onClick}>
-      Next
-    </div>
+    <div className="slick-arrow slick-next" onClick={props.onClick}></div>
   );
 
   const mainSliderSettings = {
@@ -142,10 +138,10 @@ const ProductView = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
-    centerMode: true,
+    // centerMode: true,
     centerPadding: "0px",
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
@@ -211,134 +207,154 @@ const ProductView = () => {
       </section>
 
       <section className="shop-single section-padding pt-3">
-      {proditem ? (
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <div className="shop-detail-left">
-                <div className="shop-detail-slider">
-                  <div className="favourite-icon">
-                    <a
-                      className="fav-btn"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="bottom"
-                      title="59% OFF"
-                      href="#"
-                    >
-                      <FaTag className="mdi fa-tag" />
-                    </a>
-                  </div>
-                  
-                      <div
-                        className="container-fluid main-slider-top"
-                        key={proditem.id}
-                        style={{ background: "#fff" }}
+        {proditem ? (
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="shop-detail-left">
+                  <div className="shop-detail-slider">
+                    <div className="favourite-icon">
+                      <a
+                        className="fav-btn"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="59% OFF"
+                        href="#"
                       >
-                        <Slider ref={mainSliderRef} {...mainSliderSettings}>
-                       
-                              <div className="image-container">
-                                <img
-                                  src={proditem.image}
-                                  key={proditem.id}
-                                  alt="Product 1"
-                                  className="img-fluid main-slider-img"
-                                />
-                              </div>
-                           
-                        </Slider>
-                      </div>
-                    
-                  <div className="container mt-2" style={{ width: "80%" }}>
-                    <Slider
-                      ref={thumbnailSliderRef}
-                      {...thumbnailSliderSettings}
-                      className="thumbslider"
+                        <FaTag className="mdi fa-tag" />
+                      </a>
+                    </div>
+
+                    <div
+                      className="container-fluid main-slider-top"
+                      key={proditem.id}
+                      style={{ background: "#fff" }}
                     >
-                     
-                          <div
-                            className={getThumbnailItemClassName(proditem.id)}
-                            onClick={() => handleThumbnailClick(proditem.id)}
-                          >
-                            <img
-                              src={proditem.image}
-                              alt="Product 1 Thumbnail"
-                              className="img-fluid"
-                            />
-                          </div>
-                       
-                    </Slider>
+                      <Slider ref={mainSliderRef} {...mainSliderSettings}>
+                        <div className="image-container p-5">
+                          <img
+                            src={proditem.image}
+                            key={proditem.id}
+                            alt="Product 1"
+                            className="img-fluid main-slider-img"
+                          />
+                        </div>
+                      </Slider>
+                    </div>
+
+                    <div className="container" style={{ width: "80%" }}>
+                      <Slider
+                        ref={thumbnailSliderRef}
+                        {...thumbnailSliderSettings}
+                        className="thumbslider"
+                      >
+                        <div
+                          className={getThumbnailItemClassName(proditem.id)}
+                          onClick={() => handleThumbnailClick(proditem.id)}
+                        >
+                          <img
+                            src={proditem.image}
+                            alt="Product 1 Thumbnail"
+                            className="img-fluid"
+                            style={{ padding: "16px", background: "#fff" }}
+                          />
+                        </div>
+                      </Slider>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6">
-              <div className="shop-detail-right">
-                <span className="badge badge-success">50% OFF</span>
-                <h2>{proditem.name}</h2>
-                <h6>
-                  <strong>
-                    <span className="mdi mdi-approval"></span> Available in
-                  </strong>{" "}
-                  - {proditem.unit}
-                </h6>
-                <p className="regular-price">
-                  <i className="mdi mdi-tag-outline"></i> MRP : ₹{proditem.mrp_price}
-                </p>
-                <p className="offer-price mb-0">
-                  Discounted price :{" "}
-                  <span className="text-success">₹{proditem.sale_price}</span>
-                </p>
-                <Link to="/checkout">
-                  <button type="button" className="btn btn-secondary btn-lg" onClick={() => handleAddToCart(proditem)}>
-                    <i className="mdi mdi-cart-outline"></i> Add To Cart
-                  </button>{" "}
-                </Link>
-                <div className="short-description">
-                  <h5>
-                    Quick Overview
-                    <p className="float-right">
-                      Availability:{" "}
-                      <span className="badge badge-success">In Stock</span>
-                    </p>
-                  </h5>
-                  <p>
-                    <b>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </b>{" "}
-                    Nam fringilla augue nec est tristique auctor. Donec non est
-                    at libero vulputate rutrum.
+              <div className="col-md-6">
+                <div className="shop-detail-right">
+                  <span className="badge badge-success">50% OFF</span>
+                  <h2>{proditem.name}</h2>
+                  <h6>
+                    <strong>
+                      <span className="mdi mdi-approval"></span> Available in
+                    </strong>{" "}
+                    - {proditem.unit}
+                  </h6>
+                  <p className="regular-price">
+                    <i className="mdi mdi-tag-outline"></i> MRP : ₹
+                    {proditem.mrp_price}
                   </p>
-                  <p className="mb-0">
-                    {" "}
-                    Vivamus adipiscing nisl ut dolor dignissim semper. Nulla
-                    luctus malesuada tincidunt. className aptent taciti sociosqu
-                    ad litora torquent per conubia nostra, per inceptos
-                    hiMenaeos. Integer enim purus, posuere at ultricies eu,
-                    placerat a felis. Suspendisse aliquet urna pretium eros
-                    convallis interdum.
+                  <p className="offer-price mb-0">
+                    Discounted price :{" "}
+                    <span className="text-success">₹{proditem.sale_price}</span>
                   </p>
-                </div>
-                <h6 className="mb-3 mt-4">Why shop from Ecom?</h6>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="feature-box">
-                      <i className="fas fa-truck-fast mdi"></i>
-                      <h6 className="text-info">Free Delivery</h6>
-                      <p>Lorem ipsum dolor...</p>
-                    </div>
+                  
+                  <div className="mt-4">
+                    <QuantityInput />
                   </div>
-                  <div className="col-md-6">
-                    <div className="feature-box">
-                      <i className="fas fa-shopping-basket mdi"></i>
-                      <h6 className="text-info">100% Guarantee</h6>
-                      <p>Rorem Ipsum Dolor sit...</p>
+
+                  {/* <Link to="/viewcart"> */}
+                  <>
+                  {showAddToCart ? (
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-lg"
+                      onClick={() => handleAddToCart(proditem)}
+                    >
+                      <i className="mdi mdi-cart-outline"></i> Add To Cart
+                   </button>)  : (
+                    <Link to="/viewcart">
+                      <button
+                      type="button"
+                      className="btn btn-secondary btn-lg"
+                      
+                    >
+                      <i className="mdi mdi-cart-outline"></i> Go To Cart
+                    </button>
+                    </Link>
+                    )}
+                    </>
+                  {/* </Link> */}
+                  <div className="short-description">
+                    <h5>
+                      Quick Overview
+                      <p className="float-right">
+                        Availability:{" "}
+                        <span className="badge badge-success">In Stock</span>
+                      </p>
+                    </h5>
+                    <p>
+                      <b>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      </b>{" "}
+                      Nam fringilla augue nec est tristique auctor. Donec non
+                      est at libero vulputate rutrum.
+                    </p>
+                    <p className="mb-0">
+                      {" "}
+                      Vivamus adipiscing nisl ut dolor dignissim semper. Nulla
+                      luctus malesuada tincidunt. className aptent taciti
+                      sociosqu ad litora torquent per conubia nostra, per
+                      inceptos hiMenaeos. Integer enim purus, posuere at
+                      ultricies eu, placerat a felis. Suspendisse aliquet urna
+                      pretium eros convallis interdum.
+                    </p>
+                  </div>
+                  <h6 className="mb-3 mt-4">Why shop from Ecom?</h6>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="feature-box">
+                        <i className="fas fa-truck-fast mdi"></i>
+                        <h6 className="text-info">Free Delivery</h6>
+                        <p>Lorem ipsum dolor...</p>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="feature-box">
+                        <i className="fas fa-shopping-basket mdi"></i>
+                        <h6 className="text-info">100% Guarantee</h6>
+                        <p>Rorem Ipsum Dolor sit...</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         ) : (
           <p>No product selected.</p>
         )}

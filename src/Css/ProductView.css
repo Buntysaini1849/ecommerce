@@ -11,6 +11,7 @@
     margin: 0 10px;
 }
 
+
 .main-slider-top{
     border-radius: 10px !important;
     height: auto;
@@ -40,7 +41,8 @@
     border-radius: 12px;
     cursor: pointer;
     margin: 22px !important;
-    width: 65%;
+    height: 106px;
+    width: 30%;
 }
 
 /* .shop-detail-slider #sync2 img {

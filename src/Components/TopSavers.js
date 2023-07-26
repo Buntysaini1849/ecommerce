@@ -100,21 +100,35 @@ const TopSavers = () => {
     nextArrow: <CustomNextArrow />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1920, // Full-screen
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToShow: 5,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1366, // Desktop
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768, // Tablet
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 480, // Mobile
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 200, // Mobile
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -203,7 +217,7 @@ const TopSavers = () => {
                         </Link>
                       </h5>
                     </div>
-                    <div className="container prod-container">
+                    <div className="container slide-container">
                  
 
                       <Slider {...Settings}>
@@ -214,7 +228,7 @@ const TopSavers = () => {
                         <div className="product p-0 shadow-sm" style={{width:"230px"}} key={proditem.id}>
                           {isAuthenticated ? ( 
                          
-                            <Link to="/productview">
+                           
                            
                            <>
                             <div className="product-header">
@@ -235,13 +249,14 @@ const TopSavers = () => {
                                 </strong>{" "}- {product.unit}
                               </h6>
                             </div>
+                           
                             <div className="product-footer d-flex">
                               <p className="offer-price mb-0">
                                 ₹{proditem.sale_price} <TbTags style={{ fontSize: "16px" }} />
                                 <br />
                                 <span className="regular-price">₹{proditem.mrp_price}</span>
                               </p>
-                            
+                              <Link to="/productview">
                               <button
                                 className="btn btn-secondary btn-sm float-right"
                                 // onClick={() => handleAddToCart(proditem)}
@@ -250,10 +265,11 @@ const TopSavers = () => {
                               >
                                 <MdOutlineShoppingCart /> Add To Cart
                               </button>
-                              
+                              </Link>
                             </div>
+                          
                             </>
-                             </Link>
+                             
                             ) : (
                               <a href="#"  data-bs-toggle="modal"
                               data-bs-target="#exampleModal">

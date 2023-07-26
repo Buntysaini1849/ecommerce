@@ -374,13 +374,12 @@ export default function Login() {
               {showOtpField && (
                 <div
                   className="modal-footer d-flex"
-                  style={{ justifyContent: "center" }}
                 >
                   <button
                     type="submit"
-                    className="btn btn-md btn-primary w-100"
+                    className="btn btn-sm btn-info text-white"
                     onClick={handleLogin}
-                    style={{ fontSize: "15px", fontWeight: "500" }}
+                    style={{ fontSize: "15px", fontWeight: "500",width:"56%" }}
                   >
                     Login
                   </button>

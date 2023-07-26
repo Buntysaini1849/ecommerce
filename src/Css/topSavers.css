@@ -145,6 +145,90 @@
 }
 
 
+/* ResponsiveSlider.css */
+
+/* Default styles for the slider container */
+.slider-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Styles for full-screen */
+  @media screen and (min-width: 1920px) {
+    .slider-container {
+      padding: 40px;
+    }
+  }
+  
+  /* Styles for desktop */
+  @media screen and (max-width: 1920px) {
+    .slider-container {
+      padding: 30px;
+    }
+  }
+  
+  /* Styles for tablet */
+  @media screen and (max-width: 1366px) {
+    .slider-container {
+      padding: 20px;
+    }
+  }
+  
+  /* Styles for mobile */
+ /* ResponsiveSlider.css */
+
+/* Default styles for the slider container */
+.slider-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Styles for full-screen */
+@media screen and (min-width: 1920px) {
+  .slider-container {
+    padding: 40px;
+  }
+}
+
+/* Styles for desktop */
+@media screen and (max-width: 1920px) {
+  .slider-container {
+    padding: 30px;
+  }
+}
+
+/* Styles for tablet */
+@media screen and (max-width: 1366px) {
+  .slider-container {
+    padding: 20px;
+  }
+}
+
+/* Styles for mobile */
+@media screen and (max-width: 768px) {
+  .slider-container {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+    .slider-container {
+      padding: 10px;
+    }
+    .slick-slide{
+        width:100% !important
+    }
+  }
+  
+
+/* Custom styles for the slider and its components can also be added here */
+
+  
+  /* Custom styles for the slider and its components can also be added here */
+  
+
 
 
 
@@ -158,8 +242,5 @@
         height: 400px !important;
     }
 
-    .slick-slide{
-        width:100px !important
-    }
 
   }
