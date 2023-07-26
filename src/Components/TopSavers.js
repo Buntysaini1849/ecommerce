@@ -13,18 +13,21 @@ import { FcApproval } from "react-icons/fc";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartData, addToCart, addToCartFailure, ADD_TO_CART_SUCCESS } from '../State/Actions/CartActions';
-
 import { Link } from "react-router-dom";
 import Login from "./Login";
+import ProductView from "./ProductView";
+import { setSelectedProduct } from "../State/Actions/ProductViewAction";
 
 const TopSavers = () => {
   const [prohead, setProHead] = useState([]);
   const [data, setData] = useState([]);
 
+
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
   
+  const selectedProduct = useSelector((state) => state.proditem.selectedProduct);
   
 
   // const handleAddToCart = (product) => {
@@ -170,38 +173,14 @@ const TopSavers = () => {
   //     });
   // };
 
-  const handleAddToCart = (auth) => {
-    if (auth) {
-
-
-      const payload = {
-        type: 'view',
-      };
-
-      fetch(CART_API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization':   auth, 
-        },
-        body: JSON.stringify(payload),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle response from the API
-          // console.log('addtocart data = ',auth);
-          dispatch({type:ADD_TO_CART_SUCCESS, payload:auth})
-        })
-        .catch((error) => {
-          // Handle error
-          console.error('Error:', error);
-        });
-    } else {
-      // Handle unauthorized access
-      console.log('User is not authenticated.');
-    }
-  };
   
+
+  const handleProductView = (proditem) => {
+     dispatch(setSelectedProduct(proditem));
+     console.log(selectedProduct);
+  }
+
+
    
   return (
     <div className="container-fluid">
@@ -235,10 +214,9 @@ const TopSavers = () => {
                         <div className="product p-0 shadow-sm" style={{width:"230px"}} key={proditem.id}>
                           {isAuthenticated ? ( 
                          
-                            <Link key={proditem.id} to={`/productview/${proditem.id}`}>
-                         
-                              
-                         
+                            <Link to="/productview">
+                           
+                           <>
                             <div className="product-header">
                               {/* <span className="badge badge-success">50% OFF</span> */}
                               <img src={proditem.image} className="img-fluid"/>
@@ -263,17 +241,19 @@ const TopSavers = () => {
                                 <br />
                                 <span className="regular-price">₹{proditem.mrp_price}</span>
                               </p>
-                              {/* <Link to='/productview'> */}
+                            
                               <button
                                 className="btn btn-secondary btn-sm float-right"
-                                onClick={() => handleAddToCart(proditem)}
+                                // onClick={() => handleAddToCart(proditem)}
+                                onClick={() => handleProductView(proditem)}
                                 
                               >
                                 <MdOutlineShoppingCart /> Add To Cart
                               </button>
-                              {/* </Link> */}
+                              
                             </div>
-                            </Link>
+                            </>
+                             </Link>
                             ) : (
                               <a href="#"  data-bs-toggle="modal"
                               data-bs-target="#exampleModal">
@@ -331,6 +311,7 @@ const TopSavers = () => {
         </section>
       </div>
       <Login />
+      {selectedProduct && <ProductView proditem={selectedProduct} />}
     </div>
   );
 };

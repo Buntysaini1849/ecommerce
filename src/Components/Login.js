@@ -216,7 +216,7 @@ export default function Login() {
             role="document"
             style={{ width: "100%" }}
           >
-            <div className="modal-content">
+            <div className="modal-content" style={{borderRadius:"15px"}}>
               <div className="modal-body container-fluid">
                 <div className="row d-flex">
                   <div

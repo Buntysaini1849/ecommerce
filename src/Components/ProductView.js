@@ -5,13 +5,14 @@ import "slick-carousel/slick/slick-theme.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BANNER_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
+import { BANNER_API, CART_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
 import { FaTag } from "react-icons/fa";
 import "../Css/ProductView.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { ADD_TO_CART_SUCCESS } from "../State/Actions/CartActions";
 
-const ProductView = ({ match }) => {
+const ProductView = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [activeThumbnail, setActiveThumbnail] = useState(null);
@@ -19,42 +20,75 @@ const ProductView = ({ match }) => {
   const thumbnailSliderRef = useRef(null);
   const { id } = useParams();
   const auth = useSelector((state) => state.login.auth);
-
+  const proditem = useSelector((state) => state.proditem.selectedProduct);
   
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`${DASHBOARD}/${id}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json",
-          'Authorization': auth,
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const response = await fetch(`${DASHBOARD}/${id}`, {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json",
+  //         'Authorization': auth,
+  //       },
+
+  //         body: JSON.stringify({ type: "view" }),
+  //       });
+  //       const responseData = await response.json();
+
+  //       if (
+  //         responseData &&
+  //         responseData.data &&
+  //         Array.isArray(responseData.data) &&
+  //         responseData.data.length > 0
+  //       ) {
+  //         setData(responseData.data);
+  //         // dispatch(setProducts(responseData.data));
+  //         console.log("productview data", responseData.data);
+  //       } else {
+  //         console.error("Error: Invalid data structure");
+  //       }
+  //     } catch (error) {
+  //       console.error(error.message);
+  //       // Display an error message to the user or render a fallback
+  //     }
+  //   }
+
+  //   fetchData();
+  // }, [id]);
+
+ 
+  const handleAddToCart = (auth) => {
+    if (auth) {
+
+
+      const payload = {
+        type: 'view',
+      };
+
+      fetch(CART_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':   auth, 
         },
-
-          body: JSON.stringify({ type: "view" }),
+        body: JSON.stringify(payload),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle response from the API
+          // console.log('addtocart data = ',auth);
+          dispatch({type:ADD_TO_CART_SUCCESS, payload:auth})
+        })
+        .catch((error) => {
+          // Handle error
+          console.error('Error:', error);
         });
-        const responseData = await response.json();
-
-        if (
-          responseData &&
-          responseData.data &&
-          Array.isArray(responseData.data) &&
-          responseData.data.length > 0
-        ) {
-          setData(responseData.data);
-          // dispatch(setProducts(responseData.data));
-          console.log("productview data", responseData.data);
-        } else {
-          console.error("Error: Invalid data structure");
-        }
-      } catch (error) {
-        console.error(error.message);
-        // Display an error message to the user or render a fallback
-      }
+    } else {
+      // Handle unauthorized access
+      console.log('User is not authenticated.');
     }
-
-    fetchData();
-  }, [id]);
-
+  };
+ 
   const CustomPrevArrow = (props) => (
     <div className="slick-arrow slick-prev" onClick={props.onClick}>
       Prev
@@ -177,6 +211,7 @@ const ProductView = ({ match }) => {
       </section>
 
       <section className="shop-single section-padding pt-3">
+      {proditem ? (
         <div className="container">
           <div className="row">
             <div className="col-md-6">
@@ -193,16 +228,14 @@ const ProductView = ({ match }) => {
                       <FaTag className="mdi fa-tag" />
                     </a>
                   </div>
-                  {Array.isArray(data) &&
-                    data.map((product) => (
+                  
                       <div
                         className="container-fluid main-slider-top"
-                        key={product.id}
+                        key={proditem.id}
                         style={{ background: "#fff" }}
                       >
                         <Slider ref={mainSliderRef} {...mainSliderSettings}>
-                          {Array.isArray(product.item) &&
-                            product.item.map((proditem) => (
+                       
                               <div className="image-container">
                                 <img
                                   src={proditem.image}
@@ -211,29 +244,28 @@ const ProductView = ({ match }) => {
                                   className="img-fluid main-slider-img"
                                 />
                               </div>
-                            ))}
+                           
                         </Slider>
                       </div>
-                    ))}
+                    
                   <div className="container mt-2" style={{ width: "80%" }}>
                     <Slider
                       ref={thumbnailSliderRef}
                       {...thumbnailSliderSettings}
                       className="thumbslider"
                     >
-                      {Array.isArray(data) &&
-                        data.map((item) => (
+                     
                           <div
-                            className={getThumbnailItemClassName(item.id)}
-                            onClick={() => handleThumbnailClick(item.id)}
+                            className={getThumbnailItemClassName(proditem.id)}
+                            onClick={() => handleThumbnailClick(proditem.id)}
                           >
                             <img
-                              src={item.img}
+                              src={proditem.image}
                               alt="Product 1 Thumbnail"
                               className="img-fluid"
                             />
                           </div>
-                        ))}
+                       
                     </Slider>
                   </div>
                 </div>
@@ -242,22 +274,22 @@ const ProductView = ({ match }) => {
             <div className="col-md-6">
               <div className="shop-detail-right">
                 <span className="badge badge-success">50% OFF</span>
-                <h2>SaveMore Corn Flakes (Pouch)</h2>
+                <h2>{proditem.name}</h2>
                 <h6>
                   <strong>
                     <span className="mdi mdi-approval"></span> Available in
                   </strong>{" "}
-                  - 500 gm
+                  - {proditem.unit}
                 </h6>
                 <p className="regular-price">
-                  <i className="mdi mdi-tag-outline"></i> MRP : ₹800.99
+                  <i className="mdi mdi-tag-outline"></i> MRP : ₹{proditem.mrp_price}
                 </p>
                 <p className="offer-price mb-0">
                   Discounted price :{" "}
-                  <span className="text-success">₹450.99</span>
+                  <span className="text-success">₹{proditem.sale_price}</span>
                 </p>
                 <Link to="/checkout">
-                  <button type="button" className="btn btn-secondary btn-lg">
+                  <button type="button" className="btn btn-secondary btn-lg" onClick={() => handleAddToCart(proditem)}>
                     <i className="mdi mdi-cart-outline"></i> Add To Cart
                   </button>{" "}
                 </Link>
@@ -307,6 +339,9 @@ const ProductView = ({ match }) => {
             </div>
           </div>
         </div>
+        ) : (
+          <p>No product selected.</p>
+        )}
       </section>
       <Footer />
     </div>
