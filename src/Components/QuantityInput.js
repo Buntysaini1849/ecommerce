@@ -18,8 +18,8 @@ const QuantityInput = () => {
     <div className="container p-0">
     <div className="quantity-input p-0">
       <button onClick={handleDecrease} className="decin-btn dec-btn">-</button>
-      <input type="number"  className="form-control inputqty" value={quantity} readOnly />
-      <button onClick={handleIncrease} className="decin-btn">+</button>
+      <input type="number" className="form-control inputqty" value={quantity} readOnly  style={{background:"#f5eeee"}}/>
+      <button onClick={handleIncrease} className="decin-btn dec-plus">+</button>
     </div>
     </div>
   );

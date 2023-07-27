@@ -24,14 +24,22 @@
     padding-left: 15px;
 }
 
-  .decin-btn{
-        border-radius: 5px;
-        width: 10%;
-        height: 42px;
-        background: #fff;
-        border: 1px solid #ddd5d5;
-        color: #000;
-  }
+.decin-btn {
+  border-radius: 5px;
+  width: 10%;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  height: 42px;
+  background: #fff;
+  border: 1px solid #ddd5d5;
+  color: #000;
+}
 
+.dec-plus{
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
 
   

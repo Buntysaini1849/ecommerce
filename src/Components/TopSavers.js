@@ -103,7 +103,7 @@ const TopSavers = () => {
         breakpoint: 1920, // Full-screen
         settings: {
           slidesToShow: 5,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
         },
       },
       {

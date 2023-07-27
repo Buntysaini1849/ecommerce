@@ -31,9 +31,7 @@ const ItemSlide = () => {
 
 
 
-  const handleCategoryClick = categoryId => {
-    dispatch(setSelectedCategory(categoryId));
-  };
+
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -49,7 +47,7 @@ const ItemSlide = () => {
       {Array.isArray(categories) &&
             categories.map((item) => (
           <div className="category-item text-center mb-4" key={item.id}>
-            <img src={item.image}alt="Category" className="img-fluid" onClick={() => handleCategoryClick(item.id)}/>
+            <img src={item.image}alt="Category" className="img-fluid"/>
             <h6>{item.name}</h6>
           </div>
         ))}
