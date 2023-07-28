@@ -6,20 +6,17 @@ import Footer from "./Footer";
 import {
   CATEGORYLIST_API,
   PRODUCTCATWISE_API,
-  PRODUCTLIST_API,
 } from "./apiUrls";
-import {
-  fetchCategories,
-  fetchProducts,
-} from "../State/Actions/CategoryActions";
-import axios from "axios";
+
 
 const ShopList = () => {
   const [category, setCategory] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState();
   const [products, setProducts] = useState([]);
+  const [autoClicked, setAutoClicked] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.login.auth);
+  const selectedCategoryByID = useSelector((state) => state.catId.selectedCategoryId);
 
   const fetchCategory = async () => {
     try {
@@ -37,7 +34,6 @@ const ShopList = () => {
       if (response.ok) {
         const data = await response.json();
         setCategory(data.data);
-        console.log(data.data);
       } else {
         console.error("Failed to fetch products");
       }
@@ -53,7 +49,7 @@ const ShopList = () => {
   useEffect(() => {
     // Fetch products based on the selected category
     const fetchProducts = async () => {
-      if (selectedCategoryId) {
+      if (selectedCategoryId && selectedCategoryByID) {
     
         try {
           const requestOptions = {
@@ -62,13 +58,12 @@ const ShopList = () => {
               'Content-Type': 'application/json',
               'Authorization': auth
             },
-            body: JSON.stringify({ type: 'view', cat_id: [selectedCategoryId] })
+            body: JSON.stringify({ type: 'view', cat_id: [selectedCategoryId || selectedCategoryByID] })
           };
 
           const response = await fetch(PRODUCTCATWISE_API, requestOptions);
           const data = await response.json();
           setProducts(data.data);
-		  console.log(data.data);
         } catch (error) {
           console.error('Error fetching products:', error);
         }
@@ -76,12 +71,21 @@ const ShopList = () => {
     };
 
     fetchProducts();
-  }, [selectedCategoryId]);
+  }, [selectedCategoryId,selectedCategoryByID]);
   
 
+  
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
   };
+
+  useEffect(() => {
+    if (selectedCategoryByID && !autoClicked) {
+      // Automatically click the checkbox once if it's selected and not already auto-clicked
+      setAutoClicked(true);
+      setSelectedCategoryId(selectedCategoryByID);
+    }
+  }, [selectedCategoryByID, autoClicked]);
 
   return (
     <div>
@@ -129,12 +133,14 @@ const ShopList = () => {
                             <div
                               className="custom-control custom-checkbox d-flex"
                               key={cat.id}
-                              checked={selectedCategoryId === cat.id}
-                              onChange={() => handleCategoryChange(cat.id)}
+
                             >
                               <input
                                 type="checkbox"
                                 className="custom-control-input"
+                                checked={selectedCategoryId === cat.id || selectedCategoryByID === cat.id}
+                                onChange={() => handleCategoryChange(cat.id)}
+                                
                                 id={cat.id}
                               />
                               <label
@@ -373,14 +379,14 @@ const ShopList = () => {
                   <span className="mdi mdi-home"></span> Home
                 </a>{" "}
                 <span className="mdi mdi-chevron-right"></span>{" "}
-                <a href="#">Fruits & Vegetables</a>{" "}
+                {/* <a href="#">Fruits & Vegetables</a>{" "} */}
                 <span className="mdi mdi-chevron-right"></span>{" "}
-                <a href="#">Fruits</a>
+                {/* <a href="#">Fruits</a> */}
                 <div className="btn-group mt-2" style={{ float: "right" }}>
                   <button
                     type="button"
                     className="btn btn-dark dropdown-toggle"
-                    data-toggle="dropdown"
+                    data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
@@ -404,12 +410,12 @@ const ShopList = () => {
                     </a>
                   </div>
                 </div>
-                <h5 className="mb-3">Fruits</h5>
+                {/* <h5 className="mb-3">Fruits</h5> */}
               </div>
               {products.length === 0 ? (
                 <p>No products to display for the selected category.</p>
               ) : (
-                <div className="row no-gutters">
+                <div className="row no-gutters mt-5">
                   {Array.isArray(products) &&
                     products.map((product) => (
                       <div className="col-md-4" key={product.id}>

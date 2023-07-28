@@ -8,6 +8,7 @@ import { useReducer } from 'react';
 import userReducer from './Reducers/UserReducer';
 import CategoryReducer from './Reducers/CategoryReducer';
 import ProductViewReducer from './Reducers/ProductViewReducer';
+import SelectCatReducer from './Reducers/SelectCatReducer';
 
 const rootReducer = combineReducers({
   product: cartReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   login: LoginReducer,
   catpro: CategoryReducer,
   proditem: ProductViewReducer,
+  catId: SelectCatReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

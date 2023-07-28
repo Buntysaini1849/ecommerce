@@ -1,5 +1,6 @@
 .category-item{
       width: auto !important;
+      border: 0px !important;
 }
 
 .category-item img {
