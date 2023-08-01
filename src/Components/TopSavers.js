@@ -59,9 +59,12 @@ const TopSavers = () => {
         // Display an error message to the user or render a fallback
       }
     };
-
+    
     fetchHeadingData();
+   
   }, []);
+
+
 
   const CustomPrevArrow = (props) => {
     const { className, style, onClick } = props;
@@ -327,7 +330,9 @@ const TopSavers = () => {
         </section>
       </div>
       <Login />
-      {selectedProduct && <ProductView proditem={selectedProduct} />}
+      {!selectedProduct && <ProductView proditem={selectedProduct} />}
+
+
     </div>
   );
 };

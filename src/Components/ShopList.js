@@ -83,6 +83,9 @@ const ShopList = () => {
     if (selectedCategoryByID && !autoClicked) {
       // Automatically click the checkbox once if it's selected and not already auto-clicked
       setAutoClicked(true);
+    }
+    else{
+      setAutoClicked(true);
       setSelectedCategoryId(selectedCategoryByID);
     }
   }, [selectedCategoryByID, autoClicked]);
