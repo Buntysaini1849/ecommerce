@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BANNER_API, PRODUCTLIST_API } from "./apiUrls";
+import { BANNER_API, INGREDIENT_API, PRODUCTLIST_API, REMEDIES_API } from "./apiUrls";
 import {
   MdOutlineShareLocation,
   MdFindInPage,
@@ -8,13 +8,16 @@ import {
   MdStoreMallDirectory,
 } from "react-icons/md";
 import { FaTag, FaUserCircle } from "react-icons/fa";
-import {BiUserCircle} from "react-icons/bi";
+import { BiUserCircle } from "react-icons/bi";
 import logo from "../Images/logo.jpg";
 import CartProducts from "./ViewCart";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCart } from "../State/Actions/CartShowAction";
 import { Link } from "react-router-dom";
 import Login from "./Login";
+import "../Css/Ingredient.css";
+import { setCollapseOpen } from '../State/Actions/CollapseAction';
+
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -25,16 +28,47 @@ const Header = () => {
   const User = useSelector((state) => state.user.users);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
+  const [IngredData, setIngredData] = useState([]);
+  const [RemediesData, setRemediesData] = useState([]);
+
+  const collapseOpen = useSelector((state) => state.collapse.collapseOpen);
+ 
 
   // const handleCartClick = () => {
   //   setIsCartOpen(!isCartOpen);
   // };
-  
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const response = await fetch(PRODUCTLIST_API, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ type: "view" }),
+  //     });
+  //     const responseData = await response.json();
+
+  //     if (
+  //       responseData &&
+  //       responseData.data &&
+  //       Array.isArray(responseData.data) &&
+  //       responseData.data.length > 0
+  //     ) {
+  //       for (let i = 0; i < responseData.data.length; i++) {
+  //         setData(responseData.data);
+  //         // console.log(data);
+  //       }
+  //     } else {
+  //       console.error("Error: Invalid data structure");
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
+
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(PRODUCTLIST_API, {
+    async function fetchIngredData() {
+      const response = await fetch(INGREDIENT_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "view" }),
@@ -48,15 +82,52 @@ const Header = () => {
         responseData.data.length > 0
       ) {
         for (let i = 0; i < responseData.data.length; i++) {
-          setData(responseData.data);
+          setIngredData(responseData.data);
           // console.log(data);
         }
       } else {
         console.error("Error: Invalid data structure");
       }
     }
-    fetchData();
+    fetchIngredData();
   }, []);
+
+  useEffect(() => {
+    async function fetchRemediesData() {
+      const response = await fetch(REMEDIES_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "view" }),
+      });
+      const responseData = await response.json();
+
+      if (
+        responseData &&
+        responseData.data &&
+        Array.isArray(responseData.data) &&
+        responseData.data.length > 0
+      ) {
+        for (let i = 0; i < responseData.data.length; i++) {
+          setRemediesData(responseData.data);
+          // console.log(data);
+        }
+      } else {
+        console.error("Error: Invalid data structure");
+      }
+    }
+    fetchRemediesData();
+  }, []);
+
+
+  const handleRemedieClick = () => {
+    // Dispatch an action to set the collapse state to open
+    dispatch(setCollapseOpen(true));
+  };
+
+  const handleIngredClick = () => {
+    // Dispatch an action to set the collapse state to open
+    dispatch(setCollapseOpen(true));
+  };
 
   return (
     <div>
@@ -89,7 +160,7 @@ const Header = () => {
                 src={logo}
                 alt="logo"
                 className="img-fluid"
-                style={{width:"100%",maxWidth:"167px"}}
+                style={{ width: "100%", maxWidth: "167px" }}
               />{" "}
             </Link>
             {/* <a className="location-top" href="#">
@@ -168,7 +239,10 @@ const Header = () => {
                           padding: "10px",
                         }}
                       >
-                        <BiUserCircle className="user-icon mb-1 mx-1" style={{fontSize:"20px"}} />
+                        <BiUserCircle
+                          className="user-icon mb-1 mx-1"
+                          style={{ fontSize: "20px" }}
+                        />
                         Welcome,User
                       </a>
                     ) : (
@@ -181,10 +255,13 @@ const Header = () => {
                           fontSize: "15px",
                           fontWeight: "500",
                           padding: "10px",
-                          cursor:"pointer"
+                          cursor: "pointer",
                         }}
                       >
-                        <MdLogin className="user-icon mb-1 mx-2" style={{fontSize:"21px"}}/>
+                        <MdLogin
+                          className="user-icon mb-1 mx-2"
+                          style={{ fontSize: "21px" }}
+                        />
                         Login
                       </a>
                     )}
@@ -248,7 +325,8 @@ const Header = () => {
                   <li className="list-inline-item nav-item">
                     <div className="cart-btn">
                       <Link to="/viewcart" className="btn btn-link border-none">
-                        <MdOutlineShoppingCart className="shopping-cart" /> My Cart{" "}
+                        <MdOutlineShoppingCart className="shopping-cart" /> My
+                        Cart{" "}
                         <small className="cart-value" style={{ color: "#fff" }}>
                           {cartItems.length}
                         </small>
@@ -284,15 +362,49 @@ const Header = () => {
                     About Us
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link to="/shoplist" className="nav-link">
-                    Ingredient
-                  </Link>
+                <li className="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Ingredients
+                  </a>
+                  {Array.isArray(IngredData) &&
+                          IngredData.map((ingred) => (
+                  <ul class="dropdown-menu">
+                    <li key={ingred.id}>
+                      <Link class="dropdown-item ingred-item" to="/shoplist" handleIngredClick={handleIngredClick} style={{cursor:"pointer"}}>
+                        {ingred.name}
+                      </Link>
+                    </li>
+               
+                  </ul>
+                    ))}
                 </li>
-                <li className="nav-item">
-                  <Link to="/shoplist" className="nav-link">
+                <li className="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
                     Remedies
-                  </Link>
+                  </a>
+                  {Array.isArray(RemediesData) &&
+                          RemediesData.map((remedata) => (
+                  <ul class="dropdown-menu">
+                    <li key={remedata.id}>
+                      <Link class="dropdown-item ingred-item" to="/shoplist"  onClick={handleRemedieClick}>
+                        {remedata.name}
+                      </Link>
+                    </li>
+               
+                  </ul>
+                    ))}
                 </li>
                 {/* <li className="nav-item dropdown">
                 <a

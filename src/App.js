@@ -11,10 +11,10 @@ import Profile from "./Components/Profile";
 import Address from "./Components/Address";
 import Wishlist from "./Components/Wishlist";
 import OrderList from "./Components/OrderList";
-import { AiOutlineOrderedList } from "react-icons/ai";
 import AboutUs from "./Components/AboutUs";
 import ContactUs from "./Components/ContactUs";
 import ViewCart from "./Components/ViewCart";
+
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
             <Route exact path="/orderlist" element={<OrderList />} />
             <Route exact path="/aboutus" element={<AboutUs />} />
             <Route exact path="/contactus" element={<ContactUs />} />
+            
 
             </Routes>
             

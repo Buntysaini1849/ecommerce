@@ -1,0 +1,13 @@
+
+
+.dropdown-item{
+    font-size: 15px !important;
+}
+
+.ingred-item{
+    border-bottom: 1px solid #e2dfdf !important;
+}
+
+.dropdown-item:hover{
+    color: #3bb77e !important;
+}

@@ -5,18 +5,25 @@ import { useSelector, useDispatch } from "react-redux";
 import Footer from "./Footer";
 import {
   CATEGORYLIST_API,
+  INGREDIENT_API,
   PRODUCTCATWISE_API,
+  REMEDIES_API,
 } from "./apiUrls";
 
+import "../Css/ShopList.css";
 
 const ShopList = () => {
   const [category, setCategory] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState();
   const [products, setProducts] = useState([]);
   const [autoClicked, setAutoClicked] = useState(false);
+  const [IngredData, setIngredData] = useState([]);
+  const [RemediesData, setRemediesData] = useState([]);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.login.auth);
   const selectedCategoryByID = useSelector((state) => state.catId.selectedCategoryId);
+  
+  const collapseOpen = useSelector((state) => state.collapse.collapseOpen);
 
   const fetchCategory = async () => {
     try {
@@ -74,6 +81,58 @@ const ShopList = () => {
   }, [selectedCategoryId,selectedCategoryByID]);
   
 
+  useEffect(() => {
+    async function fetchIngredData() {
+      const response = await fetch(INGREDIENT_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "view" }),
+      });
+      const responseData = await response.json();
+
+      if (
+        responseData &&
+        responseData.data &&
+        Array.isArray(responseData.data) &&
+        responseData.data.length > 0
+      ) {
+        for (let i = 0; i < responseData.data.length; i++) {
+          setIngredData(responseData.data);
+          // console.log(data);
+        }
+      } else {
+        console.error("Error: Invalid data structure");
+      }
+    }
+    fetchIngredData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchRemediesData() {
+      const response = await fetch(REMEDIES_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "view" }),
+      });
+      const responseData = await response.json();
+
+      if (
+        responseData &&
+        responseData.data &&
+        Array.isArray(responseData.data) &&
+        responseData.data.length > 0
+      ) {
+        for (let i = 0; i < responseData.data.length; i++) {
+          setRemediesData(responseData.data);
+          // console.log(data);
+        }
+      } else {
+        console.error("Error: Invalid data structure");
+      }
+    }
+    fetchRemediesData();
+  }, []);
+
   
   const handleCategoryChange = (categoryId) => {
     setSelectedCategoryId(categoryId);
@@ -114,7 +173,7 @@ const ShopList = () => {
                         </button>
                       </h5>
                     </div>
-                    <div id="collapseOne" className="collapse show">
+                    <div id="collapseOne" className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}>
                       <div className="card-body card-shop-filters">
                         {/* <form className="form-inline mb-3">
                           <div className="form-group d-flex">
@@ -174,7 +233,7 @@ const ShopList = () => {
                     </div>
                     <div
                       id="collapseTwo"
-                      className="collapse"
+                      className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}
                       aria-labelledby="headingTwo"
                       data-parent="#accordion"
                     >
@@ -233,76 +292,35 @@ const ShopList = () => {
                           aria-expanded="false"
                           aria-controls="collapseThree"
                         >
-                          Brand{" "}
+                          Ingredients{" "}
                           <span className="mdi mdi-chevron-down float-right"></span>
                         </button>
                       </h5>
                     </div>
                     <div
                       id="collapseThree"
-                      className="collapse"
+                      className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}
                       aria-labelledby="headingThree"
                       data-parent="#accordion"
                     >
                       <div className="card-body card-shop-filters">
-                        <form className="form-inline mb-3 d-flex">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Search By Brand"
-                            />
-                          </div>
-                          <button
-                            type="submit"
-                            className="btn btn-secondary ml-2"
-                          >
-                            GO
-                          </button>
-                        </form>
-                        <div className="custom-control custom-checkbox d-flex">
+                       
+                        {Array.isArray(IngredData) &&
+                          IngredData.map((ingred) => (
+                        <div className="custom-control custom-checkbox d-flex" key={ingred.id}>
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id="b1"
+                            id={ingred.id}
                           />
                           <label className="custom-control-label" for="b1">
-                            Imported Fruits{" "}
-                            <span className="badge badge-warning">50% OFF</span>
+                            {ingred.name}
+                           
                           </label>
                         </div>
-                        <div className="custom-control custom-checkbox d-flex">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="b2"
-                          />
-                          <label className="custom-control-label" for="b2">
-                            Seasonal Fruits{" "}
-                            <span className="badge badge-secondary">NEW</span>
-                          </label>
-                        </div>
-                        <div className="custom-control custom-checkbox d-flex">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="b3"
-                          />
-                          <label className="custom-control-label" for="b3">
-                            Imported Fruits{" "}
-                            <span className="badge badge-danger">10% OFF</span>
-                          </label>
-                        </div>
-                        <div className="custom-control custom-checkbox d-flex">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="b4"
-                          />
-                          <label className="custom-control-label" for="b4">
-                            Citrus
-                          </label>
-                        </div>
+                          ))}
+                        
+                        
                       </div>
                     </div>
                   </div>
@@ -312,57 +330,43 @@ const ShopList = () => {
                         <button
                           className="btn btn-link collapsed"
                           data-bs-toggle="collapse"
-                          data-bs-target="#collapsefour"
+                          data-bs-target="#collapseThree"
                           aria-expanded="false"
-                          aria-controls="collapsefour"
+                          aria-controls="collapseThree"
                         >
-                          Imported Fruits{" "}
+                          Remedies{" "}
                           <span className="mdi mdi-chevron-down float-right"></span>
                         </button>
                       </h5>
                     </div>
                     <div
-                      id="collapsefour"
-                      className="collapse"
+                      id="collapseFour"
+                      className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}
                       aria-labelledby="headingThree"
                       data-parent="#accordion"
                     >
-                      <div className="card-body">
-                        <div className="list-group">
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action"
-                          >
-                            All Fruits
-                          </a>
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action"
-                          >
-                            Imported Fruits
-                          </a>
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action"
-                          >
-                            Seasonal Fruits
-                          </a>
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action"
-                          >
-                            Citrus
-                          </a>
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action disabled"
-                          >
-                            Cut Fresh & Herbs
-                          </a>
+                      <div className="card-body card-shop-filters">
+                       
+                        {Array.isArray(RemediesData) &&
+                          RemediesData.map((remeData) => (
+                        <div className="custom-control custom-checkbox d-flex" key={remeData.id}>
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id={remeData.id}
+                          />
+                          <label className="custom-control-label" for="b1">
+                            {remeData.name}
+                           
+                          </label>
                         </div>
+                          ))}
+                        
+                        
                       </div>
                     </div>
                   </div>
+                
                 </div>
               </div>
               <div className="left-ad mt-4">

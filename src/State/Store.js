@@ -9,6 +9,7 @@ import userReducer from './Reducers/UserReducer';
 import CategoryReducer from './Reducers/CategoryReducer';
 import ProductViewReducer from './Reducers/ProductViewReducer';
 import SelectCatReducer from './Reducers/SelectCatReducer';
+import CollapseReducer from './Reducers/CollapseReducer';
 
 const rootReducer = combineReducers({
   product: cartReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   catpro: CategoryReducer,
   proditem: ProductViewReducer,
   catId: SelectCatReducer,
+  collapse: CollapseReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
