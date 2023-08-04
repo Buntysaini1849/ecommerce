@@ -16,7 +16,7 @@ import { toggleCart } from "../State/Actions/CartShowAction";
 import { Link } from "react-router-dom";
 import Login from "./Login";
 import "../Css/Ingredient.css";
-import { setCollapseOpen } from '../State/Actions/CollapseAction';
+import { setCollapseOpen,setSelectedIngredient, setSelectedRemedies } from '../State/Actions/CollapseAction';
 
 
 const Header = () => {
@@ -119,15 +119,20 @@ const Header = () => {
   }, []);
 
 
-  const handleRemedieClick = () => {
+  const handleRemedieClick = (remedata) => {
     // Dispatch an action to set the collapse state to open
     dispatch(setCollapseOpen(true));
+    dispatch(setSelectedRemedies(remedata));
+    dispatch(setSelectedIngredient(""));
   };
 
-  const handleIngredClick = () => {
+  const handleIngredClick = (ingred) => {
     // Dispatch an action to set the collapse state to open
     dispatch(setCollapseOpen(true));
+    dispatch(setSelectedIngredient(ingred));
+    dispatch(setSelectedRemedies(""));
   };
+
 
   return (
     <div>
@@ -376,7 +381,7 @@ const Header = () => {
                           IngredData.map((ingred) => (
                   <ul class="dropdown-menu">
                     <li key={ingred.id}>
-                      <Link class="dropdown-item ingred-item" to="/shoplist" handleIngredClick={handleIngredClick} style={{cursor:"pointer"}}>
+                      <Link class="dropdown-item ingred-item" to="/shoplist" onClick={() => handleIngredClick(ingred.id)} style={{cursor:"pointer"}}>
                         {ingred.name}
                       </Link>
                     </li>
@@ -398,7 +403,7 @@ const Header = () => {
                           RemediesData.map((remedata) => (
                   <ul class="dropdown-menu">
                     <li key={remedata.id}>
-                      <Link class="dropdown-item ingred-item" to="/shoplist"  onClick={handleRemedieClick}>
+                      <Link class="dropdown-item ingred-item" to="/shoplist" onClick={() => handleRemedieClick(remedata.id)}>
                         {remedata.name}
                       </Link>
                     </li>

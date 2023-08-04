@@ -1,7 +1,9 @@
-import { SET_COLLAPSE_OPEN } from '../Actions/CollapseAction';
+import { SET_COLLAPSE_OPEN,SET_SELECTED_INGREDIENT, SET_SELECTED_REMEDIES } from "../Actions/CollapseAction";
 
 const initialState = {
   collapseOpen: false,
+  selectedIngredient: "",
+  selectedRemedies:"",
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +12,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         collapseOpen: action.payload,
+      };
+    case SET_SELECTED_INGREDIENT:
+      return {
+        ...state,
+        selectedIngredient: action.payload,
+      };
+      case SET_SELECTED_REMEDIES:
+      return {
+        ...state,
+        selectedRemedies: action.payload,
       };
     default:
       return state;

@@ -236,7 +236,7 @@ export default function Login() {
                     />
                   </div>
                   <div className="col-md-7 col-sm-7 pt-4">
-                    <h5 className="modal-title">Login to MoonHerbal</h5>
+                    <h5 className="modal-title">Login to my account</h5>
                     <form className="mt-4">
                       <div className="row d-flex">
                         <div className="col-md-8 col-sm-8">

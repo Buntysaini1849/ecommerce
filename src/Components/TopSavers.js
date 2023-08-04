@@ -330,7 +330,8 @@ const TopSavers = () => {
         </section>
       </div>
       <Login />
-      {!selectedProduct && <ProductView proditem={selectedProduct} />}
+      {/* {!selectedProduct ? null : <ProductView proditem={selectedProduct} />} */}
+
 
 
     </div>

@@ -3,10 +3,12 @@ import Header from "./Header";
 import { MdPhoneIphone } from "react-icons/md";
 import Footer from "./Footer";
 import {Link} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 
 
 const Checkout = () => {
+  const cartItem = useSelector((state) => state.cart.product);
   return (
     <div>
         <div>
@@ -1235,77 +1237,41 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="col-md-4">
+              
                 <div className="card">
                   <h5 className="card-header">
                     My Cart{" "}
-                    <span className="text-secondary float-right">(5 item)</span>
+                    <span className="text-secondary float-right">({cartItem.length})</span>
                   </h5>
+                  {Array.isArray(cartItem) &&
+                          cartItem.map((cartData) => (
                   <div className="card-body pt-0 pr-0 pl-0 pb-0">
                     <div className="cart-list-product">
                       <a className="float-right remove-cart" href="#">
                         <i className="mdi mdi-close"></i>
                       </a>
-                      <img className="img-fluid" src="img/item/11.jpg" alt="" />
-                      <span className="badge badge-success">50% OFF</span>
+                      <img className="img-fluid" src={cartData.image} alt="" />
+                      {/* <span className="badge badge-success">50% OFF</span> */}
                       <h5>
-                        <a href="#">Product Title Here</a>
+                        <a href="#">{cartData.name}</a>
                       </h5>
                       <h6>
                         <strong>
                           <span className="mdi mdi-approval"></span> Available
                           in
                         </strong>{" "}
-                        - 500 gm
+                        - {cartData.unit}
                       </h6>
                       <p className="offer-price mb-0">
-                        $450.99 <i className="mdi mdi-tag-outline"></i>{" "}
-                        <span className="regular-price">$800.99</span>
+                      ₹{cartData.sale_price} <i className="mdi mdi-tag-outline"></i>{" "}
+                        <span className="regular-price">₹{cartData.mrp_price}</span>
                       </p>
                     </div>
-                    <div className="cart-list-product">
-                      <a className="float-right remove-cart" href="#">
-                        <i className="mdi mdi-close"></i>
-                      </a>
-                      <img className="img-fluid" src="img/item/1.jpg" alt="" />
-                      <span className="badge badge-success">50% OFF</span>
-                      <h5>
-                        <a href="#">Product Title Here</a>
-                      </h5>
-                      <h6>
-                        <strong>
-                          <span className="mdi mdi-approval"></span> Available
-                          in
-                        </strong>{" "}
-                        - 500 gm
-                      </h6>
-                      <p className="offer-price mb-0">
-                        $450.99 <i className="mdi mdi-tag-outline"></i>{" "}
-                        <span className="regular-price">$800.99</span>
-                      </p>
-                    </div>
-                    <div className="cart-list-product">
-                      <a className="float-right remove-cart" href="#">
-                        <i className="mdi mdi-close"></i>
-                      </a>
-                      <img className="img-fluid" src="img/item/2.jpg" alt="" />
-                      <span className="badge badge-success">50% OFF</span>
-                      <h5>
-                        <a href="#">Product Title Here</a>
-                      </h5>
-                      <h6>
-                        <strong>
-                          <span className="mdi mdi-approval"></span> Available
-                          in
-                        </strong>{" "}
-                        - 500 gm
-                      </h6>
-                      <p className="offer-price mb-0">
-                        $450.99 <i className="mdi mdi-tag-outline"></i>{" "}
-                        <span className="regular-price">$800.99</span>
-                      </p>
-                    </div>
+                  
                   </div>
+                    ))}
                 </div>
+              
               </div>
             </div>
           </div>

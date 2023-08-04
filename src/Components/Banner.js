@@ -60,7 +60,7 @@ const Banner = () => {
           {Array.isArray(data) &&
             data.map((item) => ( 
           <div className="item p-0" key={item.id}>
-            <img src={item.img} className="img-fluid banner-img active"/>
+            <img src={item.img} className="img-fluid banner-img"/>
           </div>
            ))}
           

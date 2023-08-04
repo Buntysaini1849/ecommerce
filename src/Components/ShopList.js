@@ -11,10 +11,13 @@ import {
 } from "./apiUrls";
 
 import "../Css/ShopList.css";
+import { setSelectedIngredient, setSelectedRemedies } from "../State/Actions/CollapseAction";
 
 const ShopList = () => {
   const [category, setCategory] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState();
+  const [selectedIngredId, setSelectedIngredId] = useState();
+  const [selectedRemediesById, setSelectedRemediesById] = useState();
   const [products, setProducts] = useState([]);
   const [autoClicked, setAutoClicked] = useState(false);
   const [IngredData, setIngredData] = useState([]);
@@ -24,6 +27,9 @@ const ShopList = () => {
   const selectedCategoryByID = useSelector((state) => state.catId.selectedCategoryId);
   
   const collapseOpen = useSelector((state) => state.collapse.collapseOpen);
+
+  const selectedIngredient = useSelector((state) => state.collapse.selectedIngredient);
+  const selectedRemedies = useSelector((state) => state.collapse.selectedRemedies);
 
   const fetchCategory = async () => {
     try {
@@ -56,7 +62,7 @@ const ShopList = () => {
   useEffect(() => {
     // Fetch products based on the selected category
     const fetchProducts = async () => {
-      if (selectedCategoryId && selectedCategoryByID) {
+      if (selectedCategoryId || selectedCategoryByID) {
     
         try {
           const requestOptions = {
@@ -138,6 +144,20 @@ const ShopList = () => {
     setSelectedCategoryId(categoryId);
   };
 
+  const handleIngredChange = (IngredId) => {
+    setSelectedIngredient(IngredId);
+    setSelectedIngredId(IngredId);
+    setSelectedRemediesById("");
+    setSelectedRemedies("");
+  };
+
+  const handleRemediesChange = (remeDataId) => {
+    setSelectedRemedies(remeDataId);
+    setSelectedRemediesById(remeDataId);
+    setSelectedIngredient("");
+    setSelectedIngredId(""); 
+  };
+
   useEffect(() => {
     if (selectedCategoryByID && !autoClicked) {
       // Automatically click the checkbox once if it's selected and not already auto-clicked
@@ -173,7 +193,7 @@ const ShopList = () => {
                         </button>
                       </h5>
                     </div>
-                    <div id="collapseOne" className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}>
+                    <div id="collapseOne" className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}>
                       <div className="card-body card-shop-filters">
                         {/* <form className="form-inline mb-3">
                           <div className="form-group d-flex">
@@ -233,7 +253,7 @@ const ShopList = () => {
                     </div>
                     <div
                       id="collapseTwo"
-                      className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}
+                      className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}
                       aria-labelledby="headingTwo"
                       data-parent="#accordion"
                     >
@@ -299,7 +319,7 @@ const ShopList = () => {
                     </div>
                     <div
                       id="collapseThree"
-                      className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}
+                      className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}
                       aria-labelledby="headingThree"
                       data-parent="#accordion"
                     >
@@ -311,6 +331,8 @@ const ShopList = () => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
+                            checked={selectedIngredient === ingred.id || selectedIngredId === ingred.id}
+                            onChange={() => handleIngredChange(ingred.id)}
                             id={ingred.id}
                           />
                           <label className="custom-control-label" for="b1">
@@ -325,14 +347,14 @@ const ShopList = () => {
                     </div>
                   </div>
                   <div className="card">
-                    <div className="card-header" id="headingThree">
+                    <div className="card-header" id="headingFour">
                       <h5 className="mb-0">
                         <button
                           className="btn btn-link collapsed"
                           data-bs-toggle="collapse"
-                          data-bs-target="#collapseThree"
+                          data-bs-target="#collapseFour"
                           aria-expanded="false"
-                          aria-controls="collapseThree"
+                          aria-controls="collapseFour"
                         >
                           Remedies{" "}
                           <span className="mdi mdi-chevron-down float-right"></span>
@@ -341,7 +363,7 @@ const ShopList = () => {
                     </div>
                     <div
                       id="collapseFour"
-                      className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}
+                      className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}
                       aria-labelledby="headingThree"
                       data-parent="#accordion"
                     >
@@ -353,6 +375,8 @@ const ShopList = () => {
                           <input
                             type="checkbox"
                             className="custom-control-input"
+                            checked={selectedRemedies === remeData.id || selectedRemediesById === remeData.id}
+                            onChange={() => handleRemediesChange(remeData.id)}
                             id={remeData.id}
                           />
                           <label className="custom-control-label" for="b1">
@@ -427,7 +451,7 @@ const ShopList = () => {
                     products.map((product) => (
                       <div className="col-md-4" key={product.id}>
                         <div className="product">
-                          <a href="single.html">
+                          <a>
                             <div className="product-header">
                               <span className="badge badge-success">
                                 50% OFF

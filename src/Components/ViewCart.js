@@ -362,7 +362,7 @@ const CartProducts = () => {
                         type="button"
                       >
                         <span style={{ float: "left" }}>
-                          <MdOutlineShoppingCart className="mdi mdi-cart-outline mb-1" />{" "}
+                          <MdOutlineShoppingCart className="mdi mdi-cart-outline mb-1" />
                           Proceed to Checkout{" "}
                         </span>
                         <span style={{ float: "right" }}>

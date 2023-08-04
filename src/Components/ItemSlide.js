@@ -13,6 +13,7 @@ import {
 import ShopList from "./ShopList";
 import { setSelectedCategories } from "../State/Actions/SelectCatAction";
 import { Link } from "react-router-dom";
+import { setCollapseOpen } from "../State/Actions/CollapseAction";
 
 const ItemSlide = () => {
   // const [data, setData] = useState([]);
@@ -21,6 +22,7 @@ const ItemSlide = () => {
   const selectedCategory = useSelector(
     (state) => state.catpro.selectedCategory
   );
+  const collapseOpen = useSelector((state) => state.collapse.collapseOpen);
 
   const settings = {
     dots: false,
@@ -40,6 +42,7 @@ const ItemSlide = () => {
 
   const handleCategoryClick = (categoryId) => {
     dispatch(setSelectedCategories(categoryId));
+    dispatch(setCollapseOpen(false));
   };
 
   return (
