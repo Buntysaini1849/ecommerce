@@ -10,6 +10,7 @@ import CategoryReducer from './Reducers/CategoryReducer';
 import ProductViewReducer from './Reducers/ProductViewReducer';
 import SelectCatReducer from './Reducers/SelectCatReducer';
 import CollapseReducer from './Reducers/CollapseReducer';
+import wishlistReducer from './Reducers/WishlistReducer';
 
 const rootReducer = combineReducers({
   product: cartReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   proditem: ProductViewReducer,
   catId: SelectCatReducer,
   collapse: CollapseReducer,
+  wishlist:wishlistReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

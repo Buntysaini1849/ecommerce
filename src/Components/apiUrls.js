@@ -14,3 +14,4 @@ export const PROFILE_API              = BASE_URL + 'customer/profile/';
 export const CUSTOMER_ADDRESS_API     = BASE_URL + 'customer/address/';
 export const INGREDIENT_API           = BASE_URL+'product/ingredient/';
 export const REMEDIES_API             = BASE_URL+'product/remedies/';
+export const WISHLIST_API             = BASE_URL+'order/wish/';

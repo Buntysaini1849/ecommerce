@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState,useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BANNER_API, CART_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
+import {CART_API} from "./apiUrls";
 import { FaTag } from "react-icons/fa";
 import "../Css/ProductView.css";
 import { Link, useParams } from "react-router-dom";
@@ -13,16 +13,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { ADD_TO_CART_SUCCESS } from "../State/Actions/CartActions";
 import QuantityInput from "./QuantityInput";
 
+
 const ProductView = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [showAddToCart, setShowAddToCart] = useState(true);
   const [activeThumbnail, setActiveThumbnail] = useState(null);
+  
   const mainSliderRef = useRef(null);
   const thumbnailSliderRef = useRef(null);
   const { id } = useParams();
   const auth = useSelector((state) => state.login.auth);
   const proditem = useSelector((state) => state.proditem.selectedProduct);
+  
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -88,6 +91,11 @@ const ProductView = () => {
       console.log("User is not authenticated.");
     }
   };
+
+
+
+  
+
 
   const CustomPrevArrow = (props) => (
     <div className="slick-arrow slick-prev" onClick={props.onClick}></div>
@@ -288,6 +296,14 @@ const ProductView = () => {
                   </div>
 
                   {/* <Link to="/viewcart"> */}
+                  <div className="card border-1 mt-4 p-1">
+                    <h5 className="pt-2 selectUnit-Tag">Select Unit Size</h5>
+                   <div className="row d-flex p-0">
+                    <div className="col">
+                      <button className="btn btn-sm selectUnit-btn"  key={proditem.id}>{proditem.unit}</button>
+                    </div>
+                   </div>
+                  </div>
                   <>
                   {showAddToCart ? (
                     <button

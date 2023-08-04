@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BANNER_API, CART_API, DASHBOARD, PRODUCTLIST_API } from "./apiUrls";
+import { BANNER_API, CART_API, DASHBOARD, PRODUCTLIST_API, WISHLIST_API } from "./apiUrls";
 import "../Css/topSavers.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import Login from "./Login";
 import ProductView from "./ProductView";
 import { setSelectedProduct } from "../State/Actions/ProductViewAction";
+import { setWishlistItems } from "../State/Actions/WishlistAction";
 
 const TopSavers = () => {
   const [prohead, setProHead] = useState([]);
@@ -190,7 +191,37 @@ const TopSavers = () => {
   //     });
   // };
 
-  
+  const handleAddToWishlist = (productId) => {
+    if (auth) {
+      const payloads = {
+        type: "add",
+        product_id:productId,
+      };
+
+      fetch(WISHLIST_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: auth,
+        },
+        body: JSON.stringify(payloads),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle response from the API
+          // console.log('addtocart data = ',auth);
+          dispatch(setWishlistItems(data));
+          console.log("wishlist Items",data);
+        })
+        .catch((error) => {
+          // Handle error
+          console.error("Error:", error);
+        });
+    } else {
+      // Handle unauthorized access
+      console.log("User is not authenticated.");
+    }
+  };
 
   const handleProductView = (proditem) => {
      dispatch(setSelectedProduct(proditem));
@@ -239,7 +270,7 @@ const TopSavers = () => {
                               <img src={proditem.image} className="img-fluid"/>
                               {isAuthenticated ? (
                               <span className="veg text-success mdi mdi-circle">
-                                <AiOutlineHeart style={{fontSize:"20px"}}/>
+                                <AiOutlineHeart style={{fontSize:"26px",cursor:"pointer"}}   onClick={()=>handleAddToWishlist(proditem.id)} className="heart-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></AiOutlineHeart>
                                 </span>
                               ) : ( "" )}
                        
@@ -249,7 +280,7 @@ const TopSavers = () => {
                               <h6>
                                 <strong>
                                   <FcApproval /> Available in
-                                </strong>{" "}- {product.unit}
+                                </strong>{" "}- {proditem.unit}
                               </h6>
                             </div>
                            

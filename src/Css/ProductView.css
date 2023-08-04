@@ -30,6 +30,28 @@
     cursor: pointer;
     margin: 22px !important;
     width: 65%;
+    margin-top: -33px !important;
+}
+
+.selectUnit-Tag{
+    font-size: 15px !important;
+    color: #4e4e4e !important;
+    margin-left: 12px !important;
+
+}
+
+
+.selectUnit-btn{
+    border-radius: 15px !important;
+    border: 1px solid #000 !important;
+    padding: 8px !important;
+    margin: 18px 0px 16px 17px !important;
+}
+
+.selectUnit-btn:hover{
+    background-color: #3bb77e !important;
+    border: 1px solid #3bb77e !important;
+    color: #fff !important;
 }
 
 

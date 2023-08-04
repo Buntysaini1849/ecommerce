@@ -37,7 +37,7 @@
 }
 
 .product-header .mdi-circle {
-    border: 1px solid;
+    border: 0px;
     border-radius: 2px;
     display: inline-block;
     font-size: 11px;
@@ -56,6 +56,13 @@
     margin: 0;
 }
 
+.heart-icon{
+  transition: transform 0.3s ease !important;
+}
+
+.heart-icon:hover{
+  transform: scale(1.1) !important;
+}
 
 .product-body h6 {
     color: #9c9c9c;
@@ -67,14 +74,14 @@
     height: 200px;
     margin: 0 0 18px;
     object-fit: fill;
-    transform: scale(1);
-    background-size: auto;
-    transition-duration: 0.4s;
+    /* transform: scale(1); */
+    /* background-size: auto; */
+    /* transition-duration: 0.4s; */
 }
 
-.product:hover .product-header img {
+/* .product:hover .product-header img {
     transform: scale(1.09);
-}
+} */
 
 .product-header {
     text-align: center;

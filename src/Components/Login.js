@@ -377,7 +377,7 @@ export default function Login() {
                 >
                   <button
                     type="submit"
-                    className="btn btn-sm btn-info text-white"
+                    className="btn btn-sm btn-success text-white"
                     onClick={handleLogin}
                     style={{ fontSize: "15px", fontWeight: "500",width:"56%" }}
                   >
