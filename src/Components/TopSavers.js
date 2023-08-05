@@ -22,6 +22,7 @@ import { setWishlistItems } from "../State/Actions/WishlistAction";
 const TopSavers = () => {
   const [prohead, setProHead] = useState([]);
   const [data, setData] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
 
 
   const dispatch = useDispatch();
@@ -194,8 +195,8 @@ const TopSavers = () => {
   const handleAddToWishlist = (productId) => {
     if (auth) {
       const payloads = {
-        type: "add",
-        product_id:productId,
+        "type": "add",
+        "product_id":productId,
       };
 
       fetch(WISHLIST_API, {
@@ -211,6 +212,7 @@ const TopSavers = () => {
           // Handle response from the API
           // console.log('addtocart data = ',auth);
           dispatch(setWishlistItems(data));
+          setIsLiked(!isLiked);
           console.log("wishlist Items",data);
         })
         .catch((error) => {
@@ -270,7 +272,7 @@ const TopSavers = () => {
                               <img src={proditem.image} className="img-fluid"/>
                               {isAuthenticated ? (
                               <span className="veg text-success mdi mdi-circle">
-                                <AiOutlineHeart style={{fontSize:"26px",cursor:"pointer"}}   onClick={()=>handleAddToWishlist(proditem.id)} className="heart-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></AiOutlineHeart>
+                                <AiOutlineHeart style={{fontSize:"26px",cursor:"pointer",color: isLiked ? "red" : "",}}  onClick={()=>handleAddToWishlist(proditem.id)} className="heart-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></AiOutlineHeart>
                                 </span>
                               ) : ( "" )}
                        
