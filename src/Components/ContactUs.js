@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import { Link } from "react-router-dom";
-import { ABOUT_CONTACT_API } from "./apiUrls";
+import { ABOUT_CONTACT_API, QUERY_API } from "./apiUrls";
 import { FaFacebookF,FaTwitter,FaInstagram,FaWhatsapp,FaFacebookMessenger,FaGoogle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const ContactUs = () => {
   const [data, setData] = useState([]);
+  const [customer_name, setCustomerName] = useState([]);
+  const [customer_mail, setCustomerMail] = useState([]);
+  const [customer_mobile, setCustomerMobile] = useState([]);
+  const [description, setDescription] = useState([]);
 
+  const auth = useSelector((state) => state.login.auth);
 
 
   useEffect(() => {
@@ -34,6 +40,43 @@ const ContactUs = () => {
     fetchData();
   }, []);
   
+  const handleQuerySubmit = (e) => {
+    e.preventDefault();
+    if(customer_name && customer_mobile && customer_mail && description){
+      const payload = {
+        "name"        : customer_name,
+        "mobile"      : customer_mobile,
+        "mail"        : customer_mail,
+        "description" : description,
+
+      };
+
+      fetch(QUERY_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth,
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+         
+          alert(data.message);
+          setCustomerName("");
+          setCustomerMobile("");
+          setCustomerMail("");
+          setDescription("");
+        })
+        .catch((error) => {
+          // Handle error
+          console.error("Error:", error);
+        });
+      }else{
+        alert("Please fill in all the required fields.");
+      }
+
+  };
 
 
 
@@ -116,12 +159,15 @@ const ContactUs = () => {
       </div>
       <section className="section-padding  bg-white mb-4">
         <div className="container p-4">
+          <div className="container" style={{width:"80%"}}> 
           <div className="row">
             <div className="col-lg-12 col-md-12 mt-1 section-title text-left mb-4">
+            
               <h2>Contact Us</h2>
-            </div>
+            
+          
             <form
-              className="col-lg-12 col-md-12 mt-2"
+              className="col-lg-12 col-md-12 mt-5"
               name="sentMessage"
               id="contactForm"
             >
@@ -134,7 +180,10 @@ const ContactUs = () => {
                     type="text"
                     placeholder="Full Name"
                     className="form-control"
+                    value={customer_name}
                     id="name"
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    required
                   />
                   <p className="help-block"></p>
                 </div>
@@ -146,10 +195,13 @@ const ContactUs = () => {
                   </label>
                   <div className="controls">
                     <input
-                      type="tel"
+                      type="number"
                       placeholder="Phone Number"
                       className="form-control"
                       id="phone"
+                      value={customer_mobile}
+                      onChange={(e) => setCustomerMobile(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
@@ -162,12 +214,15 @@ const ContactUs = () => {
                       type="email"
                       placeholder="Email Address"
                       className="form-control"
+                      value={customer_mail}
                       id="email"
+                      onChange={(e) => setCustomerMail(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
               </div>
-              <div className="control-group form-group mt-2">
+              <div className="control-group form-group mt-3">
                 <div className="controls">
                   <label>
                     Message <span className="text-danger">*</span>
@@ -178,7 +233,10 @@ const ContactUs = () => {
                     placeholder="Message"
                     className="form-control"
                     maxlength="1000"
+                    value={description}
                     id="message"
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
                   ></textarea>
                 </div>
               </div>
@@ -188,10 +246,13 @@ const ContactUs = () => {
                 type="submit"
                 className="btn btn-success mt-2"
                 style={{ background: "#3bb77e" }}
+                onClick={handleQuerySubmit}
               >
                 Send Message
               </button>
             </form>
+            </div>
+          </div>
           </div>
         </div>
       </section>
