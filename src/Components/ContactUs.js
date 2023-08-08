@@ -136,7 +136,7 @@ const ContactUs = () => {
                   
                 ))
               ) : (
-                <div>No data available</div>
+                <div className="container text-center">Please wait...</div>
               )}
 
               <div className="col-lg-8 col-md-8">

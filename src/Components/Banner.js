@@ -48,10 +48,11 @@ const Banner = () => {
           margin={10}
           dots={true}
           nav={true}
-          mouseDrag={false}
+          mouseDrag={true}
           touchDrag={false}
           autoplay={true}
           autoplaySpeed={1000}
+          dragEndSpeed={1000}
           navText={[
             "<span class='prev-icon'></span>",
             "<span class='next-icon'></span>",

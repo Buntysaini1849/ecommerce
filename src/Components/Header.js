@@ -17,6 +17,9 @@ import { Link } from "react-router-dom";
 import Login from "./Login";
 import "../Css/Ingredient.css";
 import { setCollapseOpen,setSelectedIngredient, setSelectedRemedies } from '../State/Actions/CollapseAction';
+import { FiUser } from "react-icons/fi";
+import { AiOutlineHeart, AiOutlineUnorderedList } from "react-icons/ai";
+import { IoMdLock } from "react-icons/io";
 
 
 const Header = () => {
@@ -272,32 +275,33 @@ const Header = () => {
                     )}
                     <div className="dropdown-menu">
                       <Link to="/profile" className="dropdown-item">
-                        <i
-                          className="mdi mdi-chevron-right"
-                          aria-hidden="true"
-                        ></i>{" "}
+                      <FiUser
+                            className="mdi mdi-account-outline"
+                            style={{ marginRight: "3px" }}
+                          />{" "}
                         My Profile
                       </Link>
 
                       <Link to="/address" className="dropdown-item">
-                        <i
-                          className="mdi mdi-chevron-right"
-                          aria-hidden="true"
-                        ></i>{" "}
+                      <MdOutlineShareLocation
+                            className="mdi mdi-map-marker-circle"
+                            style={{ marginRight: "3px" }}
+                          />{" "}
                         My Address
                       </Link>
                       <Link to="/wishlist" className="dropdown-item">
-                        <i
-                          className="mdi mdi-chevron-right"
-                          aria-hidden="true"
-                        ></i>{" "}
+                        <AiOutlineHeart
+                            className="mdi mdi-heart-outline"
+                            style={{ marginRight: "3px" }}
+                          />{" "}
+                        
                         Wish List{" "}
                       </Link>
                       <Link to="/orderlist" className="dropdown-item">
-                        <i
-                          className="mdi mdi-chevron-right"
-                          aria-hidden="true"
-                        ></i>{" "}
+                      <AiOutlineUnorderedList
+                            className="mdi mdi-format-list-bulleted"
+                            style={{ marginRight: "3px" }}
+                          />{" "}
                         Order List
                       </Link>
                       {isAuthenticated ? (
@@ -305,10 +309,10 @@ const Header = () => {
                           className="dropdown-item"
                           style={{ cursor: "pointer" }}
                         >
-                          <i
-                            className="mdi mdi-chevron-right"
-                            aria-hidden="true"
-                          ></i>{" "}
+                          <IoMdLock
+                            className="mdi mdi-lock"
+                            style={{ marginRight: "2px" }}
+                          />{" "}
                           Logout
                         </a>
                       ) : (

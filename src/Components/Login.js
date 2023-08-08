@@ -289,7 +289,7 @@ export default function Login() {
                                 onClick={handleGenerateOTP}
                                 disabled={otpButtonDisabled}
                               >
-                                Send OTP
+                                Request OTP
                               </button>
                             )}
                           </div>
@@ -297,7 +297,7 @@ export default function Login() {
                       </div>
                       {otp ? (
                         <div>
-                          <div className="box mt-1">
+                          <div className="box">
                       
                             <div className="form-group">
                               <label
@@ -368,23 +368,24 @@ export default function Login() {
                        
                       </div>
                     </form>
+                    <div>
+                    {showOtpField && (
+                    <button
+                    type="submit"
+                    className="btn btn-sm text-white mt-3"
+                    onClick={handleLogin}
+                    style={{ fontSize: "15px", fontWeight: "500",width:"65%" ,backgroundColor:"#3bb77e",boxShadow: "0 1px 5px 0 rgba(0,0,0,.11)",
+                    transition:"opacity .1s ease-in"}}
+                  >
+                    Login
+                    
+                  </button>
+                    )}
+                    </div>
                   </div>
                 </div>
               </div>
-              {showOtpField && (
-                <div
-                  className="modal-footer d-flex"
-                >
-                  <button
-                    type="submit"
-                    className="btn btn-sm btn-success text-white"
-                    onClick={handleLogin}
-                    style={{ fontSize: "15px", fontWeight: "500",width:"56%" }}
-                  >
-                    Login
-                  </button>
-                </div>
-              )}
+             
             </div>
           </div>
         </div>
