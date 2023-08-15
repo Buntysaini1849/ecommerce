@@ -73,13 +73,13 @@ const ItemSlide = () => {
 
 const PrevArrow = (props) => (
   <div className="slick-prev" onClick={props.onClick} role="button">
-    <span class="prev-icon"></span>
+    <span className="prev-icon"></span>
   </div>
 );
 
 const NextArrow = (props) => (
   <div className="slick-next" onClick={props.onClick} role="button">
-    <span class="next-icon"></span>
+    <span className="next-icon"></span>
   </div>
 );
 

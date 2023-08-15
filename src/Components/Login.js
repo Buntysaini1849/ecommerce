@@ -155,12 +155,11 @@ export default function Login() {
       dispatch(loginSuccess(user, auth));
       dispatch(setUser(user, auth));
       dispatch({ type: SET_AUTH, payload: auth });
+      sessionStorage.setItem('authToken', auth);
 
       navigate("/");
       setUsername("");
       setOTP("");
-      setIsLoggedin(true);
-
       setShowModal(false);
       const modalBackdrop = document.querySelector(".modal-backdrop");
       modalBackdrop.parentNode.removeChild(modalBackdrop);
@@ -172,7 +171,7 @@ export default function Login() {
         setProgress(progress);
       }, 1000);
 
-      // Stop the progress after 5 seconds
+   
       setTimeout(() => {
         clearInterval(intervalId);
         setProgress(100);
@@ -403,7 +402,7 @@ export default function Login() {
           >
             <div className="toast-header">
               <strong className="me-auto">Success</strong>
-              <small class="text-muted">just now</small>
+              <small className="text-muted">just now</small>
               <button
                 type="button"
                 className="btn-close"

@@ -15,7 +15,7 @@ import avatar from "../Images/avatar.svg";
 const Profile = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
-
+  const [formData, setFormData] =useState([]);
   const [data, setData] = useState({
     first_name: "",
     last_name: "",
@@ -25,6 +25,7 @@ const Profile = () => {
     gender: "",
     dob: "",
   });
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,14 +35,14 @@ const Profile = () => {
           headers: { "Content-Type": "application/json", Authorization: auth },
         });
         const responseData = await response.json();
-        console.log(responseData.data);
+       
         const dataArray = Array.isArray(responseData)
           ? responseData
           : [responseData.data];
-        console.log(auth);
+    
 
-        setData(dataArray);
-        console.log(dataArray);
+        setFormData(dataArray);
+     
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -50,11 +51,22 @@ const Profile = () => {
     fetchData();
   }, []);
 
-  const handleChange = (event) => {
-    const newData = [...data];
-    newData[event.target.name] = event.target.value;
-    setData(newData);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  }
 
   const handleUpdateProfile = async () => {
     // Replace 'YOUR_API_ENDPOINT' with the actual endpoint URL
@@ -79,10 +91,9 @@ const Profile = () => {
         throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
-      // Handle the successful response from the server
-      console.log("Profile updated successfully:", data);
-      setData("");
+      const resdata = await response.json();
+     
+      setIsEditing(false);
     } catch (error) {
       // Handle any errors that occurred during the fetch request
       console.error("Error updating profile:", error);
@@ -93,8 +104,8 @@ const Profile = () => {
       <Header />
       {isAuthenticated ? (
         <section className="account-page section-padding mb-3">
-          {data && data.length > 0 ? (
-            data.map((user) => (
+          {formData && formData.length > 0 ? (
+            formData.map((user) => (
               <div className="container">
                 <div className="row mt-2">
                   <div className="col-lg-9 mx-auto">
@@ -102,15 +113,16 @@ const Profile = () => {
                       <div className="col-md-4">
                         <div className="card account-left">
                           <div className="user-profile-header">
-                            {user.profile_pic ? (
-                              <img alt="logo" src={user.profile_pic} />
+                            {user.profile ? (
+                              <img alt="logo" src={user.profile} />
                             ) : (
                               <img alt="logo" src={avatar} />
                             )}
                             <h5 className="mb-1 text-secondary">
-                              <strong>Hi </strong> {user.first_name}<span>{user.last_name}</span>
+                              <strong>Hi </strong> {user.first_name}
+                              <span>{user.last_name}</span>
                             </h5>
-                            <p>{user.mobile}</p>
+                            <p> +91 {user.mobile}</p>
                           </div>
                           <div className="list-group">
                             <Link
@@ -182,14 +194,26 @@ const Profile = () => {
                                       First Name{" "}
                                       <span className="required">*</span>
                                     </label>
+                                    {!isEditing && (
                                     <input
                                       className="form-control"
                                       value={user.first_name}
                                       placeholder="Name..."
-                                      onChange={(event) => handleChange(event)}
+                                      name="first_name"
+                                      type="text"
+                                      disabled={!isEditing}
+                                    />
+                                    )}
+                                    {isEditing && (
+                                    <input
+                                      className="form-control"
+                                      value={data.first_name}
+                                      placeholder="Name..."
+                                      onChange={handleChange}
                                       name="first_name"
                                       type="text"
                                     />
+                                    )}
                                   </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -198,14 +222,26 @@ const Profile = () => {
                                       Last Name{" "}
                                       <span className="required">*</span>
                                     </label>
+                                    {!isEditing && (
                                     <input
                                       className="form-control border-form-control"
-                                      value={user.last_name || ""}
+                                      value={user.last_name}
                                       placeholder="Surname..."
                                       name="last_name"
                                       type="text"
-                                      onChange={(event) => handleChange(event)}
+                                      disabled={!isEditing}
                                     />
+                                    )}
+                                    {isEditing && (
+                                    <input
+                                      className="form-control border-form-control"
+                                      value={data.last_name}
+                                      placeholder="Surname..."
+                                      name="last_name"
+                                      type="text"
+                                      onChange={handleChange}
+                                    />
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -215,14 +251,26 @@ const Profile = () => {
                                     <label className="control-label">
                                       Phone <span className="required">*</span>
                                     </label>
+                                    {!isEditing && (
                                     <input
                                       className="form-control border-form-control"
-                                      value={user.mobile || ""}
+                                      value={user.mobile}
                                       placeholder="123 456 7890"
-                                      type="number"
-                                      name="phone"
-                                      onChange={(event) => handleChange(event)}
+                                      type="text"
+                                      name="mobile"
+                                      disabled={!isEditing}
                                     />
+                                    )}
+                                     {isEditing && (
+                                      <input
+                                      className="form-control border-form-control"
+                                      value={data.mobile}
+                                      placeholder="123 456 7890"
+                                      type="text"
+                                      name="mobile"
+                                      onChange={handleChange}
+                                    />
+                                     )}
                                   </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -231,93 +279,42 @@ const Profile = () => {
                                       Email Address{" "}
                                       <span className="required">*</span>
                                     </label>
+                                    {!isEditing && (
                                     <input
                                       className="form-control border-form-control "
-                                      value={user.email || ""}
+                                      value={user.email}
                                       placeholder="Email..."
                                       type="email"
-                                      onChange={(event) => handleChange(event)}
+                                      name="email"
+                                      disabled={!isEditing}
                                     />
+                                    )}
+                                    {isEditing && (
+                                    <input
+                                      className="form-control border-form-control "
+                                      value={data.email}
+                                      placeholder="Email..."
+                                      type="email"
+                                      name="email"
+                                      onChange={handleChange}
+                                    />
+                                    )}
+
                                   </div>
                                 </div>
                               </div>
-                              {/* <div className="row mt-2">
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                Country <span className="required">*</span>
-                              </label>
-                              <select className="select2 form-control border-form-control">
-                                <option value="">Select Country</option>
 
-                                <option value="IN">India</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                City <span className="required">*</span>
-                              </label>
-                              <select className="select2 form-control border-form-control">
-                                <option value="">Select City</option>
-                                <option value="AF">Alaska</option>
-                                <option value="AX">New Hampshire</option>
-                                <option value="AL">Oregon</option>
-                                <option value="DZ">Toronto</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-2">
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                Zip Code <span className="required">*</span>
-                              </label>
-                              <input
-                                className="form-control border-form-control"
-                                value=""
-                                placeholder="123456"
-                                type="number"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label className="control-label">
-                                State <span className="required">*</span>
-                              </label>
-                              <select className="select2 form-control border-form-control">
-                                <option value="">Select State</option>
-                                <option value="AF">California</option>
-                                <option value="AX">Florida</option>
-                                <option value="AL">Georgia</option>
-                                <option value="DZ">Idaho</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-2">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label className="control-label">
-                                Address <span className="required">*</span>
-                              </label>
-                              <textarea className="form-control border-form-control"></textarea>
-                            </div>
-                          </div>
-                        </div> */}
                               <div className="row mt-2">
                                 <div className="col-sm-6">
                                   <div className="form-group">
                                     <label className="control-label">
                                       Gender <span className="required">*</span>
                                     </label>
+                                    {!isEditing && (
                                     <select
                                       className="select2 form-control border-form-control"
                                       name="gender"
-                                      onChange={(event) => handleChange(event)}
+                                      disabled={!isEditing}
                                     >
                                       <option value={user.gender}>
                                         {user.gender}
@@ -326,6 +323,21 @@ const Profile = () => {
                                       <option value="Male">Male</option>
                                       <option value="Female">Female</option>
                                     </select>
+                                    )}
+                                    {isEditing && (
+                                    <select
+                                      className="select2 form-control border-form-control"
+                                      name="gender"
+                                      onChange={handleChange}
+                                    >
+                                      <option value={data.gender}>
+                                        {data.gender}
+                                      </option>
+
+                                      <option value="Male">Male</option>
+                                      <option value="Female">Female</option>
+                                    </select>
+                                    )}
                                   </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -333,13 +345,26 @@ const Profile = () => {
                                     <label className="control-label">
                                       DOB <span className="required">*</span>
                                     </label>
+                                    {!isEditing && (
                                     <input
                                       className="form-control border-form-control "
-                                      value={user.dob || ""}
+                                      value={user.dob}
                                       placeholder="dateofbirth..."
                                       type="text"
-                                      onChange={(event) => handleChange(event)}
+                                      name="dob"
+                                      disabled={!isEditing}
                                     />
+                                    )}
+                                    {isEditing && (
+                                    <input
+                                      className="form-control border-form-control "
+                                      value={data.dob}
+                                      placeholder="dateofbirth..."
+                                      type="text"
+                                      name="dob"
+                                      onChange={handleChange}
+                                    />
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -352,17 +377,32 @@ const Profile = () => {
                                     type="button"
                                     className="btn btn-danger btn-lg"
                                     style={{ marginRight: "5px" }}
+                                    onClick={handleCancel}
                                   >
-                                    {" "}
-                                    Cencel{" "}
+                                    
+                                    Cancel
                                   </button>
+                                  {!isEditing && (
+                                    <button
+                                      type="button"
+                                      className="btn btn-success btn-lg"
+                                      onClick={handleEdit}
+                                      style={{background:"#3bb77e"}}
+                                    >
+                                     Edit
+                                    </button>
+                                  )}
+                                   {isEditing && (
                                   <button
                                     type="button"
                                     className="btn btn-success btn-lg"
+                                    onClick={handleUpdateProfile}
+                                    style={{background:"#3bb77e"}}
                                   >
-                                    {" "}
-                                    Save Changes{" "}
+                                   
+                                    Save Changes
                                   </button>
+                                   )}
                                 </div>
                               </div>
                             </form>

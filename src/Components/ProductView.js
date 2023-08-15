@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_TO_CART_SUCCESS } from "../State/Actions/CartActions";
 import QuantityInput from "./QuantityInput";
+import { useEffect } from "react";
 
 
 const ProductView = () => {
@@ -60,6 +61,11 @@ const ProductView = () => {
 
   //   fetchData();
   // }, [id]);
+
+  useEffect(() => {
+    // Scroll to the top of the page only once
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const handleAddToCart = (auth) => {
     if (auth) {

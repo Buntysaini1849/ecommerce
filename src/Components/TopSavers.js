@@ -211,8 +211,9 @@ const TopSavers = () => {
         .then((data) => {
           // Handle response from the API
           // console.log('addtocart data = ',auth);
-          dispatch(setWishlistItems(data));
           setIsLiked(!isLiked);
+          dispatch(setWishlistItems(data));
+         
           console.log("wishlist Items",data);
         })
         .catch((error) => {
@@ -294,7 +295,7 @@ const TopSavers = () => {
                               </p>
                               <Link to="/productview">
                               <button
-                                className="btn btn-secondary btn-sm float-right"
+                                className="btn  btn-sm float-right addtocart-btn"
                                 // onClick={() => handleAddToCart(proditem)}
                                 onClick={() => handleProductView(proditem)}
                                 
@@ -307,7 +308,7 @@ const TopSavers = () => {
                             </>
                              
                             ) : (
-                              <a href="#"  data-bs-toggle="modal"
+                              <a data-bs-toggle="modal"
                               data-bs-target="#exampleModal">
                           
                               <div className="product-header">

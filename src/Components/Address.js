@@ -4,7 +4,6 @@ import Header from "./Header";
 import { Link } from "react-router-dom";
 import { MdOutlineShareLocation } from "react-icons/md";
 
-
 import { FiUser } from "react-icons/fi";
 import {
   AiOutlineHeart,
@@ -19,13 +18,14 @@ import { CUSTOMER_ADDRESS_API, PROFILE_API } from "./apiUrls";
 
 import "../Css/AllProfiles.css";
 import axios from "axios";
+import avatar from "../Images/avatar.svg";
 
 const Address = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
 
   const [data, setData] = useState([]);
-  const [profileData,setProfileData] = useState([]);
+  const [profileData, setProfileData] = useState([]);
   // const [newAddress, setNewAddress] = useState({
   //   type: "add",
   //   address_one: "",
@@ -53,14 +53,14 @@ const Address = () => {
   });
 
   const [addformData, setAddFormData] = useState({
-    "type": "add",
-    "address_one": "",
-    "address_two": "",
-    "city": "",
-    "state": "",
-    "country": "",
-    "pincode": "",
-    "add_type": "Delivery",
+    type: "add",
+    address_one: "",
+    address_two: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+    add_type: "Delivery",
   });
 
   async function fetchData() {
@@ -83,7 +83,6 @@ const Address = () => {
   // const handleaddClick = () => {
   //   setData("");
   // };
-
 
   useEffect(() => {
     async function fetchProfle() {
@@ -140,44 +139,12 @@ const Address = () => {
     setShowDropdowns(true);
   };
 
-  // const handleSubmit = async (data) => {
-  //   // Replace 'YOUR_API_ENDPOINT' with the actual endpoint URL
-  //   const apiUrl = CUSTOMER_ADDRESS_API;
-
-  //   // Replace 'YOUR_BEARER_TOKEN' with the actual authorization token
-
-  //   try {
-  //     const response = await fetch(`${apiUrl}/${data.id}`, {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: auth,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     fetchData();
-  //     console.log("Address updated successfully:", data);
-  //   } catch (error) {
-  //     // Handle any errors that occurred during the fetch request
-  //     console.error("Error updating profile:", error);
-  //   }
-  // };
-
-  // const handleChange = (e, id) => {
-  //   const { name, value } = e.target;
-  //   const updatedAddresses = [...data];
-  //   updatedAddresses[id][name] = value;
-  //   console.log(value);
-  //   setData(updatedAddresses);
-  //   setNewAddress(updatedAddresses);
-  // };
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleAddInputChange = (e) => {
@@ -192,7 +159,7 @@ const Address = () => {
   //       headers: {
   //         "Content-Type": "application/json",
   //         Authorization: auth,
-          
+
   //       },
   //       body: JSON.stringify(formData),
   //     });
@@ -206,29 +173,48 @@ const Address = () => {
   //   }
   // };
 
+
+  const handleCancelEdit = () => {
+    fetchData();
+    setShowEditForm(false);
+    setEditingAddress(null);
+    setFormData({
+      address_one: "",
+      address_two: "",
+      country: "",
+      city: "",
+      state: "",
+      pincode: "",
+    });
+  };
+
   const handleUpdate = async () => {
     try {
-      const response = await axios.post(`${CUSTOMER_ADDRESS_API}${editingAddress.id}`,
-       formData, {
+      const updatedFormData = {
+        ...formData,
+        type: "update",
+        add_type: "Delivery",
+      };
+
+      const response = await fetch(CUSTOMER_ADDRESS_API, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: auth,
         },
+        body: JSON.stringify(updatedFormData),
       });
-  
-      if (response.status === 200 || response.status === 201) {
-        fetchData();
-        setEditingAddress(null);
-        console.log("edit data", response.data.message); // Assuming the response contains a "message" property
+
+      if (response.ok) {
+        alert("Address updated successfully");
+        handleCancelEdit();
       } else {
-        throw new Error(`Error updating address: ${response.status}`);
+        console.error("Error updating address");
       }
     } catch (error) {
-      console.error(error);
-      // Handle the error at a higher level if needed
+      console.error("Error updating address:", error);
     }
   };
-  
 
   const handleAdd = async () => {
     try {
@@ -238,7 +224,7 @@ const Address = () => {
           "Content-Type": "application/json",
           Authorization: auth,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(addformData),
       });
       if (response.ok) {
         fetchData();
@@ -252,25 +238,14 @@ const Address = () => {
           pincode: "",
           add_type: "delivery",
         });
-        console.log("add form data", response.message);
+        alert("Address added successfully");
       }
     } catch (error) {
       console.error("Error adding address:", error);
     }
   };
 
-  const handleCancelEdit = () => {
-    setShowEditForm(false);
-    setEditingAddress(null);
-    setFormData({
-      address_one: "",
-      address_two: "",
-      country: "",
-      city: "",
-      state: "",
-      pincode: "",
-    });
-  };
+
 
   return (
     <div>
@@ -281,22 +256,26 @@ const Address = () => {
             <div className="row mt-2">
               <div className="col-lg-9 mx-auto">
                 <div className="row no-gutters">
-                  
                   <div className="col-md-4">
                     <div className="card account-left">
-                    {profileData && profileData.length > 0 ? (
-                            profileData.map((customer) => (
-                      <div className="user-profile-header">
-                        <img alt="logo" src="img/user.jpg" />
-                        <h5 className="mb-1 text-secondary">
-                          <strong>Hi </strong>{customer.first_name}
-                        </h5>
-                        <p>{customer.mobile}</p>
-                      </div>
-                       ))
-                       ) : (
-                         <div>No data available</div>
-                       )}
+                      {profileData && profileData.length > 0 ? (
+                        profileData.map((user) => (
+                          <div className="user-profile-header">
+                            {user.profile ? (
+                              <img alt="logo" src={user.profile} />
+                            ) : (
+                              <img alt="logo" src={avatar} />
+                            )}
+                            <h5 className="mb-1 text-secondary">
+                              <strong>Hi </strong>
+                              {user.first_name}
+                            </h5>
+                            <p> +91 {user.mobile}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <div>Please wait...</div>
+                      )}
                       <div className="list-group">
                         <Link
                           to="/profile"
@@ -359,14 +338,14 @@ const Address = () => {
                       </h5>
                       <div className="widget">
                         <div
-                          class="card mt-1 mb-4"
+                          className="card mt-1 mb-4"
                           style={{
                             border: "1px solid lightgrey",
                             cursor: "pointer",
                           }}
                         >
                           <div
-                            class="card-body d-flex p-1 mt-1"
+                            className="card-body d-flex p-1 mt-1"
                             onClick={handleAddClick}
                           >
                             <AiOutlinePlus
@@ -383,9 +362,7 @@ const Address = () => {
                                 marginTop: "10px",
                                 color: "#3dbe83",
                                 fontWeight: "500",
-                                
                               }}
-                          
                             >
                               ADD NEW ADDRESS
                             </p>
@@ -398,16 +375,16 @@ const Address = () => {
                               <div>
                                 {!showEditForm && (
                                   <div
-                                    class="card p-2"
+                                    className="card p-2"
                                     style={{
                                       border: "1px solid lightgrey",
                                       color: "black",
-                                      marginTop:"-1px",
+                                      marginTop: "-1px",
                                     }}
                                     onMouseLeave={() => setShowDropdowns(false)}
                                     key={user.id}
                                   >
-                                    <div class="card-body p-0">
+                                    <div className="card-body p-0">
                                       <div className="container">
                                         <div
                                           className="container p-0 mt-2"
@@ -434,31 +411,37 @@ const Address = () => {
                                             <div
                                               className="dot-icon-container"
                                               key={user.id}
-                                              
                                             >
                                               <BsThreeDotsVertical
                                                 style={{ fontSize: "18px" }}
                                                 className="dot-icon"
                                                 key={user.id}
                                                 id={user.id}
-                                                onClick={() => handleDotClick(user.id)}
-                                                
+                                                onClick={() =>
+                                                  handleDotClick(user.id)
+                                                }
                                               />
-                                              {showDropdowns && user.id === selectedCardId &&  (
-                                                <div className="dropdowns" onMouseLeave={() => setShowDropdowns(false)}>
+                                              {showDropdowns &&
+                                                user.id === selectedCardId && (
                                                   <div
-                                                    className="edit-option"
-                                                    onClick={() =>
-                                                      handleEditClick(user)
+                                                    className="dropdowns"
+                                                    onMouseLeave={() =>
+                                                      setShowDropdowns(false)
                                                     }
                                                   >
-                                                    Edit
+                                                    <div
+                                                      className="edit-option"
+                                                      onClick={() =>
+                                                        handleEditClick(user)
+                                                      }
+                                                    >
+                                                      Edit
+                                                    </div>
+                                                    <div className="delete-option">
+                                                      Delete
+                                                    </div>
                                                   </div>
-                                                  <div className="delete-option">
-                                                    Delete
-                                                  </div>
-                                                </div>
-                                              )}
+                                                )}
                                             </div>
                                           </div>
 
@@ -480,7 +463,14 @@ const Address = () => {
                                               >
                                                 {user.state}-
                                               </span>
-                                              <span style={{fontWeight:"500",color:"#000"}}>{user.pincode}</span>
+                                              <span
+                                                style={{
+                                                  fontWeight: "500",
+                                                  color: "#000",
+                                                }}
+                                              >
+                                                {user.pincode}
+                                              </span>
                                             </p>
                                           </div>
                                         </div>
@@ -490,7 +480,10 @@ const Address = () => {
                                 )}
                                 {editingAddress &&
                                   editingAddress.id === user.id && (
-                                    <div className="card-footer mt-4" style={{border:"1px solid lightgrey"}}>
+                                    <div
+                                      className="card-footer mt-4"
+                                      style={{ border: "1px solid lightgrey" }}
+                                    >
                                       <h5 className="section-header mt-2 pl-2 pb-2">
                                         Edit Address
                                       </h5>
@@ -548,14 +541,14 @@ const Address = () => {
                                           <div className="col-sm-6">
                                             <div className="form-group">
                                               <label className="control-label">
-                                                Pin Code{" "}
+                                                Pin Code
                                                 <span className="required">
                                                   *
                                                 </span>
                                               </label>
                                               <input
                                                 className="form-control border-form-control"
-                                                value=""
+                                                value={formData.pincode}
                                                 placeholder="123456"
                                                 type="number"
                                                 name="pincode"
@@ -579,7 +572,9 @@ const Address = () => {
                                                 <option value={formData.state}>
                                                   {formData.state}
                                                 </option>
-                                                <option value="UP">UP</option>
+                                                <option value="Haryana">
+                                                  Haryana
+                                                </option>
                                               </select>
                                             </div>
                                           </div>
@@ -648,8 +643,8 @@ const Address = () => {
                                               style={{ marginRight: "5px" }}
                                               onClick={handleCancelEdit}
                                             >
-                                              {" "}
-                                              Close{" "}
+                                          
+                                              Close
                                             </button>
                                             <button
                                               type="button"
@@ -672,7 +667,10 @@ const Address = () => {
                         </div>
 
                         {showAddForm && (
-                          <div className="container-fluid bg-light mt-4" style={{border:"1px solid lightgrey"}}>
+                          <div
+                            className="container-fluid bg-light mt-4"
+                            style={{ border: "1px solid lightgrey" }}
+                          >
                             <h5 className="section-header mt-2 p-3">
                               Add Address
                             </h5>
@@ -810,16 +808,14 @@ const Address = () => {
                                     style={{ marginRight: "5px" }}
                                     onClick={handleCancelAdd}
                                   >
-                                    {" "}
-                                    Close{" "}
+                                    Close
                                   </button>
                                   <button
                                     type="button"
                                     className="btn btn-success btn-lg"
                                     onClick={handleAdd}
                                   >
-                                    {" "}
-                                    Add Address{" "}
+                                    Add Address
                                   </button>
                                 </div>
                               </div>

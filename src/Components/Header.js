@@ -373,8 +373,7 @@ const Header = () => {
                 </li>
                 <li className="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
+                    className="nav-link dropdown-toggle"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -383,9 +382,9 @@ const Header = () => {
                   </a>
                   {Array.isArray(IngredData) &&
                           IngredData.map((ingred) => (
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li key={ingred.id}>
-                      <Link class="dropdown-item ingred-item" to="/shoplist" onClick={() => handleIngredClick(ingred.id)} style={{cursor:"pointer"}}>
+                      <Link className="dropdown-item ingred-item" to="/shoplist" onClick={() => handleIngredClick(ingred.id)} style={{cursor:"pointer"}}>
                         {ingred.name}
                       </Link>
                     </li>
@@ -395,7 +394,7 @@ const Header = () => {
                 </li>
                 <li className="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle"
+                    className="nav-link dropdown-toggle"
                     href="#"
                     role="button"
                     data-bs-toggle="dropdown"
@@ -405,9 +404,9 @@ const Header = () => {
                   </a>
                   {Array.isArray(RemediesData) &&
                           RemediesData.map((remedata) => (
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li key={remedata.id}>
-                      <Link class="dropdown-item ingred-item" to="/shoplist" onClick={() => handleRemedieClick(remedata.id)}>
+                      <Link className="dropdown-item ingred-item" to="/shoplist" onClick={() => handleRemedieClick(remedata.id)}>
                         {remedata.name}
                       </Link>
                     </li>
