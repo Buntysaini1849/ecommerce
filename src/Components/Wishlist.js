@@ -9,12 +9,14 @@ import { AiOutlineHeart, AiOutlineUnorderedList } from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
 import Login from "./Login";
 import { useSelector } from "react-redux";
-import { PROFILE_API } from "./apiUrls";
+import { PROFILE_API, WISHLIST_API } from "./apiUrls";
 import avatar from "../Images/avatar.svg";
 
 
 const Wishlist = () => {
   const [profileData, setProfileData] = useState([]);
+  const [wishlistData, setWishlistData] = useState([]);
+
 
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
@@ -43,6 +45,30 @@ const Wishlist = () => {
 
     fetchProfle();
   }, []);
+
+  useEffect(() => {
+    async function fetchWishlist() {
+      try {
+        const response = await fetch(WISHLIST_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: auth },
+          body: JSON.stringify({"type":"view"}),
+        });
+        const responseData = await response.json();
+        // console.log(auth);
+
+        setWishlistData(responseData.data);
+
+        console.log(responseData.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchWishlist();
+  }, []);
+
+  
   return (
     <div>
       <Header />
@@ -135,6 +161,8 @@ const Wishlist = () => {
                           <h5 className="heading-design-h5">Wishlist</h5>
                         </div>
                         <div className="row no-gutters">
+                        {wishlistData && wishlistData.length > 0 ? (
+                            wishlistData.map((data) => (
                           <div className="col-md-6">
                             <div className="product mt-2">
                               <a href="#">
@@ -143,28 +171,28 @@ const Wishlist = () => {
                                   50% OFF
                                 </span> */}
                                   <img
-                                    alt=""
-                                    src="img/item/1.jpg"
+                                    alt="product image"
+                                    src={data.image}
                                     className="img-fluid"
                                   />
                                   <span className="veg text-success mdi mdi-circle"></span>
                                 </div>
                                 <div className="product-body">
-                                  <h5>Product Title Here</h5>
+                                  <h5>{data.name}</h5>
                                   <h6>
                                     <strong>
-                                      <span className="mdi mdi-approval"></span>{" "}
+                                      <span className="mdi mdi-approval"></span>
                                       Available in
                                     </strong>{" "}
-                                    - 500 gm
+                                    - {data.unit}
                                   </h6>
                                 </div>
                                 <div className="product-footer d-flex">
                                   <p className="offer-price mb-0">
-                                    ₹450.99{" "}
+                                    ₹{data.sale_price}
                                     <i className="mdi mdi-tag-outline"></i>
                                     <br />
-                                    <span className="regular-price">₹800.99</span>
+                                    <span className="regular-price">₹{data.mrp_price}</span>
                                   </p>
                                   <button
                                     className="btn btn-secondary btn-sm float-right"
@@ -177,46 +205,10 @@ const Wishlist = () => {
                               </a>
                             </div>
                           </div>
-                          <div className="col-md-6">
-                            <div className="product mt-2">
-                              <a href="#">
-                                <div className="product-header">
-
-                                  <img
-                                    alt=""
-                                    src="img/item/2.jpg"
-                                    className="img-fluid"
-                                  />
-                                  <span className="veg text-success mdi mdi-circle"></span>
-                                </div>
-                                <div className="product-body">
-                                  <h5>Product Title Here</h5>
-                                  <h6>
-                                    <strong>
-                                      <span className="mdi mdi-approval"></span>{" "}
-                                      Available in
-                                    </strong>{" "}
-                                    - 500 gm
-                                  </h6>
-                                </div>
-                                <div className="product-footer d-flex">
-                                  <p className="offer-price mb-0">
-                                    ₹450.99{" "}
-                                    <i className="mdi mdi-tag-outline"></i>
-                                    <br />
-                                    <span className="regular-price">₹800.99</span>
-                                  </p>
-                                  <button
-                                    className="btn btn-secondary btn-sm float-right"
-                                    type="button"
-                                  >
-                                    <i className="mdi mdi-cart-outline"></i> Add
-                                    To Cart
-                                  </button>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
+                         ))
+                         ) : (
+                           <div>No data available</div>
+                         )}
                         </div>
 
                         <nav>

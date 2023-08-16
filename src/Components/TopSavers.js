@@ -8,11 +8,9 @@ import "../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { TbTags } from "react-icons/tb";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import {AiOutlineHeart} from "react-icons/ai";
+import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
 import { FcApproval } from "react-icons/fc";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCartData, addToCart, addToCartFailure, ADD_TO_CART_SUCCESS } from '../State/Actions/CartActions';
 import { Link } from "react-router-dom";
 import Login from "./Login";
 import ProductView from "./ProductView";
@@ -21,8 +19,8 @@ import { setWishlistItems } from "../State/Actions/WishlistAction";
 
 const TopSavers = () => {
   const [prohead, setProHead] = useState([]);
-  const [data, setData] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+ 
 
 
   const dispatch = useDispatch();
@@ -195,7 +193,7 @@ const TopSavers = () => {
   const handleAddToWishlist = (productId) => {
     if (auth) {
       const payloads = {
-        "type": "add",
+        "type": "update",
         "product_id":productId,
       };
 
@@ -211,10 +209,9 @@ const TopSavers = () => {
         .then((data) => {
           // Handle response from the API
           // console.log('addtocart data = ',auth);
+        
           setIsLiked(!isLiked);
-          dispatch(setWishlistItems(data));
-         
-          console.log("wishlist Items",data);
+          
         })
         .catch((error) => {
           // Handle error
@@ -256,7 +253,6 @@ const TopSavers = () => {
                     </div>
                     <div className="container slide-container">
                  
-
                       <Slider {...Settings}>
                       {Array.isArray(product.item) &&
                        product.item.map((proditem) => (
@@ -264,17 +260,19 @@ const TopSavers = () => {
                    
                         <div className="product p-0 shadow-sm" style={{width:"230px"}} key={proditem.id}>
                           {isAuthenticated ? ( 
-                         
-                           
-                           
+
                            <>
                             <div className="product-header">
                               {/* <span className="badge badge-success">50% OFF</span> */}
                               <img src={proditem.image} className="img-fluid"/>
                               {isAuthenticated ? (
-                              <span className="veg text-success mdi mdi-circle">
-                                <AiOutlineHeart style={{fontSize:"26px",cursor:"pointer",color: isLiked ? "red" : "",}}  onClick={()=>handleAddToWishlist(proditem.id)} className="heart-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"></AiOutlineHeart>
+                              <span className="veg text-success mdi mdi-circle" key={proditem.id}>
+                                {isLiked ? (
+                                  <AiFillHeart style={{fontSize:"26px",cursor:"pointer"}} onClick={()=>handleAddToWishlist(proditem.id)}/>
+                              ) : <AiOutlineHeart style={{fontSize:"26px",cursor:"pointer"}}  onClick={()=>handleAddToWishlist(proditem.id)} className="heart-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist" /> 
+                              }
                                 </span>
+
                               ) : ( "" )}
                        
                             </div>
@@ -337,13 +335,13 @@ const TopSavers = () => {
                               </p>
                               {/* <Link to='/productview'> */}
                               <button
-                                className="btn btn-secondary btn-sm float-right"
+                                className="btn  btn-sm float-right addtocart-btn"
                                
                                 
                               >
                                 <MdOutlineShoppingCart /> Add To Cart
                               </button>
-                              {/* </Link> */}
+                             
                             </div>
                         
                               </a>

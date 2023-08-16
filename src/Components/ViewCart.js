@@ -1,124 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { REMOVE_CART_ITEM, addToCart, fetchCartData, fetchCartSuccess, removecartITem } from "../State/Actions/CartActions";
 import Header from "./Header";
 import Footer from "./Footer";
 import { SlClose } from "react-icons/sl";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { CART_API, DASHBOARD } from "./apiUrls";
-import axios from "axios";
+import { CART_API } from "./apiUrls";
 import { FaCartArrowDown } from "react-icons/fa";
 
 const CartProducts = () => {
-  // const [cartItem, setCartItem] = useState([]);
-  const dispatch = useDispatch();
+  const [cartItem, setCartItem] = useState([]);
+  const [cartItemCount, setCartItemCount] = useState(0);
   const auth = useSelector((state) => state.login.auth);
-   const cartItem = useSelector((state) => state.cart.product);
  
-
-   const handleRemoveFromCart = (id) => {
-     // Dispatch the removeFromCart action to update the cart in the Redux store
-     dispatch(removecartITem(id, auth));
-   
-     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-   
-     // Remove item from the cart API using the authToken
-     axios
-       .post(`${proxyUrl}${CART_API}${id}`, null, {
-         headers: {
-           Authorization: auth,
-         },
-       })
-       .then((response) => {
-         console.log('Item removed successfully:', response.data);
-       })
-       .catch((error) => {
-         console.error('Error removing item:', error);
-       });
-   };
    
 
-      
+   async function fetchData() {
+    try {
+      const response = await fetch(CART_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: auth },
+        body: JSON.stringify({type:"view"}),
+      });
+      const responseData = await response.json();
+      setCartItem(responseData.data);
+      setCartItemCount(responseData.data.length);
+      console.log("this is cart view data",cartItem);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
-  // useEffect(() => {
-  //   dispatch(fetchCartData(auth));
-  // }, [dispatch,auth]);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
 
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-      
-  //       const response = await fetch(CART_API, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': `Bearer ${auth}`,
-  //         },
-  //       });
-  //       const data = await response.json();
-  
-  //       dispatch(fetchCartSuccess(data.data));
-  //       // setCartItem(data.data);
-      
-  //       console.log("This is cart data",data.data);
-  //     } catch (error) {
-  //       console.error('Error fetching cart:', error);
-  //     }
-  //   };
-  
-  //   if (auth) {
-  //     fetchCartData();
-  //   }
-  // }, [auth, dispatch]);
   
   
 
   return (
     <div>
-      {/* <div className="cart-items p-1">
-       
-         <div className="container">
-         
-          <div className="row">
-            <div className="col-12 col-md-12 col-sm-12 col-lg-12">
-            {Array.isArray(cartItems) &&
-                cartItems.map((item) => (
-               <div className="row p-1" key={item.id}>
-                 
-                  <>
-                  <div className="col-sm-4 col-md-4 col-lg-4 mt-3">
-                     <img src={item.image} className="img-fluid cart-img p-2">
-                     </img> 
-                      <h4>{item.name}</h4>
-                  </div>
-                
-                  <div className="col-sm-6 col-md-6 col-lg-6 mt-3 text-center" >
-                        <h2>{item.id}</h2><br/>
-                        <h2>{item.hsn}</h2><br/>
-                        <h2>{item.gst}</h2><br/>
 
-                  </div>
-
-                  <div className="col-sm-2 col-md-2 col-lg-2 ">
-
-                  </div>
-                  </>
-                   
-                   
-               </div>
-            ))}
-           
-               
-            </div>
-          </div>
-          
-         </div>  
-        
-       </div> */}
-
-      <Header />
+       <Header cartItemCount={cartItemCount}/>
 
       <section className="pt-3 pb-3 page-info section-padding border-bottom bg-white">
         <div className="container">
@@ -135,7 +59,7 @@ const CartProducts = () => {
           </div>
         </div>
       </section>
-      {cartItem.length === 0 ? (
+      {cartItemCount === 0 ? (
         <div className="text-center p-5 mt-5 mb-5">
           <FaCartArrowDown style={{fontSize:"40px",color:"#3bb77e"}}/>
         <p className="mt-2" style={{fontSize:"20px",color:"#000",fontWeight:"500"}}>Your cart is empty.</p>
@@ -230,7 +154,7 @@ const CartProducts = () => {
                                     title=""
                                     data-bs-placement="top"
                                     data-bs-toggle="tooltip"
-                                    onClick={() => handleRemoveFromCart(cartData.id)}
+                                  
                                   >
                                     <SlClose className="mdi mdi-close-circle-outline"  />
                                   </a>

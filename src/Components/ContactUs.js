@@ -25,13 +25,12 @@ const ContactUs = () => {
           body: JSON.stringify({ "type": "contact" }),
         });
         const responseData = await response.json();
-        console.log(responseData);
+        // console.log(responseData);
   
-        // Check if the response data is an array, if not, convert it into an array
         const dataArray = Array.isArray(responseData.data) ? responseData : [responseData.data];
   
         setData(dataArray);
-        console.log('for checking data',dataArray); // changed to dataArray
+        // console.log('for checking data',dataArray); 
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -116,7 +115,7 @@ const ContactUs = () => {
                     <h6 className="text-dark">
                       <i className="mdi mdi-deskphone"></i> Mobile:
                     </h6>
-                    <p>{item.telephone}</p>
+                    <p>+91 {item.telephone}</p>
                     <h6 className="text-dark">
                       <i className="mdi mdi-email"></i> Email:
                     </h6>

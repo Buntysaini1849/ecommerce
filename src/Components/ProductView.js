@@ -1,33 +1,37 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import {CART_API} from "./apiUrls";
+import { CART_API } from "./apiUrls";
 import { FaTag } from "react-icons/fa";
 import "../Css/ProductView.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_TO_CART_SUCCESS } from "../State/Actions/CartActions";
-import QuantityInput from "./QuantityInput";
 import { useEffect } from "react";
-
+import "../Css/QuantityInput.css";
 
 const ProductView = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [showAddToCart, setShowAddToCart] = useState(true);
   const [activeThumbnail, setActiveThumbnail] = useState(null);
-  
+  const [quantity, setQuantity] = useState(1);
+
   const mainSliderRef = useRef(null);
   const thumbnailSliderRef = useRef(null);
-  const { id } = useParams();
   const auth = useSelector((state) => state.login.auth);
   const proditem = useSelector((state) => state.proditem.selectedProduct);
-  
 
+  const handleIncrease = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleDecrease = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
   // useEffect(() => {
   //   async function fetchData() {
   //     try {
@@ -64,13 +68,14 @@ const ProductView = () => {
 
   useEffect(() => {
     // Scroll to the top of the page only once
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const handleAddToCart = (auth) => {
-    if (auth) {
+  const handleAddToCart = (productId) => {
       const payload = {
-        type: "view",
+        type: "update",
+        quantity: quantity,
+        product_id: productId,
       };
 
       fetch(CART_API, {
@@ -85,23 +90,16 @@ const ProductView = () => {
         .then((data) => {
           // Handle response from the API
           // console.log('addtocart data = ',auth);
-          dispatch({ type: ADD_TO_CART_SUCCESS, payload: auth });
+
           setShowAddToCart(false);
+          console.log(payload);
         })
         .catch((error) => {
           // Handle error
           console.error("Error:", error);
         });
-    } else {
-      // Handle unauthorized access
-      console.log("User is not authenticated.");
-    }
+    
   };
-
-
-
-  
-
 
   const CustomPrevArrow = (props) => (
     <div className="slick-arrow slick-prev" onClick={props.onClick}></div>
@@ -296,40 +294,67 @@ const ProductView = () => {
                     Discounted price :{" "}
                     <span className="text-success">₹{proditem.sale_price}</span>
                   </p>
-                  
+                 
+
                   <div className="mt-4">
-                    <QuantityInput />
+                    <div className="quantity-input p-0">
+                      <button
+                        onClick={handleDecrease}
+                        className="decin-btn dec-btn"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        className="form-control inputqty"
+                        value={quantity}
+                        readOnly
+                        style={{ background: "#f5eeee" }}
+                      />
+                      <button
+                        onClick={handleIncrease}
+                        className="decin-btn dec-plus"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
 
                   {/* <Link to="/viewcart"> */}
                   <div className="card border-1 mt-4 p-1">
                     <h5 className="pt-2 selectUnit-Tag">Select Unit Size</h5>
-                   <div className="row d-flex p-0">
-                    <div className="col">
-                      <button className="btn btn-sm selectUnit-btn"  key={proditem.id}>{proditem.unit}</button>
+                    <div className="row d-flex p-0">
+                      <div className="col">
+                        <button
+                          className="btn btn-sm selectUnit-btn"
+                          key={proditem.id}
+                        >
+                          {proditem.unit}
+                        </button>
+                      </div>
                     </div>
-                   </div>
                   </div>
                   <>
-                  {showAddToCart ? (
-                    <button
-                      type="button"
-                      className="btn btn-secondary btn-lg"
-                      onClick={() => handleAddToCart(proditem)}
-                    >
-                      <i className="mdi mdi-cart-outline"></i> Add To Cart
-                   </button>)  : (
-                    <Link to="/viewcart">
+                    {showAddToCart ? (
                       <button
-                      type="button"
-                      className="btn btn-secondary btn-lg"
-                      
-                    >
-                      <i className="mdi mdi-cart-outline"></i> Go To Cart
-                    </button>
-                    </Link>
+                        type="submit"
+                        className="btn btn-secondary btn-lg"
+                        onClick={() => handleAddToCart(proditem.id)}
+                      >
+                        <i className="mdi mdi-cart-outline"></i> Add To Cart
+                       
+                      </button>
+                    ) : (
+                      <Link to="/viewcart">
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-lg"
+                        >
+                          <i className="mdi mdi-cart-outline"></i> Go To Cart
+                        </button>
+                      </Link>
                     )}
-                    </>
+                  </>
                   {/* </Link> */}
                   <div className="short-description">
                     <h5>

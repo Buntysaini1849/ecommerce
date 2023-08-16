@@ -22,12 +22,13 @@ import { AiOutlineHeart, AiOutlineUnorderedList } from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
 
 
-const Header = () => {
+const Header = ({cartItemCount}) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
   const dispatch = useDispatch();
   // const cartItems = useSelector((state) => state.cart.cartItems);
   const auth = useSelector((state) => state.cart.auth);
-  const cartItems = useSelector((state) => state.cart.product);
+
   const User = useSelector((state) => state.user.users);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
 
@@ -337,7 +338,7 @@ const Header = () => {
                         <MdOutlineShoppingCart className="shopping-cart" /> My
                         Cart{" "}
                         <small className="cart-value" style={{ color: "#fff" }}>
-                          {cartItems.length}
+                          {cartItemCount}
                         </small>
                       </Link>
                     </div>
@@ -380,17 +381,19 @@ const Header = () => {
                   >
                     Ingredients
                   </a>
+                 
+                  <ul className="dropdown-menu">
                   {Array.isArray(IngredData) &&
                           IngredData.map((ingred) => (
-                  <ul className="dropdown-menu">
                     <li key={ingred.id}>
                       <Link className="dropdown-item ingred-item" to="/shoplist" onClick={() => handleIngredClick(ingred.id)} style={{cursor:"pointer"}}>
                         {ingred.name}
                       </Link>
                     </li>
+                      ))}
                
                   </ul>
-                    ))}
+                  
                 </li>
                 <li className="nav-item dropdown">
                   <a
@@ -402,17 +405,18 @@ const Header = () => {
                   >
                     Remedies
                   </a>
+                 
+                  <ul className="dropdown-menu">
                   {Array.isArray(RemediesData) &&
                           RemediesData.map((remedata) => (
-                  <ul className="dropdown-menu">
                     <li key={remedata.id}>
                       <Link className="dropdown-item ingred-item" to="/shoplist" onClick={() => handleRemedieClick(remedata.id)}>
                         {remedata.name}
                       </Link>
                     </li>
-               
+                   ))}
                   </ul>
-                    ))}
+                
                 </li>
                 {/* <li className="nav-item dropdown">
                 <a
