@@ -11,6 +11,7 @@ import Login from "./Login";
 import { useSelector } from "react-redux";
 import { PROFILE_API, WISHLIST_API } from "./apiUrls";
 import avatar from "../Images/avatar.svg";
+import Product from "./Product/ProductComponent";
 
 
 const Wishlist = () => {
@@ -163,49 +164,8 @@ const Wishlist = () => {
                         <div className="row no-gutters">
                         {wishlistData && wishlistData.length > 0 ? (
                             wishlistData.map((data) => (
-                          <div className="col-md-6">
-                            <div className="product mt-2">
-                              <a href="#">
-                                <div className="product-header">
-                                  {/* <span className="badge badge-success">
-                                  50% OFF
-                                </span> */}
-                                  <img
-                                    alt="product image"
-                                    src={data.image}
-                                    className="img-fluid"
-                                  />
-                                  <span className="veg text-success mdi mdi-circle"></span>
-                                </div>
-                                <div className="product-body">
-                                  <h5>{data.name}</h5>
-                                  <h6>
-                                    <strong>
-                                      <span className="mdi mdi-approval"></span>
-                                      Available in
-                                    </strong>{" "}
-                                    - {data.unit}
-                                  </h6>
-                                </div>
-                                <div className="product-footer d-flex">
-                                  <p className="offer-price mb-0">
-                                    ₹{data.sale_price}
-                                    <i className="mdi mdi-tag-outline"></i>
-                                    <br />
-                                    <span className="regular-price">₹{data.mrp_price}</span>
-                                  </p>
-                                  <button
-                                    className="btn btn-secondary btn-sm float-right"
-                                    type="button"
-                                  >
-                                    <i className="mdi mdi-cart-outline"></i> Add
-                                    To Cart
-                                  </button>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                         ))
+                              <Product {...data} />
+                              ))
                          ) : (
                            <div>No data available</div>
                          )}

@@ -16,3 +16,4 @@ export const INGREDIENT_API           = BASE_URL+'product/ingredient/';
 export const REMEDIES_API             = BASE_URL+'product/remedies/';
 export const WISHLIST_API             = BASE_URL+'order/wish/';
 export const QUERY_API                = BASE_URL+'auth/query/';
+export const PRODUCT_DETAIL           = BASE_URL+"product/productDetail/";

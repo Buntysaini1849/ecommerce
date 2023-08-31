@@ -117,6 +117,7 @@ export default function Login() {
       startTimer();
       // Assuming the API returns the verificationId
       setVerificationId(data.verificationId);
+      
     } catch (error) {
       console.error("Error generating OTP:", error);
     }

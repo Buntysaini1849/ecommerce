@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
 .slick-slider {
     width: 100% !important;
 }
@@ -59,12 +62,12 @@
 .thumbslider img {
     /* width: 67% !important;
     margin-left: 22px !important; */
-    border: 2px solid #eeeeee;
-    border-radius: 12px;
+    /* border: 2px solid #eeeeee;
+    border-radius: 12px; */
     cursor: pointer;
-    margin: 22px !important;
-    height: 106px;
-    width: 30%;
+    /* margin: 22px !important; */
+    height: 100px !important;
+    width: 100px !important;
 }
 
 /* .shop-detail-slider #sync2 img {
@@ -79,6 +82,8 @@
     border: 0px !important;
 }
 
+
+
 .slick-prev {
     z-index: 1000;
     left: -19px !important;
@@ -92,6 +97,8 @@
 .image-container {
     position: relative;
     overflow: hidden;
+    border:1px solid #eeeeee;
+    border-radius: 12px;
 }
 
 .image-container img {
@@ -106,3 +113,24 @@
     width: 15px !important;
     margin-top: -2px !important;
 }
+
+.regular-price{
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.price-tag{
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 25px;
+}
+
+.star {
+    font-size: 18px;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.2s;
+  }
+  
+  .star.filled {
+    color: yellow;
+  }
+  

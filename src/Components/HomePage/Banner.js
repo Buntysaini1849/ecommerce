@@ -1,7 +1,7 @@
 import React, { useState,useLayoutEffect } from "react";
-import { BANNER_API } from "./apiUrls";
+import { BANNER_API } from "../apiUrls";
 import OwlCarousel from "react-owl-carousel3";
-import "../Css/Slide.css";
+import "../../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 // import img from "../Images/bannerimg.jpg";
 

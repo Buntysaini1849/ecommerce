@@ -1,2 +1,106 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
+    gap: 10px; /* Adjust the gap between items */
+  }
 
 
+  .collapse-btn{
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      width: 100%;
+      text-align: start;
+  }
+
+.sidebar-layout{
+  display: flex;
+}
+
+  .sidebar {
+    width: 250px;
+    border: 1px solid lightgrey;
+    margin-top: 11px;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    position: relative;
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    flex: 1 !important;
+    padding: 20px !important;
+    background-color: #f0f0f0;
+  }
+
+  .fliter-btn{
+      font-size: 17px;
+      color: #605858;
+      font-weight: 500;
+  }
+
+
+
+  .close-circle {
+    display: flex;
+    /* justify-content: unset; */
+    position: absolute;
+    top: 1px;
+    right: 3px;
+    /* float: right; */
+    font-size: 20px !important;
+    color: black !important;
+}
+  
+
+  @media only screen and (min-width: 1000px) {
+  
+    .fliter-btn{
+      display: none !important;
+    }
+  }
+
+
+  @media only screen and (max-width: 1001px) {
+  
+    .main-cont-column{
+      display: none !important;
+    }
+
+  }
+
+  @media only screen and (max-width: 600px) {
+  
+    .grid-container{
+      display: inline-table !important;
+    }
+    
+  }
+
+
+  @media only screen and ((min-width: 600px) and (max-width: 800px)) {
+  
+   .grid-container{
+    grid-template-columns: repeat(2, 1fr);
+   }
+    
+   .items{
+    width: auto;
+   }
+  }
+  
+
+  @media only screen and ((min-width: 800px) and (max-width: 1200px)) {
+  
+    .grid-container{
+     grid-template-columns: repeat(3, 1fr);
+    }
+     
+    .items{
+     width: auto;
+    }
+   }

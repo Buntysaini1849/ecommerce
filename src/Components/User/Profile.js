@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
+import Footer from "../Footer";
+import Header from "../Header";
 import { Link } from "react-router-dom";
 import { MdOutlineShareLocation } from "react-icons/md";
 
@@ -8,9 +8,9 @@ import { FiUser } from "react-icons/fi";
 import { AiOutlineHeart, AiOutlineUnorderedList } from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
 import { useSelector } from "react-redux";
-import Login from "./Login";
-import { PROFILE_API } from "./apiUrls";
-import avatar from "../Images/avatar.svg";
+import Login from "../Login";
+import { PROFILE_API } from "../apiUrls";
+import avatar from "../../Images/avatar.svg";
 
 const Profile = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);

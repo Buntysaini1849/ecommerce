@@ -12,6 +12,10 @@ import {
 
 import "../Css/ShopList.css";
 import { setSelectedIngredient, setSelectedRemedies } from "../State/Actions/CollapseAction";
+import Product from "./Product/ProductComponent";
+import { AiFillCloseCircle, AiOutlineFilter } from "react-icons/ai";
+import { FiFilter } from "react-icons/fi";
+
 
 const ShopList = () => {
   const [category, setCategory] = useState([]);
@@ -22,6 +26,7 @@ const ShopList = () => {
   const [autoClicked, setAutoClicked] = useState(false);
   const [IngredData, setIngredData] = useState([]);
   const [RemediesData, setRemediesData] = useState([]);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.login.auth);
   const selectedCategoryByID = useSelector((state) => state.catId.selectedCategoryId);
@@ -77,6 +82,7 @@ const ShopList = () => {
           const response = await fetch(PRODUCTCATWISE_API, requestOptions);
           const data = await response.json();
           setProducts(data.data);
+          console.log("this is ingred data",data.data)
         } catch (error) {
           console.error('Error fetching products:', error);
         }
@@ -104,7 +110,7 @@ const ShopList = () => {
       ) {
         for (let i = 0; i < responseData.data.length; i++) {
           setIngredData(responseData.data);
-          // console.log(data);
+          console.log("This is ingred data",responseData.data);
         }
       } else {
         console.error("Error: Invalid data structure");
@@ -169,13 +175,253 @@ const ShopList = () => {
     }
   }, [selectedCategoryByID, autoClicked]);
 
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+    
+  };
+
+  const closeSidebar = () => {
+    setSidebarVisible(false);
+    console.log("clicked");
+  };
+
   return (
     <div>
       <Header />
-      <section className="shop-list section-padding">
-        <div className="container">
+      
+     
+
+      <section className="shop-list section-padding d-flex">
+  
+        <div className={`sidebar ${sidebarVisible ? 'active' : 'd-none'}`}>
+          <div>
+            <AiFillCloseCircle  className="close-circle" onClick={closeSidebar}/>
+          </div>
+              <div className="shop-filter w-100">
+                <div id="accordion">
+                  <div className="card">
+                    <div className="card-header" id="headingOne">
+                      <h5 className="mb-0">
+                        <button
+                          className="btn btn-link collapse-btn"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseOne"
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          Category{" "}
+                          <span className="mdi mdi-chevron-down float-right"></span>
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapseOne" className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}>
+                      <div className="card-body card-shop-filters">
+                        {/* <form className="form-inline mb-3">
+                          <div className="form-group d-flex">
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Search By Category"
+                            />
+                            <button
+                              type="submit"
+                              className="btn btn-secondary btn-lg"
+                            >
+                              search
+                            </button>
+                          </div>
+                        </form> */}
+                        {Array.isArray(category) &&
+                          category.map((cat) => (
+                            <div
+                              className="custom-control custom-checkbox d-flex"
+                              key={cat.id}
+
+                            >
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                checked={selectedCategoryId === cat.id || selectedCategoryByID === cat.id}
+                                onChange={() => handleCategoryChange(cat.id)}
+                                
+                                id={cat.id}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor={cat.id}
+                              >
+                                {cat.name}
+                              </label>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-header" id="headingTwo">
+                      <h5 className="mb-0">
+                        <button
+                          className="btn btn-link collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseTwo"
+                          aria-expanded="false"
+                          aria-controls="collapseTwo"
+                        >
+                          Price{" "}
+                          <span className="mdi mdi-chevron-down float-right"></span>
+                        </button>
+                      </h5>
+                    </div>
+                    <div
+                      id="collapseTwo"
+                      className={`collapse ${collapseOpen ? 'collapse' : 'show'}`}
+                      aria-labelledby="headingTwo"
+                      data-parent="#accordion"
+                    >
+                      <div className="card-body card-shop-filters">
+                        <div className="custom-control custom-checkbox d-flex">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="1"
+                          />
+                          <label className="custom-control-label" for="1">
+                            ₹68 to ₹659{" "}
+                            <span className="badge badge-warning">50% OFF</span>
+                          </label>
+                        </div>
+                        <div className="custom-control custom-checkbox d-flex">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="2"
+                          />
+                          <label className="custom-control-label" for="2">
+                            ₹660 to ₹1014
+                          </label>
+                        </div>
+                        <div className="custom-control custom-checkbox d-flex">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="3"
+                          />
+                          <label className="custom-control-label" for="3">
+                            ₹1015 to ₹1679
+                          </label>
+                        </div>
+                        <div className="custom-control custom-checkbox d-flex">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="4"
+                          />
+                          <label className="custom-control-label" for="4">
+                            ₹1680 to ₹1856
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-header" id="headingThree">
+                      <h5 className="mb-0">
+                        <button
+                          className="btn btn-link collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseThree"
+                          aria-expanded="false"
+                          aria-controls="collapseThree"
+                        >
+                          Ingredients{" "}
+                          <span className="mdi mdi-chevron-down float-right"></span>
+                        </button>
+                      </h5>
+                    </div>
+                    <div
+                      id="collapseThree"
+                      className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}
+                      aria-labelledby="headingThree"
+                      data-parent="#accordion"
+                    >
+                      <div className="card-body card-shop-filters">
+                       
+                        {Array.isArray(IngredData) &&
+                          IngredData.map((ingred) => (
+                        <div className="custom-control custom-checkbox d-flex" key={ingred.id}>
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            checked={selectedIngredient === ingred.id || selectedIngredId === ingred.id}
+                            onChange={() => handleIngredChange(ingred.id)}
+                            id={ingred.id}
+                          />
+                          <label className="custom-control-label" for="b1">
+                            {ingred.name}
+                           
+                          </label>
+                        </div>
+                          ))}
+                        
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div className="card">
+                    <div className="card-header" id="headingFour">
+                      <h5 className="mb-0">
+                        <button
+                          className="btn btn-link collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFour"
+                          aria-expanded="false"
+                          aria-controls="collapseFour"
+                        >
+                          Remedies{" "}
+                          <span className="mdi mdi-chevron-down float-right"></span>
+                        </button>
+                      </h5>
+                    </div>
+                    <div
+                      id="collapseFour"
+                      className={`collapse ${collapseOpen ? 'show' : 'collapse'}`}
+                      aria-labelledby="headingThree"
+                      data-parent="#accordion"
+                    >
+                      <div className="card-body card-shop-filters">
+                       
+                        {Array.isArray(RemediesData) &&
+                          RemediesData.map((remeData) => (
+                        <div className="custom-control custom-checkbox d-flex" key={remeData.id}>
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            checked={selectedRemedies === remeData.id || selectedRemediesById === remeData.id}
+                            onChange={() => handleRemediesChange(remeData.id)}
+                            id={remeData.id}
+                          />
+                          <label className="custom-control-label" for="b1">
+                            {remeData.name}
+                           
+                          </label>
+                        </div>
+                          ))}
+                        
+                        
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+        </div>
+            
+      
+        <div className="container-fluid main-content">
+       
           <div className="row">
-            <div className="col-md-3">
+            <div className="col-md-2 main-cont-column">
               <div className="shop-filters">
                 <div id="accordion">
                   <div className="card">
@@ -393,27 +639,31 @@ const ShopList = () => {
                 
                 </div>
               </div>
-              <div className="left-ad mt-4">
+
+             
+
+              {/* <div className="left-ad mt-4">
                 <img
                   className="img-fluid"
                   src="http://via.placeholder.com/254x557"
                   alt=""
                 />
-              </div>
+              </div> */}
             </div>
-            <div className="col-md-9">
+            <div className="col-md-10">
               <a href="#">
                 <img className="img-fluid mb-3" src="#" alt="" />
               </a>
-              <div className="shop-head">
-                <a href="#">
-                  <span className="mdi mdi-home"></span> Home
-                </a>{" "}
-                <span className="mdi mdi-chevron-right"></span>{" "}
-                {/* <a href="#">Fruits & Vegetables</a>{" "} */}
-                <span className="mdi mdi-chevron-right"></span>{" "}
-                {/* <a href="#">Fruits</a> */}
+              <div className="shop-head mt-3">
+                
+              
+
+                  <a className="fliter-btn mt-2" onClick={toggleSidebar}>
+                    <span><FiFilter style={{fontSize:"22px"}}/></span> Fliter
+                  </a>
+           
                 <div className="btn-group mt-2" style={{ float: "right" }}>
+                  
                   <button
                     type="button"
                     className="btn btn-dark dropdown-toggle"
@@ -446,51 +696,19 @@ const ShopList = () => {
               {products.length === 0 ? (
                 <p>No products to display for the selected category.</p>
               ) : (
-                <div className="row no-gutters mt-5">
+                <div className="box no-gutters mt-3 grid-container">
+                
+                
+                 
+
                   {Array.isArray(products) &&
                     products.map((product) => (
-                      <div className="col-md-4" key={product.id}>
-                        <div className="product">
-                          <a>
-                            <div className="product-header">
-                              <span className="badge badge-success">
-                                50% OFF
-                              </span>
-                              <img
-                                className="img-fluid"
-                                src={product.img}
-                                alt=""
-                              />
-                              <span className="veg text-success mdi mdi-circle"></span>
-                            </div>
-                            <div className="product-body">
-                              <h5>{product.name}</h5>
-                              <h6>
-                                <strong>
-                                  <span className="mdi mdi-approval"></span>{" "}
-                                  Available in
-                                </strong>{" "}
-                                - 500 gm
-                              </h6>
-                            </div>
-                            <div className="product-footer d-flex">
-                              <p className="offer-price mb-0">
-                                ₹450.99 <i className="mdi mdi-tag-outline"></i>
-                                <br />
-                                <span className="regular-price">₹800.99</span>
-                              </p>
-                              <button
-                                type="button"
-                                className="btn btn-secondary btn-sm float-right"
-                              >
-                                <i className="mdi mdi-cart-outline"></i> Add To
-                                Cart
-                              </button>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
+                     
+                      <Product {...product} />
+                     
                     ))}
+                  
+                 
                 </div>
               )}
 

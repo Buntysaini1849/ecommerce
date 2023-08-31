@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { CATEGORYLIST_API } from "./apiUrls";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../Css/itemSlide.css";
+import "../../Css/itemSlide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import {
-  fetchCategories,
-  setSelectedCategory,
-} from "../State/Actions/CategoryActions";
-import ShopList from "./ShopList";
-import { setSelectedCategories } from "../State/Actions/SelectCatAction";
-import { Link } from "react-router-dom";
-import { setCollapseOpen } from "../State/Actions/CollapseAction";
+import {fetchCategories,} from "../../State/Actions/CategoryActions";
+import ShopList from "../ShopList";
+import Category from "../Product/CategoryComponent";
 
-const ItemSlide = () => {
-  // const [data, setData] = useState([]);
+const CategorySlide = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.catpro.categories);
   const selectedCategory = useSelector(
@@ -30,8 +23,38 @@ const ItemSlide = () => {
     infinite: false,
     speed: 500,
     slidesToShow: 10,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     autoplay: false,
+    responsive: [
+      
+      {
+        breakpoint: 768, // Tablet
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+         
+        },
+      },
+      {
+        breakpoint: 900, // Tablet
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+         
+        },
+      },
+     
+      {
+        breakpoint: 480, // Mobile
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+         
+        },
+      },
+    ],
+
+    
     // nextArrow: <NextArrow />,
     // prevArrow: <PrevArrow />,
   };
@@ -40,29 +63,13 @@ const ItemSlide = () => {
     dispatch(fetchCategories());
   }, []);
 
-  const handleCategoryClick = (categoryId) => {
-    dispatch(setSelectedCategories(categoryId));
-    dispatch(setCollapseOpen(false));
-  };
-
   return (
     <div className="container-fluid" style={{ background: "#fff" }}>
       <div className="container-fluid">
         <Slider {...settings}>
           {Array.isArray(categories) &&
             categories.map((item) => (
-              <Link to="/shoplist">
-                <div className="category-item text-center mb-4" key={item.id}>
-                  <img
-                    src={item.image}
-                    alt="Category"
-                    className="img-fluid"
-                    key={item.id}
-                    onClick={() => handleCategoryClick(item.id)}
-                  />
-                  <h6>{item.name}</h6>
-                </div>
-              </Link>
+                <Category {...item}/>               
             ))}
         </Slider>
       </div>
@@ -83,4 +90,4 @@ const NextArrow = (props) => (
   </div>
 );
 
-export default ItemSlide;
+export default CategorySlide;

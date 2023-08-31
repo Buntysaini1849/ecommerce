@@ -10,17 +10,19 @@ body {
     font-family: 'Maven Pro', sans-serif;
     line-height: 25px;
     color: #7e7e7e;
-   
 }
+
+
 
 ::-webkit-scrollbar {
     width: 0.1em;
     background-color: #F5F5F5;
+    display: none;
   }
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #F5F5F5;
+    background: transparent;
   }
 
   /* Handle */
@@ -679,9 +681,9 @@ a:focus {
     border: 1px solid #51aa1b;
     border-radius: 2px;
     color: #51aa1b;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    padding: 6px 13px;
+    padding: 6px 6px;
 }
 
 .shop-detail-right h2 {

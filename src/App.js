@@ -5,10 +5,10 @@ import { Provider } from "react-redux";
 import store from "./State/Store";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import TopSection from "./Components/FrontPage/TopSection";
-import ProductView from "./Components/ProductView";
+import ProductDetailView from "./Components/Product/ProductDetailView";
 import Checkout from "./Components/Checkout";
-import Profile from "./Components/Profile";
-import Address from "./Components/Address";
+import Profile from "./Components/User/Profile";
+import Address from "./Components/User/Address";
 import Wishlist from "./Components/Wishlist";
 import OrderList from "./Components/OrderList";
 import AboutUs from "./Components/AboutUs";
@@ -26,7 +26,7 @@ function App() {
             <Routes>
             <Route exact path="/" element={<TopSection/>} />
             <Route exact path="/shoplist" element={<ShopList/>} />
-            <Route exact path="/productview" element={<ProductView />} />
+            <Route exact path="/productview" element={<ProductDetailView />} />
             <Route exact path="/viewcart" element={<ViewCart />} />
             <Route exact path="/checkout" element={<Checkout />} />
             <Route exact path="/profile" element={<Profile />} />

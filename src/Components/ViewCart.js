@@ -7,25 +7,27 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { CART_API } from "./apiUrls";
 import { FaCartArrowDown } from "react-icons/fa";
+import {RiDeleteBin5Line} from "react-icons/ri";
+import "../Css/CartView.css";
 
 const CartProducts = () => {
   const [cartItem, setCartItem] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
   const auth = useSelector((state) => state.login.auth);
- 
-   
 
-   async function fetchData() {
+
+
+  async function fetchData() {
     try {
       const response = await fetch(CART_API, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: auth },
-        body: JSON.stringify({type:"view"}),
+        body: JSON.stringify({ type: "view" }),
       });
       const responseData = await response.json();
       setCartItem(responseData.data);
       setCartItemCount(responseData.data.length);
-      console.log("this is cart view data",cartItem);
+      console.log("this is cart view data", responseData.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -36,17 +38,18 @@ const CartProducts = () => {
   }, []);
 
 
-  
-  
+
+
 
   return (
     <div>
 
-       <Header cartItemCount={cartItemCount}/>
+      <Header cartItemCount={cartItemCount} />
 
       <section className="pt-3 pb-3 page-info section-padding border-bottom bg-white">
         <div className="container">
           <div className="row">
+
             <div className="col-md-12">
               <a href="#">
                 <strong>
@@ -61,107 +64,98 @@ const CartProducts = () => {
       </section>
       {cartItemCount === 0 ? (
         <div className="text-center p-5 mt-5 mb-5">
-          <FaCartArrowDown style={{fontSize:"40px",color:"#3bb77e"}}/>
-        <p className="mt-2" style={{fontSize:"20px",color:"#000",fontWeight:"500"}}>Your cart is empty.</p>
+          <FaCartArrowDown style={{ fontSize: "40px", color: "#3bb77e" }} />
+          <p className="mt-2" style={{ fontSize: "20px", color: "#000", fontWeight: "500" }}>Your cart is empty.</p>
         </div>
       ) : (
-      <div className="container-fluid">
-        <div className="container" style={{ width: "75%" }}>
-          <section className="cart-page section-padding">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="card card-body cart-table p-2">
-                    <div className="table-responsive">
-                      <table className="table cart-table">
-                        <thead>
-                          <tr style={{ borderColor: "#e6dddd" }}>
-                            <th className="cart_product">Product</th>
-                            <th>Description</th>
-                            <th>Avail.</th>
-                            <th>Unit price</th>
-                            <th>Qty</th>
-                            <th>Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        {Array.isArray(cartItem) &&
-                          cartItem.map((cartData) => (
-                              <tr style={{ borderColor: "#e6dddd" }} key={cartData.id}>
-                                <td className="cart_product">
-                                  <a href="#">
-                                    
-                                    <img src={cartData.image} className="img-fluid"/>
-                                  </a>
-                                </td>
-                                <td className="cart_description">
-                                  <h5 className="product-name">
-                                    <p>{cartData.name}</p>
-                                  </h5>
-                                  <h6>
-                                    <strong>
-                                      <span className="mdi mdi-approval"></span>{" "}
-                                      Available in
-                                    </strong>{" "}
-                                    - {cartData.unit}
-                                  </h6>
-                                </td>
-                                <td className="availability in-stock">
-                                  <span className="badge bg-success">
-                                    In stock
-                                  </span>
-                                </td>
-                                <td className="price">
-                                  <span>₹{cartData.sale_price}</span>
-                                </td>
-                                <td className="qty">
-                                  <div className="input-group">
-                                    <span className="input-group-btn">
-                                      <button
-                                        disabled="disabled"
-                                        className="btn btn-theme-round btn-number"
-                                        type="button"
-                                      >
-                                        -
-                                      </button>
-                                    </span>
-                                    <input
-                                      type="text"
-                                      max="10"
-                                      min="1"
-                                      value="1"
-                                      className="form-control border-form-control form-control-sm input-number"
-                                      name="quant[1]"
-                                    />
-                                    <span className="input-group-btn">
-                                      <button
-                                        className="btn btn-theme-round btn-number"
-                                        type="button"
-                                      >
-                                        +
-                                      </button>
-                                    </span>
-                                  </div>
-                                </td>
-                                <td className="price">
-                                  <span>₹{cartData.sale_price}</span>
-                                </td>
-                                <td className="action">
-                                  <a
-                                    className="btn btn-sm btn-danger"
-                                    data-bs-original-title="Remove"
-                                    href="#"
-                                    title=""
-                                    data-bs-placement="top"
-                                    data-bs-toggle="tooltip"
-                                  
-                                  >
-                                    <SlClose className="mdi mdi-close-circle-outline"  />
-                                  </a>
-                                </td>
-                              </tr>
-                            ))}
-                          {/* <tr style={{ borderColor: "#e6dddd" }}>
+        <div className="container-fluid">
+          <div className="container-fluid">
+            <section className="cart-page section-padding">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-md-8" style={{ border: "1px solid #eeeeee", borderRadius: "12px" }}>
+                    <div className="card card-body cart-table p-2">
+                      <div className="table-responsive">
+                        <table className="table cart-table">
+                          <thead>
+                            <tr style={{ borderColor: "#e6dddd" }}>
+                              <th className="cart_product">Product</th>
+                              <th style={{width:"280px"}}></th>
+                              {/* <th>Unit price</th> */}
+                              <th>Qty</th>
+                              <th>Total</th>
+                              <th>Remove</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {Array.isArray(cartItem) &&
+                              cartItem.map((cartData) => (
+                                <tr style={{ borderColor: "#e6dddd" }} key={cartData.id}>
+                                  <td className="cart_product">
+                                    <a href="#">
+
+                                      <img src={cartData.image} className="img-fluid" />
+                                    </a>
+                                  </td>
+                                  <td className="cart_description">
+                                    <h5 className="product-name">
+                                      <p style={{color:"#000",fontSize:"16px"}}>{cartData.name} ( {cartData.unit} )</p>
+                                    </h5>
+                                    <span className="price-icon">₹{cartData.sale_price}</span>
+                                  </td>
+
+                                  <td className="price-icon">
+                                    <span>₹{cartData.sale_price}</span>
+                                  </td>
+                                  <td className="qty">
+                                    <div className="input-group" style={{width:"60%"}}>
+                                      <span className="input-group-btn">
+                                        <button
+                                          disabled="disabled"
+                                          className="btn btn-theme-round btn-number"
+                                          type="button"
+                                        >
+                                          -
+                                        </button>
+                                      </span>
+                                      <input
+                                        type="text"
+                                        max="10"
+                                        min="1"
+                                        value="1"
+                                        className="form-control border-form-control form-control-sm input-number"
+                                        name="quant[1]"
+                                      />
+                                      <span className="input-group-btn">
+                                        <button
+                                          className="btn btn-theme-round btn-number"
+                                          type="button"
+                                        >
+                                          +
+                                        </button>
+                                      </span>
+                                    </div>
+                                  </td>
+                                  {/* <td className="price-icon">
+                                    <span>₹{cartData.sale_price}</span>
+                                  </td> */}
+                                  <td className="action">
+                                    <a
+                                      className="btn btn-sm "
+                                      data-bs-original-title="Remove"
+                                      href="#"
+                                      title=""
+                                      data-bs-placement="top"
+                                      data-bs-toggle="tooltip"
+
+                                    >
+                                      <RiDeleteBin5Line  style={{fontSize:"18px",color:"red"}}/>
+                                     
+                                    </a>
+                                  </td>
+                                </tr>
+                              ))}
+                            {/* <tr style={{ borderColor: "#e6dddd" }}>
                             <td className="cart_product">
                               <a href="#">
                                 <img
@@ -235,68 +229,13 @@ const CartProducts = () => {
                               </a>
                             </td>
                           </tr> */}
-                        </tbody>
-                        <tfoot style={{ borderColor: "#e6dddd" }}>
-                          <tr>
-                            <td colspan="1"></td>
-                            <td colspan="4">
-                              <form
-                                className="d-flex"
-                                style={{ float: "right" }}
-                              >
-                                <div className="form-group">
-                                  <input
-                                    type="text"
-                                    placeholder="Enter discount code"
-                                    className="form-control border-form-control form-control-sm"
-                                  />
-                                </div>
-                                &nbsp;
-                                <button
-                                  className="btn btn-success float-left btn-sm"
-                                  type="submit"
-                                >
-                                  Apply
-                                </button>
-                              </form>
-                            </td>
-                            <td colspan="2">Discount : ₹0.00 </td>
-                          </tr>
-                          <tr>
-                            <td colspan="2"></td>
-                            <td style={{ textAlign: "right" }} colspan="3">
-                              Total products (tax incl.)
-                            </td>
-                            <td colspan="2">₹10.88 </td>
-                          </tr>
-                          <tr>
-                            <td style={{ textAlign: "right" }} colspan="5">
-                              <strong>Total</strong>
-                            </td>
-                            <td className="text-danger" colspan="2">
-                              <strong>₹57.88 </strong>
-                            </td>
-                          </tr>
-                        </tfoot>
-                      </table>
+                          </tbody>
+
+                        </table>
+                      </div>
+
                     </div>
-                    <Link to="/checkout">
-                      <button
-                        className="btn btn-secondary btn-lg btn-block text-left w-100"
-                        type="button"
-                      >
-                        <span style={{ float: "left" }}>
-                          <MdOutlineShoppingCart className="mdi mdi-cart-outline mb-1" />
-                          Proceed to Checkout{" "}
-                        </span>
-                        <span style={{ float: "right" }}>
-                          <strong>₹57.88</strong>{" "}
-                          <span className="mdi mdi-chevron-right"></span>
-                        </span>
-                      </button>
-                    </Link>
-                  </div>
-                  {/* <div className="card mt-2">
+                    {/* <div className="card mt-2">
                      <h5 className="card-header">My Cart (Design Two)<span className="text-secondary float-right">(5 item)</span></h5>
                      <div className="card-body pt-0 pr-0 pl-0 pb-0">
                         <div className="cart-list-product">
@@ -333,12 +272,60 @@ const CartProducts = () => {
                         <a href="checkout.html"><button className="btn btn-secondary btn-lg btn-block text-left" type="button"><span className="float-left"><i className="mdi mdi-cart-outline"></i> Proceed to Checkout </span><span className="float-right"><strong>₹1200.69</strong> <span className="mdi mdi-chevron-right"></span></span></button></a>
                      </div>
                   </div> */}
+                  </div>
+                  <div className="col-md-4 mt-5" >
+                    <div className="container-fluid p-4" style={{ border: "1px solid #eeeeee", borderRadius: "12px" }}>
+                      <div style={{ borderColor: "#e6dddd" }}>
+
+                        <form
+                          className="d-flex"
+                         
+                        >
+                          <div className="form-group w-100">
+                            <input
+                              type="text"
+                              placeholder="Enter discount code"
+                              className="form-control border-form-control form-control-sm"
+                            />
+                          </div>
+                          &nbsp;
+                          <button
+                            className="btn btn-success float-left btn-sm"
+                            type="submit"
+                          >
+                            Apply
+                          </button>
+                        </form>
+                         
+                        <p className="mt-3" style={{textAlign:"right",fontWeight:"500",color:"#111",fontSize:"19px"}}>Total: ₹0.00 </p>
+                      
+                        <p className="mt-3" style={{textAlign:"right",fontWeight:"500",color:"#111",fontSize:"16px"}}>You Saved : ₹0.00 </p>
+                      
+                     
+                      </div>
+                      <Link to="/checkout">
+                        <button
+                          className="btn btn-secondary btn-lg btn-block text-left w-100 p-3"
+                          type="button"
+                        >
+                          <span style={{ float: "left",fontSize:"13px"}}>
+                            <MdOutlineShoppingCart className="mdi mdi-cart-outline mb-1" />
+                            Proceed to Checkout{" "}
+                          </span>
+                          <span style={{ float: "right" }}>
+                            <strong>₹57.88</strong>{" "}
+                            <span className="mdi mdi-chevron-right"></span>
+                          </span>
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
-      </div>
       )}
 
       <Footer />

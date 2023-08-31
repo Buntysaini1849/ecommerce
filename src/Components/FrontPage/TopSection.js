@@ -1,9 +1,9 @@
 import React from 'react';
-import Banner from '../Banner';
+import Banner from '../HomePage/Banner';
 import Header from '../Header';
-import ItemSlide from '../ItemSlide';
+import CategorySlide from '../HomePage/CategorySlider';
 import CartSidebar from '../CartSidebar';
-import TopSavers from '../TopSavers';
+import HomeProducts from '../Product/HomeProductComponent';
 import Offer from '../Offer';
 import Footer from '../Footer';
 
@@ -14,8 +14,8 @@ const TopSection = () => {
     <div>
         <Header />
         <Banner />
-        <ItemSlide />
-        <TopSavers />
+        <CategorySlide />
+        <HomeProducts />
         <CartSidebar />
         <Offer />
         <Footer />

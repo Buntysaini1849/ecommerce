@@ -8,6 +8,7 @@
   overflow: hidden;
   box-shadow: 0 2px 2px #eaeaea;
   position: relative; /* add relative positioning */
+  padding: 0px 10px 0px 10px !important;
 }
 
 .item-carousel{

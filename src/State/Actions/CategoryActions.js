@@ -1,4 +1,4 @@
-import { CATEGORYLIST_API, PRODUCTLIST_API } from "../../Components/apiUrls";
+import { CATEGORYLIST_API } from "../../Components/apiUrls";
 
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
 export const FETCH_CATEGORIES_FAILURE = "FETCH_CATEGORIES_FAILURE";

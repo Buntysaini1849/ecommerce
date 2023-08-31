@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
+import Footer from "../Footer";
+import Header from "../Header";
 import { Link } from "react-router-dom";
 import { MdOutlineShareLocation } from "react-icons/md";
 
@@ -12,13 +12,13 @@ import {
 } from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Login from "./Login";
+import Login from "../Login";
 import { useSelector } from "react-redux";
-import { CUSTOMER_ADDRESS_API, PROFILE_API } from "./apiUrls";
+import { CUSTOMER_ADDRESS_API, PROFILE_API } from "../apiUrls";
 
-import "../Css/AllProfiles.css";
+import "../../Css/AllProfiles.css";
 import axios from "axios";
-import avatar from "../Images/avatar.svg";
+import avatar from "../../Images/avatar.svg";
 
 const Address = () => {
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
