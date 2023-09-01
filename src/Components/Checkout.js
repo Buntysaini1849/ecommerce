@@ -1,17 +1,18 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import { MdPhoneIphone } from "react-icons/md";
 import Footer from "./Footer";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { CUSTOMER_ADDRESS_API } from "./apiUrls";
+import { CART_API, CUSTOMER_ADDRESS_API } from "./apiUrls";
 
 const Checkout = () => {
   const [data, setData] = useState([]);
   const [lastAddedAddress, setLastAddedAddress] = useState(null);
-  const cartItem = useSelector((state) => state.cart.product);
+  const [cartItem, setCartItem] = useState([]);
+  const [cartItemCount, setCartItemCount] = useState(0);
   const auth = useSelector((state) => state.login.auth);
-
+  const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
   async function fetchData() {
     try {
       const response = await fetch(CUSTOMER_ADDRESS_API, {
@@ -19,11 +20,10 @@ const Checkout = () => {
         headers: { "Content-Type": "application/json", Authorization: auth },
       });
       const responseData = await response.json();
-      setData(responseData);
-     if (responseData.length > 0) {
-        setLastAddedAddress(responseData[responseData.length - 1]);
-      }
-
+      setData(responseData.data);
+      console.log("this is address data",data);
+      const lastAddress = responseData.data && responseData.data.length > 0 ? responseData.data[responseData.data && responseData.data.length - 1] : null;
+      setLastAddedAddress(lastAddress);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -34,12 +34,31 @@ const Checkout = () => {
   }, []);
 
 
+  async function fetchCartData() {
+    try {
+      const response = await fetch(CART_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: auth },
+        body: JSON.stringify({ type: "view" }),
+      });
+      const responseData = await response.json();
+      setCartItem(responseData.data);
+      setCartItemCount(responseData.data.length);
+      console.log("this is cart view data", responseData.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchCartData();
+  }, []);
 
   return (
     <div>
-        <div>
+      <div>
         <Header />
-        </div>
+      </div>
       <div>
         <section className="checkout-page section-padding">
           <div className="container">
@@ -47,7 +66,7 @@ const Checkout = () => {
               <div className="col-md-8">
                 <div className="checkout-step">
                   <div className="accordion" id="accordionExample">
-                    <div className="card checkout-step-one">
+                    {/* <div className="card checkout-step-one">
                       <div className="card-header" id="headingOne">
                         <h5 className="mb-0">
                           <button
@@ -107,8 +126,84 @@ const Checkout = () => {
                           </form>
                         </div>
                       </div>
+                    </div> */}
+                    <div className="card checkout-step-one">
+                      <div className="card-header" id="headingOne">
+                        <h5 className="mb-0">
+                          <button
+                            className="btn btn-link"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="false"
+                            aria-controls="collapseOne"
+                          >
+                            <span className="number">1</span> Delivery Address
+                          </button>
+                        </h5>
+                      </div>
+                      <div
+                        id="collapseOne"
+                        className="collapse show"
+                        aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample"
+                      >
+                        {lastAddedAddress ? (
+                          <div className="card-body">
+                            <div
+                              className="container p-4 mt-2 shadow-sm"
+                              style={{ fontWeight: "500",border:"1px solid #3bb77e" }}
+                            >
+                              <div
+                                className="container-fluid d-flex"
+                                style={{
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <div>
+                                  <p
+                                    style={{
+                                      color: "#000",
+                                      fontWeight: "600",
+                                      marginLeft: "-12px",
+                                    }}
+                                  >
+                                    {lastAddedAddress.first_name}
+                                    <span>{lastAddedAddress.last_name}</span>
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="mt-1">
+                                <p>
+                                  {lastAddedAddress.address_one}
+                                  <span style={{ marginLeft: "5px" }}>
+                                    {lastAddedAddress.address_two},
+                                  </span>
+                                  <span style={{ marginLeft: "5px" }}>
+                                    {lastAddedAddress.city},
+                                  </span>
+                                  <span style={{ marginLeft: "5px" }}>
+                                    {lastAddedAddress.state}-
+                                  </span>
+                                  <span
+                                    style={{
+                                      fontWeight: "500",
+                                      color: "#000",
+                                    }}
+                                  >
+                                    {lastAddedAddress.pincode}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <p>No addresses available.</p>
+                        )}
+                      </div>
                     </div>
-                    <div className="card checkout-step-two">
+                    <div className="card">
                       <div className="card-header" id="headingTwo">
                         <h5 className="mb-0">
                           <button
@@ -119,7 +214,7 @@ const Checkout = () => {
                             aria-expanded="false"
                             aria-controls="collapseTwo"
                           >
-                            <span className="number">2</span> Delivery Address
+                            <span className="number">2</span> Payment
                           </button>
                         </h5>
                       </div>
@@ -127,89 +222,6 @@ const Checkout = () => {
                         id="collapseTwo"
                         className="collapse"
                         aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample"
-                      >
-                        {lastAddedAddress ? (
-                        <div className="card-body">
-                          <div
-                                          className="container p-0 mt-2"
-                                          style={{ fontWeight: "500" }}
-                                        >
-                                          <div
-                                            className="container-fluid d-flex"
-                                            style={{
-                                              justifyContent: "space-between",
-                                            }}
-                                          >
-                                            <div>
-                                              <p
-                                                style={{
-                                                  color: "#000",
-                                                  fontWeight: "600",
-                                                  marginLeft: "-12px",
-                                                }}
-                                              >
-                                                {lastAddedAddress.first_name}
-                                                <span>{lastAddedAddress.last_name}</span>
-                                              </p>
-                                            </div>
-                                           
-                                          </div>
-
-                                          <div className="mt-1">
-                                            <p>
-                                              {lastAddedAddress.address_one}
-                                              <span
-                                                style={{ marginLeft: "5px" }}
-                                              >
-                                                {lastAddedAddress.address_two},
-                                              </span>
-                                              <span
-                                                style={{ marginLeft: "5px" }}
-                                              >
-                                                {lastAddedAddress.city},
-                                              </span>
-                                              <span
-                                                style={{ marginLeft: "5px" }}
-                                              >
-                                                {lastAddedAddress.state}-
-                                              </span>
-                                              <span
-                                                style={{
-                                                  fontWeight: "500",
-                                                  color: "#000",
-                                                }}
-                                              >
-                                                {lastAddedAddress.pincode}
-                                              </span>
-                                            </p>
-                                          </div>
-                                        </div>
-                        </div>
-                          ) : (
-                            <p>No addresses available.</p>
-                          )}
-                      </div>
-                    </div>
-                    <div className="card">
-                      <div className="card-header" id="headingThree">
-                        <h5 className="mb-0">
-                          <button
-                            className="btn btn-link collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree"
-                            aria-expanded="false"
-                            aria-controls="collapseThree"
-                          >
-                            <span className="number">3</span> Payment
-                          </button>
-                        </h5>
-                      </div>
-                      <div
-                        id="collapseThree"
-                        className="collapse"
-                        aria-labelledby="headingThree"
                         data-bs-parent="#accordionExample"
                       >
                         <div className="card-body">
@@ -306,7 +318,7 @@ const Checkout = () => {
                             aria-expanded="false"
                             aria-controls="collapsefour"
                           >
-                            <span className="number">4</span> Order Complete
+                            <span className="number">3</span> Order Complete
                           </button>
                         </h5>
                       </div>
@@ -350,41 +362,47 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="col-md-4">
-              
                 <div className="card">
                   <h5 className="card-header">
                     My Cart{" "}
-                    <span className="text-secondary float-right">({cartItem.length})</span>
+                    <span className="text-secondary float-right">
+                      ({cartItemsCount})
+                    </span>
                   </h5>
                   {Array.isArray(cartItem) &&
-                          cartItem.map((cartData) => (
-                  <div className="card-body pt-0 pr-0 pl-0 pb-0">
-                    <div className="cart-list-product">
-                      <a className="float-right remove-cart" href="#">
-                        <i className="mdi mdi-close"></i>
-                      </a>
-                      <img className="img-fluid" src={cartData.image} alt="" />
-                      {/* <span className="badge badge-success">50% OFF</span> */}
-                      <h5>
-                        <a href="#">{cartData.name}</a>
-                      </h5>
-                      <h6>
-                        <strong>
-                          <span className="mdi mdi-approval"></span> Available
-                          in
-                        </strong>{" "}
-                        - {cartData.unit}
-                      </h6>
-                      <p className="offer-price mb-0">
-                      ₹{cartData.sale_price} <i className="mdi mdi-tag-outline"></i>{" "}
-                        <span className="regular-price">₹{cartData.mrp_price}</span>
-                      </p>
-                    </div>
-                  
-                  </div>
+                    cartItem.map((cartData) => (
+                      <div className="card-body pt-0 pr-0 pl-0 pb-0">
+                        <div className="cart-list-product">
+                          <a className="float-right remove-cart" href="#">
+                            <i className="mdi mdi-close"></i>
+                          </a>
+                          <img
+                            className="img-fluid"
+                            src={cartData.image}
+                            alt=""
+                          />
+                          {/* <span className="badge badge-success">50% OFF</span> */}
+                          <h5>
+                            <a href="#">{cartData.name}</a>
+                          </h5>
+                          <h6>
+                            <strong>
+                              <span className="mdi mdi-approval"></span>{" "}
+                              Available in
+                            </strong>{" "}
+                            - {cartData.unit}
+                          </h6>
+                          <p className="offer-price mb-0">
+                            ₹{cartData.sale_price}{" "}
+                            <i className="mdi mdi-tag-outline"></i>{" "}
+                            <span className="regular-price">
+                              ₹{cartData.mrp_price}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
                     ))}
                 </div>
-              
               </div>
             </div>
           </div>
@@ -392,7 +410,7 @@ const Checkout = () => {
       </div>
       <div>
         <Footer />
-        </div>
+      </div>
     </div>
   );
 };

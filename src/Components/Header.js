@@ -31,6 +31,7 @@ const Header = ({cartItemCount}) => {
 
   const User = useSelector((state) => state.user.users);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
+  const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
 
   // const [data, setData] = useState([]);
   const [IngredData, setIngredData] = useState([]);
@@ -338,7 +339,7 @@ const Header = ({cartItemCount}) => {
                         <MdOutlineShoppingCart className="shopping-cart" /> My
                         Cart{" "}
                         <small className="cart-value" style={{ color: "#fff" }}>
-                          {cartItemCount}
+                          {cartItemsCount}
                         </small>
                       </Link>
                     </div>

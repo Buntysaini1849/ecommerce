@@ -9,15 +9,21 @@ import { CART_API } from "./apiUrls";
 import { FaCartArrowDown } from "react-icons/fa";
 import {RiDeleteBin5Line} from "react-icons/ri";
 import "../Css/CartView.css";
+import { SET_CART_COUNT } from "../State/Actions/CartActions";
+
+
+
 
 const CartProducts = () => {
   const [cartItem, setCartItem] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
   const auth = useSelector((state) => state.login.auth);
+  const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
+
+  const dispatch = useDispatch();
 
 
-
-  async function fetchData() {
+  async function fetchCartData() {
     try {
       const response = await fetch(CART_API, {
         method: "POST",
@@ -27,6 +33,7 @@ const CartProducts = () => {
       const responseData = await response.json();
       setCartItem(responseData.data);
       setCartItemCount(responseData.data.length);
+      dispatch({ type: SET_CART_COUNT, payload: responseData.data.length });
       console.log("this is cart view data", responseData.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -34,9 +41,8 @@ const CartProducts = () => {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchCartData();
   }, []);
-
 
 
 
@@ -44,7 +50,7 @@ const CartProducts = () => {
   return (
     <div>
 
-      <Header cartItemCount={cartItemCount} />
+      <Header />
 
       <section className="pt-3 pb-3 page-info section-padding border-bottom bg-white">
         <div className="container">

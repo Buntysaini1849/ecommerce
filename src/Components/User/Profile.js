@@ -415,7 +415,7 @@ const Profile = () => {
               </div>
             ))
           ) : (
-            <div>No data available..</div>
+            <div>Please wait..</div>
           )}
         </section>
       ) : (

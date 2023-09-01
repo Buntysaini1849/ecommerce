@@ -666,7 +666,7 @@ const ShopList = () => {
                   
                   <button
                     type="button"
-                    className="btn btn-dark dropdown-toggle"
+                    className="btn btn-dark dropdown-toggle sort-by-btn"
                     data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"

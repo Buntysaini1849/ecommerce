@@ -15,6 +15,7 @@ import "../../Css/QuantityInput.css";
 import { setSelectedProduct } from "../../State/Actions/ProductViewAction";
 import RatingStars from "../Rating/RatingComponent";
 import ApiClient from "../../ApiCall/ApiClient";
+import nopro from "../../Images/noproduct.jpg";
 
 const ProductDetailView = () => {
   const dispatch = useDispatch();
@@ -263,7 +264,7 @@ const ProductDetailView = () => {
                           <Slider ref={mainSliderRef} {...mainSliderSettings}>
                             <div className="image-container p-5" style={{ height: "400px" }}>
                               <img
-                                src={productData.image}
+                                src={productData.image || nopro}
                                 key={productData.id}
                                 alt="Product 1"
                                 className="img-fluid main-slider-img"
@@ -283,7 +284,7 @@ const ProductDetailView = () => {
                                   onClick={() => handleThumbnailClick(productData.image)}
                                 >
                                   <img
-                                    src={productData.image}
+                                    src={productData.image || nopro}
                                     alt="Product 1 Thumbnail"
                                     className="img-fluid"
                                     
@@ -296,7 +297,7 @@ const ProductDetailView = () => {
                                   onClick={() => handleThumbnailClick(images.id)}
                                 >
                                   <img
-                                    src={images}
+                                    src={images || nopro}
                                     alt="Product 1 Thumbnail"
                                     className="img-fluid"
                                     // style={{ padding: "16px", background: "#fff" }}
