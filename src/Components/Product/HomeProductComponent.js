@@ -107,11 +107,19 @@ const HomeProducts = () => {
         breakpoint: 1920, // Full-screen
         settings: {
           slidesToShow: 5,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
         },
       },
       {
         breakpoint: 1366, // Desktop
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 2,
+        },
+      },
+  
+      {
+        breakpoint: 600, // Tablet
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,

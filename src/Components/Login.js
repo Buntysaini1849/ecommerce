@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 import {
   LOGIN_SUCCESS,
   SET_AUTH,
@@ -146,18 +146,15 @@ export default function Login() {
         },
       });
 
+     if (response.ok){
       const data = await response.json();
-      console.log("this is data", data);
       const user = data.user;
-      console.log("this is user", user);
       const auth = data.auth;
-      Cookies.set("auth", auth, { expires: 7 });
-      setIsLoggedin(true);
+      console.log("this is auth token", auth);
       dispatch(loginSuccess(user, auth));
       dispatch(setUser(user, auth));
       dispatch({ type: SET_AUTH, payload: auth });
-      sessionStorage.setItem('authToken', auth);
-
+      // Cookies.set("auth", auth, { expires: 7 });
       navigate("/");
       setUsername("");
       setOTP("");
@@ -177,14 +174,31 @@ export default function Login() {
         clearInterval(intervalId);
         setProgress(100);
       }, 5000);
+     }
+
+     else{
+      console.log("Login failed");
+     }
+      
     } catch (error) {
       console.error("Login error:", error);
     }
   };
 
+  useEffect(() => {
+    // Check if the auth token exists in cookies on page load
+    const authToken = Cookies.get('auth');
+    if (authToken) {
+      // You might want to validate the auth token with your server here.
+      // For simplicity, we'll consider the user logged in if the token exists.
+      setUser({ authenticated: true });
+    }
+  }, []);
+
   const handleToastClose = () => {
     setShowToast(false);
   };
+
 
   useEffect(() => {
     // Auto-close the toast after 3000 milliseconds (3 seconds)

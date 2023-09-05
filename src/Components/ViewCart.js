@@ -33,7 +33,7 @@ const CartProducts = () => {
       const responseData = await response.json();
       setCartItem(responseData.data);
       setCartItemCount(responseData.data.length);
-      dispatch({ type: SET_CART_COUNT, payload: responseData.data.length });
+      dispatch({ type: SET_CART_COUNT, payload: responseData.data.length});
       console.log("this is cart view data", responseData.data);
     } catch (error) {
       console.error("Error fetching data:", error);
