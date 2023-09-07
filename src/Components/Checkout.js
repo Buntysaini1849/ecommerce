@@ -12,15 +12,16 @@ const Checkout = () => {
   const [cartItem, setCartItem] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [paymentMode, setPaymentMode] = useState(1);
-  const [cardNumber, setCardNumber] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [orderId, setOrderId] = useState("");
+
 
   const auth = useSelector((state) => state.login.auth);
   const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
-
-
 
   async function fetchData() {
     try {
@@ -30,8 +31,11 @@ const Checkout = () => {
       });
       const responseData = await response.json();
       setData(responseData.data);
-      console.log("this is address data",data);
-      const lastAddress = responseData.data && responseData.data.length > 0 ? responseData.data[responseData.data && responseData.data.length - 1] : null;
+      console.log("this is address data", data);
+      const lastAddress =
+        responseData.data && responseData.data.length > 0
+          ? responseData.data[responseData.data && responseData.data.length - 1]
+          : null;
       setLastAddedAddress(lastAddress);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -41,7 +45,6 @@ const Checkout = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
 
   async function fetchCartData() {
     try {
@@ -63,41 +66,48 @@ const Checkout = () => {
     fetchCartData();
   }, []);
 
-
   const handlePaymentMode = () => {
     setPaymentMode(2);
-    console.log("This is payment mode",paymentMode);
+    setShowForm(false);
+    console.log("This is payment mode", paymentMode);
+  };
+
+
+
+  const handlePlaceOrder = (addressId, couponCode) => {
+    const payloads = {
+      type: "add",
+      address_id: addressId,
+      payment_mode: JSON.parse(paymentMode),
+      coupon_code: 2,
+    };
+
+    fetch(ORDER_PLACE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: auth,
+      },
+      body: JSON.stringify(payloads),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        setOrderId(data.message);
+        console.log("order id",data.message);
+        
+        
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Error:", error);
+      });
+  };
+
+
+  const handlePayOnline = () => {
+    setShowForm((prevState) => !prevState);
   }
-
-
-  const handlePlaceOrder = (addressId,couponCode) => {
-
-        const payloads = {
-            "type": "add",
-            "address_id": addressId,
-            "payment_mode": JSON.parse(paymentMode),
-            "coupon_code": 2,
-        };
-
-        fetch(ORDER_PLACE, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: auth,
-            },
-            body: JSON.stringify(payloads),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-
-            })
-            .catch((error) => {
-                // Handle error
-                console.error("Error:", error);
-            });
-  
-};
 
   return (
     <div>
@@ -197,7 +207,10 @@ const Checkout = () => {
                           <div className="card-body" key={lastAddedAddress.id}>
                             <div
                               className="container p-4 mt-2 shadow-sm"
-                              style={{ fontWeight: "500",border:"1px solid #3bb77e" }}
+                              style={{
+                                fontWeight: "500",
+                                border: "1px solid #3bb77e",
+                              }}
                             >
                               <div
                                 className="container-fluid d-flex"
@@ -271,92 +284,127 @@ const Checkout = () => {
                       >
                         <div className="card-body">
                           <form className="col-lg-8 col-md-8 mx-auto">
-                            {paymentMode === 1 && (
-                          <>
-                            <div className="form-group">
-                              <label className="control-label">
-                                Card Number
-                              </label>
+                            <div className="row d-flex">
+                              <div className="col-md-6">
+                              <div className="custom-control custom-radio">
                               <input
-                                className="form-control border-form-control"
-                                value={cardNumber}
-                                placeholder="0000 0000 0000 0000"
-                                type="text"
-                                onChange={(e) => setCardNumber(e.target.value)}
-                                required={paymentMode === 1}
-                                maxLength={16}
+                                type="radio"
+                                id="customRadio1"
+                                name="customRadio"
+                                className="form-check-input"
+                                checked={showForm}
+                                onChange={handlePayOnline}
+                                style={{border:"1px solid #c6b1b1",fontSize:"16px"}}
                               />
+                              <label
+                                className="form-check-label"
+                                style={{marginLeft:"5px"}}
+                                for="customRadio1"
+                              >
+                                Pay Online
+                              </label>
+                              
                             </div>
-                            <div className="row">
-                              <div className="col-sm-3">
-                                <div className="form-group">
-                                  <label className="control-label">Month</label>
-                                  <input
-                                    className="form-control border-form-control"
-                                    value={month}
-                                    placeholder="01"
-                                    type="text"
-                                    onChange={(e) => setMonth(e.target.value)}
-                                    required={paymentMode !== 2}
-                                    maxLength={4}
-                                  />
-                                </div>
                               </div>
-                              <div className="col-sm-3">
-                                <div className="form-group">
-                                  <label className="control-label">Year</label>
-                                  <input
-                                    className="form-control border-form-control"
-                                    value={year}
-                                    placeholder="15"
-                                    type="text"
-                                    onChange={(e) => setYear(e.target.value)}
-                                    required={paymentMode !== 2}
-                                    maxLength={4}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-sm-3"></div>
-                              <div className="col-sm-3">
-                                <div className="form-group">
-                                  <label className="control-label">CVV</label>
-                                  <input
-                                    className="form-control border-form-control"
-                                    value={cvv}
-                                    placeholder="135"
-                                    type="text"
-                                    onChange={(e) => setCvv(e.target.value)}
-                                    maxLength={3}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            </>
-                            )}
-                            <hr />
-                            <div className="custom-control custom-radio">
+                              <div className="col-md-6">
+                              <div className="custom-control custom-radio">
                               <input
                                 type="radio"
                                 id="customRadio1"
                                 name="customRadio"
                                 value={JSON.stringify(2)}
-                                className="custom-control-input"
+                                className="form-check-input"
                                 checked={paymentMode === 2}
                                 onChange={handlePaymentMode}
+                                style={{border:"1px solid #c6b1b1",fontSize:"16px"}}
                               />
                               <label
-                                className="custom-control-label"
+                                className="form-check-label"
+                                style={{marginLeft:"5px"}}
                                 for="customRadio1"
                               >
-                                Would you like to pay by Cash on Delivery?
+                                Cash on delivery
                               </label>
                               
                             </div>
-                            <p>
-                              Vestibulum semper accumsan nisi, at blandit tortor
-                              maxi'mus in phasellus malesuada sodales odio, at
-                              dapibus libero malesuada quis.
-                            </p>
+                              </div>
+                            </div>
+                            {showForm && (
+                              <>
+                                <div className="form-group mt-3">
+                                  <label className="control-label">
+                                    Card Number
+                                  </label>
+                                  <input
+                                    className="form-control border-form-control"
+                                    value={cardNumber}
+                                    placeholder="0000 0000 0000 0000"
+                                    type="text"
+                                    onChange={(e) =>
+                                      setCardNumber(e.target.value)
+                                    }
+                                    required={paymentMode === 1}
+                                    maxLength={16}
+                                  />
+                                </div>
+                                <div className="row">
+                                  <div className="col-sm-3">
+                                    <div className="form-group">
+                                      <label className="control-label">
+                                        Month
+                                      </label>
+                                      <input
+                                        className="form-control border-form-control"
+                                        value={month}
+                                        placeholder="01"
+                                        type="text"
+                                        onChange={(e) =>
+                                          setMonth(e.target.value)
+                                        }
+                                        required={paymentMode !== 2}
+                                        maxLength={4}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-sm-3">
+                                    <div className="form-group">
+                                      <label className="control-label">
+                                        Year
+                                      </label>
+                                      <input
+                                        className="form-control border-form-control"
+                                        value={year}
+                                        placeholder="15"
+                                        type="text"
+                                        onChange={(e) =>
+                                          setYear(e.target.value)
+                                        }
+                                        required={paymentMode !== 2}
+                                        maxLength={4}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-sm-3"></div>
+                                  <div className="col-sm-3">
+                                    <div className="form-group">
+                                      <label className="control-label">
+                                        CVV
+                                      </label>
+                                      <input
+                                        className="form-control border-form-control"
+                                        value={cvv}
+                                        placeholder="135"
+                                        type="text"
+                                        onChange={(e) => setCvv(e.target.value)}
+                                        maxLength={3}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            <hr />
+
                             <button
                               type="button"
                               data-bs-toggle="collapse"
@@ -364,7 +412,9 @@ const Checkout = () => {
                               aria-expanded="false"
                               aria-controls="collapsefour"
                               className="btn btn-secondary mb-2 btn-lg"
-                              onClick={() => handlePlaceOrder(lastAddedAddress.id)}
+                              onClick={() =>
+                                handlePlaceOrder(lastAddedAddress.id)
+                              }
                             >
                               Place Order
                             </button>
@@ -398,7 +448,7 @@ const Checkout = () => {
                             <div className="col-lg-10 col-md-10 mx-auto order-done">
                               <i className="mdi mdi-check-circle-outline text-secondary"></i>
                               <h4 className="text-success">
-                                Congrats! Your Order has been Accepted..
+                                Thank you for your order, your order id is {orderId}. 
                               </h4>
                               <p>
                                 Lorem ipsum dolor sit amet, consectetur

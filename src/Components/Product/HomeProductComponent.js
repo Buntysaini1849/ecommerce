@@ -150,38 +150,38 @@ const HomeProducts = () => {
   };
 
 
-  const handleAddToWishlist = (productId) => {
-    if (auth) {
-      const payloads = {
-        "type": "update",
-        "product_id":productId,
-      };
+  // const handleAddToWishlist = (productId) => {
+  //   if (auth) {
+  //     const payloads = {
+  //       "type": "update",
+  //       "product_id":productId,
+  //     };
 
-      fetch(WISHLIST_API, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-           Authorization: auth,
-        },
-        body: JSON.stringify(payloads),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle response from the API
-          // console.log('addtocart data = ',auth);
+  //     fetch(WISHLIST_API, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //          Authorization: auth,
+  //       },
+  //       body: JSON.stringify(payloads),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         // Handle response from the API
+  //         // console.log('addtocart data = ',auth);
         
-          setIsLiked(!isLiked);
+  //         setIsLiked(!isLiked);
           
-        })
-        .catch((error) => {
-          // Handle error
-          console.error("Error:", error);
-        });
-    } else {
-      // Handle unauthorized access
-      console.log("User is not authenticated.");
-    }
-  };
+  //       })
+  //       .catch((error) => {
+  //         // Handle error
+  //         console.error("Error:", error);
+  //       });
+  //   } else {
+  //     // Handle unauthorized access
+  //     console.log("User is not authenticated.");
+  //   }
+  // };
 
 
 
