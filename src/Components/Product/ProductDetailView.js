@@ -466,7 +466,7 @@ const ProductDetailView = () => {
           </section>
         </>
       ) : (
-        <p>No Data Available</p>
+        <p>Please wait...</p>
       )}
       <Footer />
     </div>

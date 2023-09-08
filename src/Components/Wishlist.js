@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { PROFILE_API, WISHLIST_API } from "./apiUrls";
 import avatar from "../Images/avatar.svg";
 import Product from "./Product/ProductComponent";
-
+import "../Css/Wishlist.css";
 
 const Wishlist = () => {
   const [profileData, setProfileData] = useState([]);
@@ -162,6 +162,7 @@ const Wishlist = () => {
                           <h5 className="heading-design-h5">Wishlist</h5>
                         </div>
                         <div className="row no-gutters">
+                          <div className="col-md-6 grid-container">
                         {wishlistData && wishlistData.length > 0 ? (
                             wishlistData.map((data) => (
                               <Product {...data} />
@@ -169,6 +170,7 @@ const Wishlist = () => {
                          ) : (
                            <div>No data available</div>
                          )}
+                        </div>
                         </div>
 
                         <nav>

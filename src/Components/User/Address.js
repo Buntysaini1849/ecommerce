@@ -662,7 +662,7 @@ const Address = () => {
                               </div>
                             ))
                           ) : (
-                            <div>No data available</div>
+                            <div>Please Wait...</div>
                           )}
                         </div>
 

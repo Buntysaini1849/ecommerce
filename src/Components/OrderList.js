@@ -126,7 +126,7 @@ const CartList = () => {
                       </div>
                     ))
                   ) : (
-                    <div>No data available..</div>
+                    <div>Please wait...</div>
                   )}
 
                   <div className="col-md-8">
