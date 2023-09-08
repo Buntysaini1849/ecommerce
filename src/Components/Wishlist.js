@@ -151,7 +151,7 @@ const Wishlist = () => {
                       </div>
                     ))
                   ) : (
-                    <div>No data available..</div>
+                    <div>Please wait...</div>
                   )}
 
 
@@ -168,7 +168,7 @@ const Wishlist = () => {
                               <Product {...data} />
                               ))
                          ) : (
-                           <div>No data available</div>
+                           <div>Please Wait...</div>
                          )}
                         </div>
                         </div>
