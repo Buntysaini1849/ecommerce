@@ -67,15 +67,20 @@ const Product = (proditem) => {
     // console.log("checking proditems",proditem.items);
   };
 
-  const handleSelectChange = (event) => {
-    if (proditem.length > 0) {
+  useEffect(() => {
+    if (proditem.items.length > 0) {
       setselectedItem(proditem.items[0]);
     }
+  }, [proditem]);
+
+
+  const handleSelectChange = (event) => {
+
     const selectedOptionString = event.target.value;
     const selectedOptionData = JSON.parse(selectedOptionString);
     setselectedItem(selectedOptionData);
 
-    console.log(selectedItem);
+    console.log("this is selected item",selectedOptionString);
   };
 
   return (

@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from "react";
-import {DASHBOARD, WISHLIST_API } from "../apiUrls";
+import React, { useState, useEffect,useRef } from "react";
+import { DASHBOARD, WISHLIST_API } from "../apiUrls";
 import "../../Css/topSavers.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -8,28 +8,28 @@ import "../../Css/Slide.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { TbTags } from "react-icons/tb";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FcApproval } from "react-icons/fc";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Login from "../Login";
 import { setSelectedProduct } from "../../State/Actions/ProductViewAction";
 import { setWishlistItems } from "../../State/Actions/WishlistAction";
 import Product from "./ProductComponent";
 
-
 const HomeProducts = () => {
   const [bestCategory, setBestCategory] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
- 
-
 
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
   const auth = useSelector((state) => state.login.auth);
-  
-  const selectedProduct = useSelector((state) => state.proditem.selectedProduct);
-  
+
+
+
+  const selectedProduct = useSelector(
+    (state) => state.proditem.selectedProduct
+  );
 
   // const handleAddToCart = (product) => {
   //   // Add the product to the cart
@@ -49,9 +49,8 @@ const HomeProducts = () => {
         const { data } = await response.json();
 
         if (data.length > 0) {
-          
-          setBestCategory(data);       
-          console.log("this is product data",data);
+          setBestCategory(data);
+          console.log("this is product data", data);
         } else {
           console.error("Error: Invalid data structure");
         }
@@ -60,19 +59,16 @@ const HomeProducts = () => {
         // Display an error message to the user or render a fallback
       }
     };
-    
+
     fetchHeadingData();
-   
   }, []);
-
-
 
   const CustomPrevArrow = (props) => {
     const { className, style, onClick } = props;
     return (
       <div
         className={className}
-        style={{ ...style, display: 'block' }}
+        style={{ ...style, display: "block" }}
         onClick={onClick}
       >
         <p></p>
@@ -85,7 +81,7 @@ const HomeProducts = () => {
     return (
       <div
         className={className}
-        style={{ ...style, display: 'block' }}
+        style={{ ...style, display: "block" }}
         onClick={onClick}
       >
         <p></p>
@@ -99,7 +95,7 @@ const HomeProducts = () => {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 3,
-    margin:0,
+    margin: 0,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     responsive: [
@@ -117,7 +113,7 @@ const HomeProducts = () => {
           slidesToScroll: 2,
         },
       },
-  
+
       {
         breakpoint: 600, // Tablet
         settings: {
@@ -149,7 +145,6 @@ const HomeProducts = () => {
     ],
   };
 
-
   // const handleAddToWishlist = (productId) => {
   //   if (auth) {
   //     const payloads = {
@@ -169,9 +164,9 @@ const HomeProducts = () => {
   //       .then((data) => {
   //         // Handle response from the API
   //         // console.log('addtocart data = ',auth);
-        
+
   //         setIsLiked(!isLiked);
-          
+
   //       })
   //       .catch((error) => {
   //         // Handle error
@@ -185,13 +180,12 @@ const HomeProducts = () => {
 
 
 
-
-   
   return (
     <div className="box">
-      <div className="container-fluid">
+      <div className="container-fluid p-0">
         <section className="product-items-slider section-padding">
           <div className="box">
+         
             <div className="box">
               {Array.isArray(bestCategory) &&
                 bestCategory.map((products) => (
@@ -208,29 +202,29 @@ const HomeProducts = () => {
                         </Link>
                       </h5>
                     </div>
+                    
                     <div className="box slide-container">
-                 
-                      <Slider {...Settings}>
+                      {/* <Slider {...Settings}>
                       {Array.isArray(products.product) &&
                        products.product.map((proditem) => (
                          <Product  { ...proditem } />
                         ))
                        }
-                      </Slider>
+                      </Slider> */}
+
+                      {Array.isArray(products.product) &&
+                        products.product.slice(0,5).map((proditem) => (
+                          <Product {...proditem} />
+                        ))}
                     </div>
                   </div>
                 ))}
             </div>
           </div>
-
-          
         </section>
       </div>
       <Login />
       {/* {!selectedProduct ? null : <ProductView proditem={selectedProduct} />} */}
-
-
-
     </div>
   );
 };

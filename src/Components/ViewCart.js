@@ -17,6 +17,8 @@ import { SET_CART_COUNT } from "../State/Actions/CartActions";
 const CartProducts = () => {
   const [cartItem, setCartItem] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0);
   const auth = useSelector((state) => state.login.auth);
   const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
 
@@ -32,6 +34,7 @@ const CartProducts = () => {
       });
       const responseData = await response.json();
       setCartItem(responseData.data);
+      calculateTotalPrice(responseData.data);
       setCartItemCount(responseData.data.length);
       dispatch({ type: SET_CART_COUNT, payload: responseData.data.length});
       console.log("this is cart view data", responseData.data);
@@ -43,6 +46,23 @@ const CartProducts = () => {
   useEffect(() => {
     fetchCartData();
   }, []);
+
+
+  const calculateTotalPrice = (cartItem) => {
+    const totalPrice = cartItem.reduce((acc, product) => {
+      return acc + product.total;
+    }, 0);
+    setTotalPrice(totalPrice);
+  };
+
+
+  const calculateTotalDiscount = (cartItem) => {
+    const totalPrice = cartItem.reduce((acc, product) => {
+      return acc + product.discount;
+    }, 0);
+    setTotalDiscount(totalPrice);
+  };
+
 
 
 
@@ -88,8 +108,9 @@ const CartProducts = () => {
                               <th className="cart_product">Product</th>
                               <th style={{width:"280px"}}></th>
                               {/* <th>Unit price</th> */}
+                              <th>Tax</th>
+                              <th> Total Price</th>    
                               <th>Qty</th>
-                              <th>Total</th>
                               <th>Remove</th>
                             </tr>
                           </thead>
@@ -107,9 +128,13 @@ const CartProducts = () => {
                                     <h5 className="product-name">
                                       <p style={{color:"#000",fontSize:"16px"}}>{cartData.name} ( {cartData.unit} )</p>
                                     </h5>
-                                    <span className="price-icon">₹{cartData.sale_price}</span>
+                                    <div style={{marginTop:"-14px"}}>
+                                    <span className="price-icon">₹{cartData.sale_price}</span><span className="price-icon"> + {cartData.gst}% Gst</span>
+                                    </div>
                                   </td>
-
+                                  <td className="price-icon">
+                                    <span>₹{cartData.totalGst}</span>
+                                  </td>
                                   <td className="price-icon">
                                     <span>₹{cartData.sale_price}</span>
                                   </td>
@@ -142,6 +167,7 @@ const CartProducts = () => {
                                       </span>
                                     </div>
                                   </td>
+                                 
                                   {/* <td className="price-icon">
                                     <span>₹{cartData.sale_price}</span>
                                   </td> */}
@@ -303,9 +329,9 @@ const CartProducts = () => {
                           </button>
                         </form>
                          
-                        <p className="mt-3" style={{textAlign:"right",fontWeight:"500",color:"#111",fontSize:"19px"}}>Total: ₹0.00 </p>
+                        <p className="mt-3" style={{textAlign:"right",fontWeight:"500",color:"#111",fontSize:"19px"}}>Total: ₹{totalPrice} </p>
                       
-                        <p className="mt-3" style={{textAlign:"right",fontWeight:"500",color:"#111",fontSize:"16px"}}>You Saved : ₹0.00 </p>
+                        <p className="mt-3" style={{textAlign:"right",fontWeight:"500",color:"#111",fontSize:"16px"}}>You Saved : ₹{totalDiscount} </p>
                       
                      
                       </div>
@@ -319,7 +345,7 @@ const CartProducts = () => {
                             Proceed to Checkout{" "}
                           </span>
                           <span style={{ float: "right" }}>
-                            <strong>₹57.88</strong>{" "}
+                            <strong>₹{totalPrice}</strong>{" "}
                             <span className="mdi mdi-chevron-right"></span>
                           </span>
                         </button>

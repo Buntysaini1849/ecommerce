@@ -18,6 +18,8 @@ const Checkout = () => {
   const [year, setYear] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [showButton, setShowButton] = useState(false);
+  const [showTab, setShowTab] = useState(false);
 
 
   const auth = useSelector((state) => state.login.auth);
@@ -69,6 +71,7 @@ const Checkout = () => {
   const handlePaymentMode = () => {
     setPaymentMode(2);
     setShowForm(false);
+    setShowButton(true);
     console.log("This is payment mode", paymentMode);
   };
 
@@ -95,7 +98,7 @@ const Checkout = () => {
 
         setOrderId(data.message);
         console.log("order id",data.message);
-        
+        setShowTab(!showTab);
         
       })
       .catch((error) => {
@@ -107,6 +110,7 @@ const Checkout = () => {
 
   const handlePayOnline = () => {
     setShowForm((prevState) => !prevState);
+    setShowButton(true);
   }
 
   return (
@@ -255,6 +259,16 @@ const Checkout = () => {
                                 </p>
                               </div>
                             </div>
+                            <button
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#collapseTwo"
+                              aria-expanded="false"
+                              aria-controls="collapsetwo"
+                              className="btn btn-secondary mt-2 btn-lg mx-auto"
+                            >
+                              Next
+                            </button>
                           </div>
                         ) : (
                           <p>No addresses available.</p>
@@ -411,6 +425,7 @@ const Checkout = () => {
                               data-bs-target="#collapsefour"
                               aria-expanded="false"
                               aria-controls="collapsefour"
+                              style={{ display: showButton ? 'block' : 'none' }}
                               className="btn btn-secondary mb-2 btn-lg"
                               onClick={() =>
                                 handlePlaceOrder(lastAddedAddress.id)
@@ -422,7 +437,7 @@ const Checkout = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="card">
+                    <div className="card" style={{ display: showTab ? 'block' : 'none' }}>
                       <div className="card-header" id="headingThree">
                         <h5 className="mb-0">
                           <button

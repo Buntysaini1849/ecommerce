@@ -3,57 +3,57 @@
 
 
 .section-header {
-    padding: 0px 10px 0px 10px;
+  padding: 0px 10px 0px 10px;
 }
 
 .heading-design-h5 {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .product-header .badge {
-    background: #f2fef2 none repeat scroll 0 0;
-    border: 1px solid #51aa1b;
-    border-radius: 2px;
-    color: #51aa1b;
-    font-size: 12px;
-    font-weight: 500;
-    left: 20px;
-    padding: 4px 10px;
-    position: absolute;
-    top: 20px;
-    z-index: 9;
+  background: #f2fef2 none repeat scroll 0 0;
+  border: 1px solid #51aa1b;
+  border-radius: 2px;
+  color: #51aa1b;
+  font-size: 12px;
+  font-weight: 500;
+  left: 20px;
+  padding: 4px 10px;
+  position: absolute;
+  top: 20px;
+  z-index: 9;
 }
 
 
 
 .product {
-    background: #fff none repeat scroll 0 0;
-    border: 1px solid #eeeeee;
-    border-radius: 16px;
-    margin: 0 -1px 0 0;
-    padding: 9px !important;
-    position: relative;
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+  margin: 0 -1px 0 0;
+  padding: 9px !important;
+  position: relative;
 }
 
 .product-header .mdi-circle {
-    border: 0px;
-    border-radius: 2px;
-    display: inline-block;
-    font-size: 11px;
-    height: 22px;
-    line-height: 19px;
-    position: absolute;
-    right: 20px;
-    text-align: center;
-    top: 20px;
-    width: 22px;
+  border: 0px;
+  border-radius: 2px;
+  display: inline-block;
+  font-size: 11px;
+  height: 22px;
+  line-height: 19px;
+  position: absolute;
+  right: 20px;
+  text-align: center;
+  top: 20px;
+  width: 22px;
 }
 
 .product-body h5 {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .heart-icon {
@@ -67,24 +67,24 @@
 }
 
 
-.heart-icon:hover{
+.heart-icon:hover {
   transform: scale(1.1) !important;
 }
 
 .product-body h6 {
-    color: #9c9c9c;
-    font-size: 12px;
-    margin: 6px -6px 14px;
+  color: #9c9c9c;
+  font-size: 12px;
+  margin: 6px -6px 14px;
 }
 
 .product-header img {
-    height: 250px;
-    width: 100%;
-    margin: 0 0 18px;
-    object-fit: fill;
-    /* transform: scale(1); */
-    /* background-size: auto; */
-    /* transition-duration: 0.4s; */
+  height: 250px;
+  width: 100%;
+  margin: 0 0 18px;
+  object-fit: fill;
+  /* transform: scale(1); */
+  /* background-size: auto; */
+  /* transition-duration: 0.4s; */
 }
 
 /* .product:hover .product-header img {
@@ -92,134 +92,157 @@
 } */
 
 .product-header {
-    text-align: center;
+  text-align: center;
 }
 
 .item {
-    width: 100% !important;
-    height: auto !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100% !important;
+  height: auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .offer-price {
-    color: #000;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 16px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 16px;
 }
 
 .regular-price {
-    color: #666 !important;
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 15px;
-    text-decoration: line-through;
+  color: #666 !important;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 15px;
+  text-decoration: line-through;
 }
 
 .product-footer {
-    justify-content: space-between !important;
+  justify-content: space-between !important;
 }
 
 .product-footer .btn {
-    border-radius: 49px !important;
-    font-size: 12px;
-    padding: 6px 12px;
+  border-radius: 49px !important;
+  font-size: 12px;
+  padding: 6px 12px;
 }
 
 
 .text-success {
-    color: rgb(25, 135, 84);
+  color: rgb(25, 135, 84);
 }
 
 
 .slick-next:hover {
-    content: '→';
-    color: #000000;
-    font-size: 33px;
+  content: '→';
+  color: #000000;
+  font-size: 33px;
 }
 
 .feature-box .mdi {
-    border: 1px solid #acacac;
-    border-radius: 50px;
-    color: #acacac;
-    display: inline-block;
-    float: left;
-    font-size: 21px;
-    height: 60px;
-    line-height: 56px;
-    margin: 0 15px 0 0;
-    text-align: center;
-    width: 60px !important;
+  border: 1px solid #acacac;
+  border-radius: 50px;
+  color: #acacac;
+  display: inline-block;
+  float: left;
+  font-size: 21px;
+  height: 60px;
+  line-height: 56px;
+  margin: 0 15px 0 0;
+  text-align: center;
+  width: 60px !important;
 }
 
-.feature-box .mdi:hover{
-    color: #3bb77e;
-    cursor: pointer;
+.feature-box .mdi:hover {
+  color: #3bb77e;
+  cursor: pointer;
 }
 
-.addtocart-btn{
+.addtocart-btn {
   background-color: #def9ec !important;
   color: #3bb77e !important;
   font-weight: 600 !important;
 }
 
+
+.slide-container {
+  display: flex;
+  flex-wrap: nowrap; /* Allow items to wrap to the next row */
+  justify-content: space-around;
+  gap: 10px;
+  overflow: scroll; /* Hide any overflow */
+}
+
+/* Define the width for different screen sizes */
+@media (max-width: 1366px) {
+  .slide-container {
+    overflow: scroll;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-container {
+    overflow: scroll;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 576px) {
+  
+  .slide-container {
+    overflow: scroll;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 360px) {
+  .slide-container {
+    overflow: scroll;
+    justify-content: start;
+  }
+}
+
+
 /* ResponsiveSlider.css */
 
 /* Default styles for the slider container */
-.slider-container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Styles for full-screen */
-  @media screen and (min-width: 1920px) {
+
+
+/* @media screen and (min-width: 1920px) {
     .slider-container {
       padding: 40px;
     }
   }
   
-  /* Styles for desktop */
+
   @media screen and (max-width: 1920px) {
     .slider-container {
       padding: 30px;
     }
   }
-  
-  /* Styles for tablet */
+
   @media screen and (max-width: 1366px) {
     .slider-container {
       padding: 20px;
     }
   }
   
-  /* Styles for mobile */
- /* ResponsiveSlider.css */
-
-/* Default styles for the slider container */
-.slider-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Styles for full-screen */
 @media screen and (min-width: 1920px) {
   .slider-container {
     padding: 40px;
   }
 }
 
-/* Styles for desktop */
+
 @media screen and (max-width: 1920px) {
   .slider-container {
     padding: 30px;
   }
 }
 
-/* Styles for tablet */
+
 @media screen and (max-width: 1366px) {
   .slider-container {
     padding: 20px;
@@ -228,7 +251,7 @@
 }
 
 
-/* Styles for mobile */
+
 @media screen and (max-width: 768px) {
   .slider-container {
     padding: 10px;
@@ -242,27 +265,22 @@
     .slick-slide{
         width:100% !important
     }
-  }
-  
+  } */
 
-/* Custom styles for the slider and its components can also be added here */
-
-  
-  /* Custom styles for the slider and its components can also be added here */
-  
 
 
 
 
 @media only screen and (max-width: 600px) {
-    .owl-item{
+  .owl-item {
     width: 100% !important;
-    }
-    .owl-stage{
-        display: flex !important;
-        justify-content: left !important;
-        height: 400px !important;
-    }
-
-
   }
+
+  .owl-stage {
+    display: flex !important;
+    justify-content: left !important;
+    height: 400px !important;
+  }
+
+
+}

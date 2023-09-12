@@ -162,7 +162,7 @@ const Wishlist = () => {
                           <h5 className="heading-design-h5">Wishlist</h5>
                         </div>
                         <div className="row no-gutters">
-                          <div className="col-md-6 grid-container">
+                          <div className="col-md-6 grid-containers">
                         {wishlistData && wishlistData.length > 0 ? (
                             wishlistData.map((data) => (
                               <Product {...data} />

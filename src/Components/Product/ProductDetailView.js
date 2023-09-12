@@ -398,7 +398,7 @@ const ProductDetailView = () => {
                                   productData.items.map((item) => (
                                     <>
                                       {
-                                        <label className="btn btn-outline-secondary btn-sm" key={item.id} style={{ background: item.id === selectedItem.id ? "Green" : "White", color: item.id === selectedItem.id ? "white" : "black" }}>
+                                        <label className="btn btn-outline-secondary btn-sm mx-3" key={item.id} style={{ background: item.id === selectedItem.id ? "Green" : "White", color: item.id === selectedItem.id ? "white" : "black",padding:"8px 12px",width:"100px",height:"36px" }}>
                                           <input type="checkbox" className="btn-check" key={item.id} onChange={handleSelectChange} value={JSON.stringify(item)} checked={isChecked} />
                                           <span>{item.unit}</span>
                                         </label>

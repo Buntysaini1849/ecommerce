@@ -3,7 +3,7 @@
     margin-top: 5px !important;
 } */
 
-.grid-container {
+.grid-containers {
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
     gap: 40px; 
@@ -15,7 +15,7 @@
     .section-padding{
         margin-top: 50px;
     }
-    .grid-container{
+    .grid-containers{
      grid-template-columns: repeat(2, 1fr);
     }
      
@@ -36,7 +36,7 @@
       padding: 5px;
      }
 
-     .grid-container{
+     .grid-containers{
       grid-template-columns: repeat(2, 1fr);
       gap: 2px;
      }
