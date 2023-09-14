@@ -26,19 +26,17 @@ import { IoMdLock } from "react-icons/io";
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItem, setCartItem] = useState([]);
-  const [cartItemCount, setCartItemCount] = useState(null);
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [IngredData, setIngredData] = useState([]);
+  const [RemediesData, setRemediesData] = useState([]);
 
   const dispatch = useDispatch();
-  // const cartItems = useSelector((state) => state.cart.cartItems);
+
   const auth = useSelector((state) => state.login.auth);
 
   const User = useSelector((state) => state.user.users);
+  
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
-  // const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
-
-  // const [data, setData] = useState([]);
-  const [IngredData, setIngredData] = useState([]);
-  const [RemediesData, setRemediesData] = useState([]);
 
   const collapseOpen = useSelector((state) => state.collapse.collapseOpen);
  

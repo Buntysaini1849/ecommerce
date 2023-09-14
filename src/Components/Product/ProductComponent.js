@@ -68,11 +68,11 @@ const Product = (proditem) => {
   };
 
   useEffect(() => {
-    if (proditem.items.length > 0) {
+    if (proditem && proditem.items && proditem.items.length > 0) {
       setselectedItem(proditem.items[0]);
     }
   }, [proditem]);
-
+  
 
   const handleSelectChange = (event) => {
 
