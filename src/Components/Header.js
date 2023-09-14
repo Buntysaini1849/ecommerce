@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BANNER_API, INGREDIENT_API, PRODUCTLIST_API, REMEDIES_API } from "./apiUrls";
+import { BANNER_API, CART_API, INGREDIENT_API, PRODUCTLIST_API, REMEDIES_API } from "./apiUrls";
 import {
   MdOutlineShareLocation,
   MdFindInPage,
@@ -22,16 +22,19 @@ import { AiOutlineHeart, AiOutlineUnorderedList } from "react-icons/ai";
 import { IoMdLock } from "react-icons/io";
 
 
-const Header = ({cartItemCount}) => {
+
+const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItem, setCartItem] = useState([]);
+  const [cartItemCount, setCartItemCount] = useState(null);
 
   const dispatch = useDispatch();
   // const cartItems = useSelector((state) => state.cart.cartItems);
-  const auth = useSelector((state) => state.cart.auth);
+  const auth = useSelector((state) => state.login.auth);
 
   const User = useSelector((state) => state.user.users);
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
-  const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
+  // const cartItemsCount = useSelector((state) => state.cartCount.cartItemsCount);
 
   // const [data, setData] = useState([]);
   const [IngredData, setIngredData] = useState([]);
@@ -69,6 +72,35 @@ const Header = ({cartItemCount}) => {
   //   }
   //   fetchData();
   // }, []);
+
+
+
+
+  useEffect(() => {
+    async function fetchCartData() {
+      try {
+        const response = await fetch(CART_API, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: auth, 
+          },
+          body: JSON.stringify({ type: "view" }),
+        });
+        
+        const responseData = await response.json();
+        setCartItem(responseData.data);
+        setCartItemCount(responseData.data.length);
+        // console.log("this is cart view data", responseData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  
+    // Call the fetchCartData function when the component mounts
+    fetchCartData();
+  }, []);
+  
 
 
   useEffect(() => {
@@ -339,7 +371,7 @@ const Header = ({cartItemCount}) => {
                         <MdOutlineShoppingCart className="shopping-cart" /> My
                         Cart{" "}
                         <small className="cart-value" style={{ color: "#fff" }}>
-                          {cartItemsCount}
+                          {cartItemCount}
                         </small>
                       </Link>
                     </div>

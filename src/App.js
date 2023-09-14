@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import "./App.css";
 import ShopList from "./Components/ShopList";
 import { Provider } from "react-redux";
@@ -18,11 +18,33 @@ import ViewCart from "./Components/ViewCart";
 
 
 function App() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+    };
+
+    const handleOffline = () => {
+      setIsOnline(false);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+
   return (
     <Provider store={store}>
       <Router>
         <div className="App">
-          
+        {isOnline ? (
+          <div>
             <Routes>
             <Route exact path="/" element={<TopSection/>} />
             <Route exact path="/shoplist" element={<ShopList/>} />
@@ -38,7 +60,13 @@ function App() {
             
 
             </Routes>
-            
+            </div>
+            ) : (
+              <div className='mt-5 d-grid' style={{justifyContent:"center"}}>
+                <p style={{color:"#111",fontSize:"30px",fontWeight:"600"}}>Please connect to the internet.</p>
+                <p style={{color:"#111",fontSize:"18px",fontWeight:"500",display:"flex",justifyContent:"center"}}>Check your internet connection and try again.</p>
+              </div>
+            )}
          
         </div>
       </Router>
